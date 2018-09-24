@@ -15,19 +15,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 public abstract class HardwareMap extends OpMode {
 
-    DcMotor leftFrontDrive;
-    DcMotor rightFrontDrive;
-    DcMotor rightBackDrive;
-    DcMotor leftBackDrive;
+    public DcMotor leftFrontDrive;
+    public DcMotor rightFrontDrive;
+    public DcMotor rightBackDrive;
+    public DcMotor leftBackDrive;
 
 
-    NavxMicroNavigationSensor navGyro;
-    Orientation orientation;
-    int navxCounter = 3;
-    int gyroDegrees = 0;
+    public NavxMicroNavigationSensor navxGyro;
+    public Orientation orientation;
+    public int navxCounter = 3;
+    public int gyroDegrees = 0;
 
 
-    boolean auto = false;
+    public boolean auto = false;
 
     boolean Vuforia_Init = false;
     VuforiaLocalizer vuforia;
@@ -49,15 +49,13 @@ public abstract class HardwareMap extends OpMode {
         rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
-        navGyro = hardwareMap.get(NavxMicroNavigationSensor.class, "gyro");
 
+        navxGyro = hardwareMap.get(NavxMicroNavigationSensor.class, "gyro");
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
 
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
@@ -76,7 +74,7 @@ public abstract class HardwareMap extends OpMode {
     }
 
     public void init_loop() {
-        if(navGyro.isCalibrating()) {
+        if(navxGyro.isCalibrating()) {
             telemetry.addLine("navx Calibrating");
 
         }

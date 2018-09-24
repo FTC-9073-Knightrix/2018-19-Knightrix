@@ -9,11 +9,11 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 public class TestBoard extends TeleOpMethods {
     public void loop() {
         if (gamepad1.left_stick_y != 0) {
-            leftMotor.setPower(gamepad1.left_stick_y);
+            leftFrontDrive.setPower(gamepad1.left_stick_y);
         }
 
         if (gamepad1.right_stick_y != 0) {
-            rightMotor.setPower(gamepad1.right_stick_y);
+            rightFrontDrive.setPower(gamepad1.right_stick_y);
         }
     }
 }
