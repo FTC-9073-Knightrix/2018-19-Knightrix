@@ -20,13 +20,6 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 public class GyroTest extends TeleOpMethods {
 
-    public NavxMicroNavigationSensor navxGyro;
-    public Orientation orientation;
-
-    public void init() {
-        navxGyro = hardwareMap.get(NavxMicroNavigationSensor.class, "gyro");
-    }
-
     public void loop() {
         if (navxCounter == 3) {
             orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
