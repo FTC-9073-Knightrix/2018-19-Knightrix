@@ -67,21 +67,11 @@ public abstract class HardwareMap extends OpMode {
 
 
         VuforiaTrackables roverRuckusTrackables = this.vuforia.loadTrackablesFromAsset("roverRuckus");
-
-
-
-
-
-
     }
-
     public void init_loop() {
         if(navGyro.isCalibrating()) {
             telemetry.addLine("navx Calibrating");
 
         }
-
-
-
     }
 }
