@@ -40,8 +40,7 @@ public class VuforiaLinearModeIdentify {
             lastKnownLocation = createMatrix(0,0,0,0,0,0);
             waitForStart();
             visionTargets.activate();
-
-
+            
             // run until the end of the match (driver presses STOP)
             while (opModeIsActive()) {
                 OpenGLMatrix latestlocation = listener.getUpdatedRobotLocation();
