@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 @TeleOp(group = "Test", name = "Gyro")
 
 public class GyroTest extends TeleOpMethods {
-
     public void loop() {
         if (navxCounter == 3) {
             orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
