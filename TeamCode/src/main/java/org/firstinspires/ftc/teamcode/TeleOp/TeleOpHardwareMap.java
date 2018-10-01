@@ -17,13 +17,16 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
 
-
     public NavxMicroNavigationSensor navxGyro;
     public Orientation orientation;
     public int navxCounter = 3;
     public int gyroDegrees = 0;
     public int myangle = 0;
     public float mypower = 0;
+    public int gyroResetValue = 0;
+    public float leftstick_x;
+    public float leftstick_y;
+    public float myrot = 0;
 
     public void init() {
         leftFrontDrive = hardwareMap.dcMotor.get("LF");

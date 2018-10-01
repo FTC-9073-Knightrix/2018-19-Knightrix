@@ -19,7 +19,7 @@ public class GyroTest extends TeleOpMethods {
     public void loop() {
         if (navxCounter == 3) {
             orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
-            gyroDegrees = (int) (orientation.firstAngle);
+            gyroDegrees = (int) (orientation.firstAngle - gyroResetValue);
             navxCounter = 1;
         }
         else {
@@ -27,11 +27,45 @@ public class GyroTest extends TeleOpMethods {
         }
 
         telemetry.addLine("Gyro Value: " + orientation + "\u00b0");
+        telemetry.update();
 
-        float myrot = Math.round((gamepad1.right_stick_x / (float) 1) * (float) 100) / (float) 100;
+        myrot = Math.round((gamepad1.right_stick_x / (float) 1) * (float) 100) / (float) 100;
 
-        float leftstick_x = gamepad1.left_stick_x;
-        float leftstick_y = gamepad1.left_stick_y;
+        leftstick_x = gamepad1.left_stick_x;
+        leftstick_y = gamepad1.left_stick_y;
+
+        if ((gyroResetValue > 45 && gyroResetValue < 135) || (gyroResetValue > 225 && gyroResetValue < 315)) {
+            if (gamepad1.left_stick_x != 0) {
+                leftstick_x = gamepad1.left_stick_x;
+            }
+            else {
+                //leftstick_x = gamepad2.left_stick_x/5;
+                leftstick_x = gamepad1.left_stick_x;
+            }
+            if (gamepad1.left_stick_y != 0) {
+                leftstick_y = -gamepad1.left_stick_y;
+            }
+            else {
+                //leftstick_y = -gamepad2.left_stick_y/5;
+                leftstick_y = -gamepad1.left_stick_y;
+            }
+        }
+        else {
+            if (gamepad1.left_stick_x != 0) {
+                leftstick_x = -gamepad1.left_stick_x;
+            }
+            else {
+                //leftstick_x = -gamepad2.left_stick_x/5;
+                leftstick_x = -gamepad1.left_stick_x;
+            }
+            if (gamepad1.left_stick_y != 0) {
+                leftstick_y = gamepad1.left_stick_y;
+            }
+            else {
+                //leftstick_y = gamepad2.left_stick_y/5;
+                leftstick_y = gamepad1.left_stick_y;
+            }
+        }
 
         if ((leftstick_x > 0 && leftstick_y > 0) || (leftstick_x > 0 && leftstick_y < 0)) {//quadrant down/right
             myangle = (int) (90 + Math.toDegrees(Math.atan(leftstick_y / leftstick_x))); //180 to 90}
