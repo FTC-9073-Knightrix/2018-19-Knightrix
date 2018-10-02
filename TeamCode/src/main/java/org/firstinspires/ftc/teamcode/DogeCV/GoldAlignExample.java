@@ -35,7 +35,23 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+/*
+1.Downgrades image size
+2.Applies yellow filter
+3.Draws box around biggest continous yellow it finds
+4.Calculates x and y position of the middle of the box
+5.Calculates whether middle position is within a certain pixel range
 
+
+IsAligned = true or false depending on phones alignemnt to gold particle.
+alignPositionOffset = changes y Position of the pixels(Two green lines)
+
+lowest value doesn't go pass 600 if the downscale method defines it by reducing the size of image.
+AlignMin and ALignMax define the area where the alignement value is true.
+
+
+
+ */
 
 @TeleOp(name="GoldAlign Example", group="DogeCV")
 
@@ -58,6 +74,8 @@ public class GoldAlignExample extends OpMode
         detector.downscale = 0.4; // How much to downscale the input frames
 
         detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        /* detects cloesest object(most area) even when similar particles surround it, does not detect depth so this is why this happens
+         * at a flat plane view */
         //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
         detector.maxAreaScorer.weight = 0.005;
 
