@@ -41,7 +41,12 @@ public class GoldAlignDetector extends DogeCVDetector {
     private boolean found = false;
     private boolean aligned = false;
     private double goldXPos = 0;
-
+    private double goldYPos = 0;
+    private double xCenterPos = 0;
+    private double yCenterPos = 0;
+    private double xDistanceFromCenter = 0;
+    private double yDistanceFromCenter = 0;
+    private double angle = 0;
 
     public boolean debugAlignment = true;
     public boolean debugContours  = true;
@@ -91,12 +96,17 @@ public class GoldAlignDetector extends DogeCVDetector {
             }
         }
 
-
+        //to calculate green bar for the x position
         double alignX = (getAdjustedSize().width / 2) + alignPosOffset;
         double alignXMin = alignX - (alignSize / 2);
         double alignXMax = alignX +(alignSize / 2);
         double xPos = 0;
 
+        //to calculate green bar for the y position
+        double alignY = (getAdjustedSize().height / 2) + alignPosOffset;
+        double alignYMin = alignY - (alignSize / 2);
+        double alignYMax = alignY +(alignSize / 2);
+        double yPos = 0;
 
 
         if(bestRect != null){
@@ -105,26 +115,55 @@ public class GoldAlignDetector extends DogeCVDetector {
 
             xPos = bestRect.x + (bestRect.width / 2);
             goldXPos = xPos;
-            Imgproc.circle(workingMat, new Point( xPos, bestRect.y + (bestRect.height / 2)), 5, new Scalar(0,255,0),2);
+            yPos = bestRect.y + (bestRect.height / 2);
+            goldYPos = yPos;
+
+            // creates circle of radius 5 in the middle of the gold block
+            Imgproc.circle(workingMat, new Point(xPos,yPos), 5, new Scalar(0,255,0),2);
+
+            // calculate coordinate for the center of image
+            xCenterPos = getAdjustedSize().width/2;
+            yCenterPos = getAdjustedSize().height/2;
+
+            // calculate distance from center of cube to center of image
+            xDistanceFromCenter = xCenterPos - xPos;
+            yDistanceFromCenter = yCenterPos - yPos;
+
+            // calculates the angle
+            angle = Math.atan2((yDistanceFromCenter),(xDistanceFromCenter));
+
+            // calculates the distance to the center using pythagorean theorem
+            double distance = Math.sqrt((Math.pow(xDistanceFromCenter,2))+(Math.pow(yDistanceFromCenter,2)));
+
+            //  determines if the circle is in the alignment area
             if(xPos < alignXMax && xPos > alignXMin){
-                aligned = true;
-            }else{
+                if(yPos < alignYMax && yPos > alignYMin) {
+                    aligned = true;
+                }
+            } else {
                 aligned = false;
             }
+
+            // draws yellow line in the axis where cube is located
             Imgproc.line(workingMat,new Point(xPos, getAdjustedSize().height), new Point(xPos, getAdjustedSize().height - 30),new Scalar(255,255,0), 2);
+            Imgproc.line(workingMat,new Point(getAdjustedSize().width, yPos), new Point(getAdjustedSize().width - 30, yPos),new Scalar(255,255,0), 2);
+
             Imgproc.putText(workingMat,"Current X: " + bestRect.x,new Point(10,getAdjustedSize().height - 10),0,0.5, new Scalar(255,255,255),1);
             found = true;
         }else{
             found = false;
             aligned = false;
         }
-        if(debugAlignment){
+        if(debugAlignment) {
+            // draws line for y
+            Imgproc.line(workingMat, new Point(alignXMin, getAdjustedSize().height), new Point(alignXMin, getAdjustedSize().height - 40), new Scalar(0, 255, 0), 2);
+            Imgproc.line(workingMat, new Point(alignXMax, getAdjustedSize().height), new Point(alignXMax, getAdjustedSize().height - 40), new Scalar(0, 255, 0), 2);
 
-            Imgproc.line(workingMat,new Point(alignXMin, getAdjustedSize().height), new Point(alignXMin, getAdjustedSize().height - 40),new Scalar(0,255,0), 2);
-            Imgproc.line(workingMat,new Point(alignXMax, getAdjustedSize().height), new Point(alignXMax,getAdjustedSize().height - 40),new Scalar(0,255,0), 2);
+            // draws line for x
+            Imgproc.line(workingMat, new Point(getAdjustedSize().width, alignYMin), new Point(getAdjustedSize().width - 40, alignYMin), new Scalar(0, 255, 0), 2);
+            Imgproc.line(workingMat, new Point(getAdjustedSize().width, alignYMax), new Point(getAdjustedSize().width - 40, alignYMax), new Scalar(0, 255, 0), 2);
+
         }
-
-
 
 
 
@@ -159,6 +198,29 @@ public class GoldAlignDetector extends DogeCVDetector {
         return goldXPos;
     }
 
+    public double getYPosition(){
+        return goldYPos;
+    }
+
+    public double getYCenterPosition(){
+        return yCenterPos;
+    }
+
+    public double getXCenterPosition(){
+        return xCenterPos;
+    }
+
+    public double getXDistanceFromCenter(){
+        return xDistanceFromCenter;
+    }
+
+    public double getYDistanceFromCenter(){
+        return yDistanceFromCenter;
+    }
+
+    public double getAngle(){
+        return (((angle*180)/Math.PI)+180);
+    }
 
     public boolean isFound() {
         return found;
