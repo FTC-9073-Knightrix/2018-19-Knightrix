@@ -79,18 +79,33 @@ public class VuforiaPhoneTesting extends OpMode
 {
 
     private ElapsedTime runtime = new ElapsedTime();
+
+    /**
+     * We use units of mm here because that's the recommended units of measurement for the
+     * size values specified in the XML for the ImageTarget trackables in data sets. E.g.:
+     *      <ImageTarget name="stones" size="247 173"/>
+     * You don't *have to* use mm here, but the units here and the units used in the XML
+     * target configuration files *must* correspond for the math to work out correctly.
+     */
     private static final float mmPerInch        = 25.4f;
     private static final float mmFTCFieldWidth  = (12*6) * mmPerInch;       // the width of the FTC field (from the center point to the outer panels)
     private static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
 
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
     // Valid choices are:  BACK or FRONT
+    /*
+     * We also indicate which camera on the RC that we wish to use.
+     * Here we chose the back (HiRes) camera (for greater range), but
+     * for a competition robot, the front camera might be more convenient.
+     */
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
 
     private OpenGLMatrix lastLocation = null;
     boolean targetVisible;
     Dogeforia vuforia;
     WebcamName webcamName;
+
+    /** For convenience, gather together all the trackable objects in one easily-iterable collection */
     List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
 
     GoldAlignDetector detector;
@@ -99,8 +114,16 @@ public class VuforiaPhoneTesting extends OpMode
     public void init() {
 
 
+        /*
+         * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
+         * If no camera monitor is desired, use the parameterless constructor instead (commented out below).
+         */
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        // OR...  Do Not Activate the Camera Monitor View, to save power
+        // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
 
         parameters.vuforiaLicenseKey = "AWbfTmn/////AAABmY0xuIe3C0RHvL3XuzRxyEmOT2OekXBSbqN2jot1si3OGBObwWadfitJR/D6Vk8VEBiW0HG2Q8UAEd0//OliF9aWCRmyDJ1mMqKCJZxpZemfT5ELFuWnJIZWUkKyjQfDNe2RIaAh0ermSxF4Bq77IDFirgggdYJoRIyi2Ys7Gl9lD/tSonV8OnldIN/Ove4/MtEBJTKHqjUEjC5U2khV+26AqkeqbxhFTNiIMl0LcmSSfugGhmWFGFtuPtp/+flPBRGoBO+tSl9P2sV4mSUBE/WrpHqB0Jd/tAmeNvbtgQXtZEGYc/9NszwRLVNl9k13vrBcgsiNxs2UY5xAvA4Wb6LN7Yu+tChwc+qBiVKAQe09\n";
         parameters.fillCameraMonitorViewParent = true;
@@ -110,6 +133,14 @@ public class VuforiaPhoneTesting extends OpMode
         vuforia = new Dogeforia(parameters);
         vuforia.enableConvertFrameToBitmap();
 
+        /**
+         * Load the data sets that for the trackable objects we wish to track. These particular data
+         * sets are stored in the 'assets' part of our application (you'll see them in the Android
+         * Studio 'Project' view over there on the left of the screen). You can make your own datasets
+         * with the Vuforia Target Manager: https://developer.vuforia.com/target-manager. PDFs for the
+         * example "StonesAndChips", datasets can be found in in this project in the
+         * documentation directory.
+         */
         VuforiaTrackables targetsRoverRuckus = this.vuforia.loadTrackablesFromAsset("RoverRuckus");
         VuforiaTrackable blueRover = targetsRoverRuckus.get(0);
         blueRover.setName("Blue-Rover");
@@ -162,6 +193,9 @@ public class VuforiaPhoneTesting extends OpMode
         targetsRoverRuckus.activate();
 
         detector = new GoldAlignDetector();
+        /**
+         * Instantiate the Vuforia engine
+         */
         detector.init(hardwareMap.appContext,CameraViewDisplay.getInstance(), 0, true);
 
         detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100);
@@ -191,6 +225,25 @@ public class VuforiaPhoneTesting extends OpMode
 
     @Override
     public void loop() {
+        /**
+         * A brief tutorial: here's how all the math is going to work:
+         *
+         * C = phoneLocationOnRobot  maps   phone coords -> robot coords
+         * P = tracker.getPose()     maps   image target coords -> phone coords
+         * L = redTargetLocationOnField maps   image target coords -> field coords
+         *
+         * So
+         *
+         * C.inverted()              maps   robot coords -> phone coords
+         * P.inverted()              maps   phone coords -> imageTarget coords
+         *
+         * Putting that all together,
+         *
+         * L x P.inverted() x C.inverted() maps robot coords to field coords.
+         *
+         * @see VuforiaTrackableDefaultListener#getRobotLocation()
+         */
+
         targetVisible = false;
         for (VuforiaTrackable trackable : allTrackables) {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
