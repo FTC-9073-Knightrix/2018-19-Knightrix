@@ -34,10 +34,14 @@ import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
+
 /*
 1.Downgrades image size
 2.Applies yellow filter
-3.Draws box around biggest continous yellow it finds
+3.Draws box around biggest continuous yellow it finds
 4.Calculates x and y position of the middle of the box
 5.Calculates whether middle position is within a certain pixel range
 
@@ -46,7 +50,7 @@ IsAligned = true or false depending on phones alignemnt to gold particle.
 alignPositionOffset = changes y Position of the pixels(Two green lines)
 
 lowest value doesn't go pass 600 if the downscale method defines it by reducing the size of image.
-AlignMin and ALignMax define the area where the alignement value is true.
+AlignMin and ALignMax define the area where the alignment value is true.
 
 
 
@@ -54,13 +58,20 @@ AlignMin and ALignMax define the area where the alignement value is true.
 
 @TeleOp(name="Distance to the Gold", group="Auto")
 
-public class DistanceToTheGold extends OpMode
+public class DistanceToTheGold extends AutoMethods
 {
     private GoldAlignDetector detector;
 
 
     @Override
     public void init() {
+
+        leftFrontDrive = hardwareMap.dcMotor.get("LF");
+        rightFrontDrive = hardwareMap.dcMotor.get("RF");
+        rightBackDrive = hardwareMap.dcMotor.get("RB");
+        leftBackDrive = hardwareMap.dcMotor.get("LB");
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         telemetry.addData("Status", "Auto - Distance to the gold");
 
         detector = new GoldAlignDetector();
@@ -101,6 +112,20 @@ public class DistanceToTheGold extends OpMode
 
     @Override
     public void loop() {
+
+        //move(90,1);
+        if(detector.getXDistanceFromCenter() > 50) {
+            move(180,0.5);
+
+        }
+        else if (detector.getXDistanceFromCenter() < -50) {
+            move(0,0.5);
+        }
+        else {
+            move(90,0.3);
+        }
+
+
         telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral
         telemetry.addData("X Gold Pos" , detector.getXPosition()); // Gold X pos.
         telemetry.addData("Y Gold Pos" , detector.getYPosition()); // Gold Y pos.
@@ -110,7 +135,6 @@ public class DistanceToTheGold extends OpMode
         telemetry.addData("Y Distance from Center" , detector.getYDistanceFromCenter()); // Gold Y pos.
         telemetry.addData("Angle from Center" , detector.getAngle()); // Gold Y pos.
     }
-
     /*
      * Code to run ONCE after the driver hits STOP
      */
