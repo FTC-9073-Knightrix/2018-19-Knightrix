@@ -35,6 +35,7 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
@@ -61,6 +62,8 @@ AlignMin and ALignMax define the area where the alignment value is true.
 public class DistanceToTheGold extends AutoMethods
 {
     private GoldAlignDetector detector;
+    double pos1;
+    boolean bool1;
 
 
     @Override
@@ -113,8 +116,66 @@ public class DistanceToTheGold extends AutoMethods
     @Override
     public void loop() {
 
+        if (detector.isFound()) {
+            if (detector.getXPosition() < 80) {
+                leftFrontDrive.setPower(-0.1);
+                leftBackDrive.setPower(-0.1);
+                rightFrontDrive.setPower(0.1);
+                rightBackDrive.setPower(0.1);
+            }
+            else if (detector.getXPosition() > 400) {
+                leftFrontDrive.setPower(0.1);
+                leftBackDrive.setPower(0.1);
+                rightFrontDrive.setPower(-0.1);
+                rightBackDrive.setPower(-0.1);
+            }
+            else {
+                leftFrontDrive.setPower(Range.clip((20 / detector.getYPosition() - (detector.getXDistanceFromCenter() / detector.getYPosition())), 0, 1));
+                leftBackDrive.setPower(Range.clip((20 / detector.getYPosition()) + (detector.getXDistanceFromCenter() / detector.getYPosition()), 0, 1));
+                rightFrontDrive.setPower(Range.clip((20 / detector.getYPosition()) + (detector.getXDistanceFromCenter() / detector.getYPosition()), 0, 1));
+                rightBackDrive.setPower(Range.clip((20 / detector.getYPosition()) - (detector.getXDistanceFromCenter() / detector.getYPosition()), 0, 1));
+            }
+        }
+        else {
+            leftFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+        }
+
+        /*
+        double degree = 0;
+
+        if (detector.getYDistanceFromCenter() > 0) {
+            if (detector.getXDistanceFromCenter() == 0) {
+                degree = 90;
+            }
+            else if (detector.getXDistanceFromCenter() > 0) {
+                degree = Math.atan(detector.getXDistanceFromCenter() / (0.7477*detector.getYDistanceFromCenter()));
+            }
+            else {
+                degree = 90 - Math.atan(detector.getXDistanceFromCenter() / (0.7477*detector.getYDistanceFromCenter()));
+            }
+        }
+        else if (detector.getYDistanceFromCenter() < 0) {
+            if (detector.getXDistanceFromCenter() == 0) {
+                degree = 270;
+            }
+            else if (detector.getXDistanceFromCenter() > 0) {
+                degree = 360 + Math.atan(detector.getXDistanceFromCenter() / (0.7477*detector.getYDistanceFromCenter()));
+            }
+            else {
+                degree = 180 - Math.atan(detector.getXDistanceFromCenter() / (0.7477*detector.getYDistanceFromCenter()));
+            }
+        }
+        else {
+            degree = 90;
+        }*/
+
+        //move(degree,1);
+
         //move(90,1);
-        if(detector.getXDistanceFromCenter() > 50) {
+        /*if(detector.getXDistanceFromCenter() > 50) {
             move(180,0.5);
 
         }
@@ -123,9 +184,10 @@ public class DistanceToTheGold extends AutoMethods
         }
         else {
             move(90,0.3);
-        }
+        }*/
 
 
+        //telemetry.addLine("Degree: " + degree);
         telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral
         telemetry.addData("X Gold Pos" , detector.getXPosition()); // Gold X pos.
         telemetry.addData("Y Gold Pos" , detector.getYPosition()); // Gold Y pos.
