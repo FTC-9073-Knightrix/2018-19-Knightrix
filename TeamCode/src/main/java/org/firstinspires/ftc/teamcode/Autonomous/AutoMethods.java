@@ -48,38 +48,12 @@ public abstract class AutoMethods extends AutoHardwareMap {
     }
 
     //Create the method to move the robot forwards based on direction and power of the motors
-    public void move(String direction, double power) {
-
-        //If the direction set is forwards, set the directions of the motors appropriately
-        if (direction.toLowerCase().equals("front")) {
-            leftFrontDrive.setPower(power);
-            rightFrontDrive.setPower(power);
-            leftBackDrive.setPower(power);
-            rightBackDrive.setPower(power);
-        }
-
-        //If the direction set is backwards, set the directions of the motors appropriately
-        else if (direction.toLowerCase().equals("back")) {
-            leftFrontDrive.setPower(-power);
-            rightFrontDrive.setPower(-power);
-            leftBackDrive.setPower(-power);
-            rightBackDrive.setPower(-power);
-        }
-
-        //If the direction set is to the left, set the directions of the motors appropriately
-        else if (direction.toLowerCase().equals("left")) {
-            leftFrontDrive.setPower(-power);
-            rightFrontDrive.setPower(power);
-            leftBackDrive.setPower(power);
-            rightBackDrive.setPower(-power);
-        }
-
-        //If the direction set is to the right, set the directions of the motors appropriately
-        else if (direction.toLowerCase().equals("right")) {
-            leftFrontDrive.setPower(power);
-            rightFrontDrive.setPower(-power);
-            leftBackDrive.setPower(-power);
-            rightBackDrive.setPower(power);
+    public void move(double angle1, double power) {
+        if (leftFrontDrive != null && leftBackDrive != null && rightFrontDrive != null && rightBackDrive != null) {
+            leftFrontDrive.setPower(Range.clip(power * ((Math.sin((angle1 + 45) / 180 * Math.PI))), -1, 1));
+            leftBackDrive.setPower(Range.clip(power * ((Math.sin((angle1 - 45) / 180 * Math.PI))), -1, 1));
+            rightFrontDrive.setPower(Range.clip(power * ((Math.sin((angle1 - 45) / 180 * Math.PI))), -1, 1));
+            rightBackDrive.setPower(Range.clip(power * ((Math.sin((angle1 + 45) / 180 * Math.PI))), -1, 1));
         }
     }
 
