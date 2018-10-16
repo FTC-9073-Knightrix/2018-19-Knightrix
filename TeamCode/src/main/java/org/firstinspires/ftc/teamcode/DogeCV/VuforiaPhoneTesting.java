@@ -36,8 +36,10 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.filters.LeviColorFilter;
 import com.disnodeteam.dogecv.scoring.MaxAreaScorer;
 import com.disnodeteam.dogecv.scoring.RatioScorer;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -73,7 +75,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Vuforia Phone Testing", group="DogeCV")
+@Autonomous(name="Vuforia Phone Testing", group="DogeCV")
 
 public class VuforiaPhoneTesting extends OpMode
 {
@@ -105,6 +107,11 @@ public class VuforiaPhoneTesting extends OpMode
     Dogeforia vuforia;
     WebcamName webcamName;
 
+    DcMotor leftFrontDrive;
+    DcMotor rightFrontDrive;
+    DcMotor rightBackDrive;
+    DcMotor leftBackDrive;
+
     /** For convenience, gather together all the trackable objects in one easily-iterable collection */
     List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
 
@@ -113,6 +120,12 @@ public class VuforiaPhoneTesting extends OpMode
     @Override
     public void init() {
 
+        leftFrontDrive = hardwareMap.dcMotor.get("LF");
+        rightFrontDrive = hardwareMap.dcMotor.get("RF");
+        rightBackDrive = hardwareMap.dcMotor.get("RB");
+        leftBackDrive = hardwareMap.dcMotor.get("LB");
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
@@ -126,7 +139,7 @@ public class VuforiaPhoneTesting extends OpMode
 
 
         parameters.vuforiaLicenseKey = "AWbfTmn/////AAABmY0xuIe3C0RHvL3XuzRxyEmOT2OekXBSbqN2jot1si3OGBObwWadfitJR/D6Vk8VEBiW0HG2Q8UAEd0//OliF9aWCRmyDJ1mMqKCJZxpZemfT5ELFuWnJIZWUkKyjQfDNe2RIaAh0ermSxF4Bq77IDFirgggdYJoRIyi2Ys7Gl9lD/tSonV8OnldIN/Ove4/MtEBJTKHqjUEjC5U2khV+26AqkeqbxhFTNiIMl0LcmSSfugGhmWFGFtuPtp/+flPBRGoBO+tSl9P2sV4mSUBE/WrpHqB0Jd/tAmeNvbtgQXtZEGYc/9NszwRLVNl9k13vrBcgsiNxs2UY5xAvA4Wb6LN7Yu+tChwc+qBiVKAQe09\n";
-        parameters.fillCameraMonitorViewParent = true;
+        parameters.fillCameraMonitorViewParent = false;
 
 
 
@@ -193,6 +206,7 @@ public class VuforiaPhoneTesting extends OpMode
         targetsRoverRuckus.activate();
 
         detector = new GoldAlignDetector();
+
         /**
          * Instantiate the Vuforia engine
          */
@@ -270,6 +284,29 @@ public class VuforiaPhoneTesting extends OpMode
             // express the rotation of the robot in degrees.
             Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
             telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+
+            //rotation.firstAngle = rotation
+            //rotation.secondAngle = forwards backwards
+            //rotation.thirdAngle = sideways
+
+            if (rotation.thirdAngle < 90) {
+                leftFrontDrive.setPower(0.1);
+                leftBackDrive.setPower(0.1);
+                rightFrontDrive.setPower(-0.1);
+                rightBackDrive.setPower(-0.1);
+            }
+            else if (rotation.thirdAngle > 110) {
+                leftFrontDrive.setPower(-0.1);
+                leftBackDrive.setPower(-0.1);
+                rightFrontDrive.setPower(0.1);
+                rightBackDrive.setPower(0.1);
+            }
+            else {
+                leftFrontDrive.setPower(0);
+                leftBackDrive.setPower(0);
+                rightFrontDrive.setPower(0);
+                rightBackDrive.setPower(0);
+            }
         }
         else {
             telemetry.addData("Visible Target", "none");
