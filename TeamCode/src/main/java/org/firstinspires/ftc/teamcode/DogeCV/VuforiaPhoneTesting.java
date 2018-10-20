@@ -107,10 +107,10 @@ public class VuforiaPhoneTesting extends OpMode
     Dogeforia vuforia;
     WebcamName webcamName;
 
-    DcMotor leftFrontDrive;
+    /*DcMotor leftFrontDrive;
     DcMotor rightFrontDrive;
     DcMotor rightBackDrive;
-    DcMotor leftBackDrive;
+    DcMotor leftBackDrive;*/
 
     /** For convenience, gather together all the trackable objects in one easily-iterable collection */
     List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
@@ -120,12 +120,12 @@ public class VuforiaPhoneTesting extends OpMode
     @Override
     public void init() {
 
-        leftFrontDrive = hardwareMap.dcMotor.get("LF");
+        /*leftFrontDrive = hardwareMap.dcMotor.get("LF");
         rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);*/
 
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
@@ -289,7 +289,7 @@ public class VuforiaPhoneTesting extends OpMode
             //rotation.secondAngle = forwards backwards
             //rotation.thirdAngle = sideways
 
-            if (rotation.thirdAngle < 90) {
+            /*if (rotation.thirdAngle < 90) {
                 leftFrontDrive.setPower(0.1);
                 leftBackDrive.setPower(0.1);
                 rightFrontDrive.setPower(-0.1);
@@ -306,7 +306,21 @@ public class VuforiaPhoneTesting extends OpMode
                 leftBackDrive.setPower(0);
                 rightFrontDrive.setPower(0);
                 rightBackDrive.setPower(0);
-            }
+            }*/
+
+            //half meter = 18.7
+            //0.25 = -57.3 --> -0.004363
+            //0.5 = -47.9 ---> -0.010438
+            //1 = -29.2 -----> -0.034247
+            //1.5 = -10.5 ---> -0.142857
+
+            telemetry.addData("Y VALUE", translation.get(1) / mmPerInch);
+            double distance1 = -1 * (-29.2 - (translation.get(1) / mmPerInch));
+            distance1 = (distance1 / 37.4) + 1;
+            telemetry.addData("Distance Away", distance1);
+
+            telemetry.addData("Angle", (-1 * rotation.thirdAngle) + 0);
+            telemetry.addData("Distance L/R", distance1 / Math.tan((-1 * rotation.thirdAngle) + 0));
         }
         else {
             telemetry.addData("Visible Target", "none");
