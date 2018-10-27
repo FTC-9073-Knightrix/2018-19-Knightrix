@@ -62,9 +62,11 @@ AlignMin and ALignMax define the area where the alignment value is true.
 
 public class DistanceToTheGold extends AutoMethods {
 
+    private GoldAlignDetector detector;
+
     public void runOpMode() {
 
-        private GoldAlignDetector detector;
+
         double pos1;
         boolean bool1;
 
