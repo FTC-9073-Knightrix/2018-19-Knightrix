@@ -282,8 +282,8 @@ public class VuforiaPhoneTesting extends OpMode
                     translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
 
             // express the rotation of the robot in degrees.
-            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-            telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+            //Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+            //telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
 
             //rotation.firstAngle = rotation
             //rotation.secondAngle = forwards backwards
@@ -314,13 +314,13 @@ public class VuforiaPhoneTesting extends OpMode
             //1 = -29.2 -----> -0.034247
             //1.5 = -10.5 ---> -0.142857
 
-            telemetry.addData("Y VALUE", translation.get(1) / mmPerInch);
+            //telemetry.addData("Y VALUE", translation.get(1) / mmPerInch);
             double distance1 = -1 * (-29.2 - (translation.get(1) / mmPerInch));
             distance1 = (distance1 / 37.4) + 1;
-            telemetry.addData("Distance Away", distance1);
+            //telemetry.addData("Distance Away", distance1);
 
-            telemetry.addData("Angle", (-1 * rotation.thirdAngle) + 0);
-            telemetry.addData("Distance L/R", distance1 / Math.tan((-1 * rotation.thirdAngle) + 0));
+            //telemetry.addData("Angle", (-1 * rotation.thirdAngle) - 10);
+            //telemetry.addData("Distance L/R", distance1 / Math.tan((-1 * rotation.thirdAngle) - 10));
         }
         else {
             telemetry.addData("Visible Target", "none");
