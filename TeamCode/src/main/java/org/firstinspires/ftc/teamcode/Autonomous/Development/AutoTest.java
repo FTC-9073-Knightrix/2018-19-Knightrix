@@ -26,7 +26,7 @@ public class AutoTest extends AutoMethods {
         //While the program is running and the timer is less than 2 seconds
         while (opModeIsActive() && runtime.seconds() < 2) {
             //Move forwards at half speed
-            move("front", 0.5);
+            //move("front", 0.5);
         }
 
         //Pause the robot for 0.2 seconds
@@ -38,7 +38,7 @@ public class AutoTest extends AutoMethods {
         //While the program is running and the timer is less than 2 seconds
         while (opModeIsActive() && runtime.seconds() < 2) {
             //Move left at half speed
-            move("left", 0.5);
+            //move("left", 0.5);
         }
 
         //Pause the robot for 0.2 seconds
@@ -50,7 +50,7 @@ public class AutoTest extends AutoMethods {
         //While the program is running and the timer is less than 2 seconds
         while (opModeIsActive() && runtime.seconds() < 2) {
             //Move backwards at half speed
-            move("back", 0.5);
+            //move("back", 0.5);
         }
 
         //Pause the robot for 0.2 seconds
@@ -62,7 +62,7 @@ public class AutoTest extends AutoMethods {
         //While the program is running and the timer is less than 2 seconds
         while (opModeIsActive() && runtime.seconds() < 2) {
             //Move right at half speed
-            move("right", 0.5);
+            //move("right", 0.5);
         }
 
         //Pause the robot for 1 second
