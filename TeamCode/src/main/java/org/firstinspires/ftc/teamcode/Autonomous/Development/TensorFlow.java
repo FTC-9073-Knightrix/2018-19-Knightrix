@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -51,9 +52,9 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "TensorFlow", group = "Concept")
+@Autonomous(name = "TensorFlow", group = "Concept")
 
-public class TensorFlow extends LinearOpMode {
+public class TensorFlow extends TensorFlowMove {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
@@ -101,13 +102,18 @@ public class TensorFlow extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
+        boolean found = false;
+        double timer;
+
         if (opModeIsActive()) {
             /** Activate Tensor Flow Object Detection. */
             if (tfod != null) {
                 tfod.activate();
             }
 
-            while (opModeIsActive()) {
+            timer = getRuntime();
+
+            while (!found) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -128,23 +134,33 @@ public class TensorFlow extends LinearOpMode {
                           }
                         }
                         if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                          if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                            telemetry.addData("Gold Mineral Position", "Left");
-                          } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                            telemetry.addData("Gold Mineral Position", "Right");
-                          } else {
-                            telemetry.addData("Gold Mineral Position", "Center");
-                          }
+                            if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
+                                double seconds = getRuntime() - timer;
+                                //telemetry.addData("Gold Mineral Position", "Left");
+                                found = true;
+                                tfod.shutdown();
+                                left(seconds);
+                            }
+                            else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
+                                double seconds = getRuntime() - timer;
+                                //telemetry.addData("Gold Mineral Position", "Right");
+                                found = true;
+                                tfod.shutdown();
+                                right(seconds);
+                            }
+                            else {
+                                double seconds = getRuntime() - timer;
+                                //telemetry.addData("Gold Mineral Position", "Center");
+                                found = true;
+                                tfod.shutdown();
+                                center(seconds);
+                            }
                         }
                       }
                       telemetry.update();
                     }
                 }
             }
-        }
-
-        if (tfod != null) {
-            tfod.shutdown();
         }
     }
 
