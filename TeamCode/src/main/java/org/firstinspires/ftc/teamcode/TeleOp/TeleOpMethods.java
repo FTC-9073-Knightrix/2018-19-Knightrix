@@ -12,10 +12,10 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
 
         //If none of the motors are null, run each motor to an individual value based off the values inputted from the joystick
         if (leftFrontDrive != null && leftBackDrive != null && rightFrontDrive != null && rightBackDrive != null) {
-            leftFrontDrive.setPower(Range.clip(myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592)))), -1, 1));
-            leftBackDrive.setPower(Range.clip(myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592)))), -1, 1));
-            rightFrontDrive.setPower(Range.clip(-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592)))), -1, 1));
-            rightBackDrive.setPower(Range.clip(-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592)))), -1, 1));
+            leftFrontDrive.setPower(Range.clip(1.16*(myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592))))), -1, 1));
+            leftBackDrive.setPower(Range.clip(1.16*(myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592))))), -1, 1));
+            rightFrontDrive.setPower(Range.clip(1.16*(-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592))))), -1, 1));
+            rightBackDrive.setPower(Range.clip(1.16*(-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592))))), -1, 1));
         }
     }
 }

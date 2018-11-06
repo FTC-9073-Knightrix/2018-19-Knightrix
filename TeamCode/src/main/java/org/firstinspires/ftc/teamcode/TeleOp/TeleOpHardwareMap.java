@@ -5,6 +5,8 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 //Create the class declaration, extending OpMode
@@ -48,6 +50,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+
         //Set the mode the motors are going to be running in
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
