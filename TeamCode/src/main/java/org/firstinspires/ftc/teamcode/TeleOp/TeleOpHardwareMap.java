@@ -4,7 +4,10 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 //Import the dependencies needed to run the programs
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 //Create the class declaration, extending OpMode
@@ -15,6 +18,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public DcMotor rightFrontDrive;
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
+
+    //Create the servos
+    public CRServo intake;
 
     //Create the gyroscope
     public NavxMicroNavigationSensor navxGyro;
@@ -56,6 +62,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
 
         //Add the gyroscope to the configuration on the phones
         navxGyro = hardwareMap.get(NavxMicroNavigationSensor.class, "gyro");
+
+        //Add the servos to the configuration on the phones
+        intake = hardwareMap.crservo.get("intake");
     }
 
     //Wait for the gyroscope to stop calibrating

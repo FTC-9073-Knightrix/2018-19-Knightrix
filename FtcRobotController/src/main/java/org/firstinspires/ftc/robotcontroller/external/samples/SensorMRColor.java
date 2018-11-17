@@ -52,7 +52,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 @TeleOp(name = "Sensor: MR Color", group = "Sensor")
-@Disabled
+//@Disabled
 public class SensorMRColor extends LinearOpMode {
 
   ColorSensor colorSensor;    // Hardware Device Object
@@ -116,6 +116,16 @@ public class SensorMRColor extends LinearOpMode {
       telemetry.addData("Green", colorSensor.green());
       telemetry.addData("Blue ", colorSensor.blue());
       telemetry.addData("Hue", hsvValues[0]);
+
+      if (colorSensor.red() > (2*colorSensor.blue())) {
+          telemetry.addLine("Cube");
+      }
+      else if (colorSensor.blue() > 0) {
+          telemetry.addLine("Ball");
+      }
+      else {
+          telemetry.addLine("Empty");
+      }
 
       // change the background color to match the color detected by the RGB sensor.
       // pass a reference to the hue, saturation, and value array as an argument
