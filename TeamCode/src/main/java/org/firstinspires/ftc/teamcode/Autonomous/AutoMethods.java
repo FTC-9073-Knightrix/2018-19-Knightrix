@@ -5,9 +5,16 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+
+import java.util.List;
 
 //Create the class declaration, extending AutoHardwareMap
 public abstract class AutoMethods extends AutoHardwareMap {
@@ -99,5 +106,120 @@ public abstract class AutoMethods extends AutoHardwareMap {
             //Update telemetry
             telemetry.update();
         }
+    }
+
+    public void mecanumMove(String direction, int value, double power) {
+        resetEncoders();
+        if (direction.equals("x")) {
+            while (value > Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4)) {
+                leftFrontDrive.setPower(power);
+                rightFrontDrive.setPower(power);
+                leftBackDrive.setPower(power);
+                rightBackDrive.setPower(power);
+            }
+        }
+        else if (direction.equals("y")) {
+            while (value > Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4)) {
+                leftFrontDrive.setPower(-power);
+                rightFrontDrive.setPower(power);
+                leftBackDrive.setPower(power);
+                rightBackDrive.setPower(-power);
+            }
+        }
+        else {
+            while (value > Math.abs(((leftFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition())) / 4)) {
+                leftFrontDrive.setPower(power);
+                rightFrontDrive.setPower(-power);
+                leftBackDrive.setPower(power);
+                rightBackDrive.setPower(-power);
+            }
+        }
+    }
+
+    public void resetEncoders() {
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public void initVuforia() {
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
+    }
+
+    public void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+    }
+
+    public String detectBlock() {
+        boolean found = false;
+
+        if (tfod != null) {
+            tfod.activate();
+        }
+
+        double time = getRuntime();
+
+        while (!found && getRuntime() - time < 5) {
+            if (tfod != null) {
+                // getUpdatedRecognitions() will return null if no new information is available since
+                // the last time that call was made.
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    if (updatedRecognitions.size() == 3) {
+                        int goldMineralX = -1;
+                        int silverMineral1X = -1;
+                        int silverMineral2X = -1;
+                        for (Recognition recognition : updatedRecognitions) {
+                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                goldMineralX = (int) recognition.getLeft();
+                            } else if (silverMineral1X == -1) {
+                                silverMineral1X = (int) recognition.getLeft();
+                            } else {
+                                silverMineral2X = (int) recognition.getLeft();
+                            }
+                        }
+                        if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
+                            if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
+                                //telemetry.addData("Gold Mineral Position", "Left");
+                                found = true;
+                                tfod.shutdown();
+                                return "left";
+                            }
+                            else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
+                                //telemetry.addData("Gold Mineral Position", "Right");
+                                found = true;
+                                tfod.shutdown();
+                                return "right";
+                            }
+                            else {
+                                //telemetry.addData("Gold Mineral Position", "Center");
+                                found = true;
+                                tfod.shutdown();
+                                return "center";
+                            }
+                        }
+                    }
+                    telemetry.update();
+                }
+            }
+        }
+        return "";
     }
 }
