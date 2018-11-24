@@ -34,6 +34,10 @@ public class GyroTest extends TeleOpMethods {
 
         //Add the current angle of the robot to the display
         telemetry.addLine("Gyro Value: " + orientation + "\u00b0");
+        telemetry.addData("Left Front", leftFrontDrive.getCurrentPosition());
+        telemetry.addData("Right Front", rightFrontDrive.getCurrentPosition());
+        telemetry.addData("Left Back", leftBackDrive.getCurrentPosition());
+        telemetry.addData("Right Back", rightBackDrive.getCurrentPosition());
         //Update telemetry
         telemetry.update();
 

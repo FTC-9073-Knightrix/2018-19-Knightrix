@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Master;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 /**
  * Created by nicolas on 11/21/18.
  */
+
+@Autonomous(name = "Red Left 1", group = "Master")
 
 public class RedLeft1 extends AutoMethods {
     public void runOpMode() {

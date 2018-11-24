@@ -15,15 +15,22 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 public class TestBoard extends OpMode {
 
     DcMotor leftFrontDrive;
+    //int position = 0;
 
     public void init() {
         leftFrontDrive = hardwareMap.dcMotor.get("lf");
+        //leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     //Run the entire program from within the loop() method from OpMode
     public void loop() {
+        /*if (gamepad1.right_stick_y != 0) {
+            position += Math.round(gamepad1.right_stick_y * 10);
+        }*/
 
         //Set the power of the left motor to the left joystick y
-        leftFrontDrive.setPower(gamepad1.left_stick_y);
+        //leftFrontDrive.setPower(1);
+        leftFrontDrive.setPower(gamepad1.right_stick_y);
+        //leftFrontDrive.setTargetPosition(position);
     }
 }

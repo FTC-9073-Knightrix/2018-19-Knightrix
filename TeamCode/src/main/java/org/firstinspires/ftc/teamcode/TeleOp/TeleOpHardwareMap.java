@@ -5,7 +5,9 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -19,8 +21,18 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
 
-    //Create the servos
-    public CRServo intake;
+    //Create the intake
+    ///public DcMotor intake;
+    ///public Servo spinner;
+    ///ColorSensor color;
+    int intakeNum = 0;
+    double mineral1 = 0;
+    double mineral2 = 0;
+    double mineral3 = 0;
+    String color1 = "";
+    String color2 = "";
+    String color3 = "";
+    public boolean intakeBool = false;
 
     //Create the gyroscope
     public NavxMicroNavigationSensor navxGyro;
@@ -63,8 +75,12 @@ public abstract class TeleOpHardwareMap extends OpMode {
         //Add the gyroscope to the configuration on the phones
         navxGyro = hardwareMap.get(NavxMicroNavigationSensor.class, "gyro");
 
-        //Add the servos to the configuration on the phones
-        intake = hardwareMap.crservo.get("intake");
+        //Add the intake to the configuration on the phones
+        /*intake = hardwareMap.dcMotor.get("intake");
+        spinner = hardwareMap.servo.get("spinner");
+        color = hardwareMap.get(ColorSensor.class, "color");
+        intake.setDirection(DcMotor.Direction.REVERSE);
+        color.enableLed(true);*/
     }
 
     //Wait for the gyroscope to stop calibrating
