@@ -28,13 +28,19 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
         //Set the direction of the motors
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         //Set the mode the motors are going to be running in
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        /*leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
 
         //Add the gyroscope to the configuration on the phones
         navxGyro = hardwareMap.get(NavxMicroNavigationSensor.class, "gyro");
@@ -108,32 +114,92 @@ public abstract class AutoMethods extends AutoHardwareMap {
         }
     }
 
+    public boolean leftMove(int position) {
+        if (position <= Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4)) {
+            leftFrontDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            return false;
+        }
+        return true;
+    }
+
+    public void leftPower(double power) {
+        resetEncoders();
+        leftFrontDrive.setPower(power);
+        rightFrontDrive.setPower(power);
+        leftBackDrive.setPower(power);
+        rightBackDrive.setPower(power);
+    }
+
     public void mecanumMove(String direction, int value, double power) {
         resetEncoders();
+        //say("113: mecanumMove");
+        value *= ENCDISTANCE;
+        //say("115: value");
+        boolean done = false;
+        //say("120: boolean done");
         if (direction.equals("x")) {
-            while (value > Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4)) {
-                leftFrontDrive.setPower(power);
-                rightFrontDrive.setPower(power);
-                leftBackDrive.setPower(power);
-                rightBackDrive.setPower(power);
+            while (opModeIsActive() && !done) {
+                //say("" + value + " > " + Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4));
+                if (value > Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4)) {
+                    leftFrontDrive.setPower(-power);
+                    rightFrontDrive.setPower(power);
+                    leftBackDrive.setPower(power);
+                    rightBackDrive.setPower(-power);
+                }
+                else {
+                    leftFrontDrive.setPower(0);
+                    rightFrontDrive.setPower(0);
+                    leftBackDrive.setPower(0);
+                    rightBackDrive.setPower(0);
+                    done = true;
+                }
             }
         }
         else if (direction.equals("y")) {
-            while (value > Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4)) {
-                leftFrontDrive.setPower(-power);
-                rightFrontDrive.setPower(power);
-                leftBackDrive.setPower(power);
-                rightBackDrive.setPower(-power);
+            //say("141: direction y");
+            while (opModeIsActive() && !done) {
+                //say("140: while opModeIsActive()");
+                //say("" + value + " > " + Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4));
+                    if (value > Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4)) {
+                    //say("144: if value");
+                    leftFrontDrive.setPower(power);
+                    rightFrontDrive.setPower(power);
+                    leftBackDrive.setPower(power);
+                    rightBackDrive.setPower(power);
+                }
+                else {
+                    //say("152: else");
+                    leftFrontDrive.setPower(0);
+                    rightFrontDrive.setPower(0);
+                    leftBackDrive.setPower(0);
+                    rightBackDrive.setPower(0);
+                    done = true;
+                }
             }
         }
-        else {
-            while (value > Math.abs(((leftFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition())) / 4)) {
-                leftFrontDrive.setPower(power);
-                rightFrontDrive.setPower(-power);
-                leftBackDrive.setPower(power);
-                rightBackDrive.setPower(-power);
-            }
-        }
+        /*else {
+            //while (opModeIsActive() && !done) {
+                if (value > Math.abs(((leftFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition())) / 4)) {
+                    leftFrontDrive.setPower(power);
+                    rightFrontDrive.setPower(-power);
+                    leftBackDrive.setPower(power);
+                    rightBackDrive.setPower(-power);
+                    return false;
+                }
+                else {
+                    leftFrontDrive.setPower(0);
+                    rightFrontDrive.setPower(0);
+                    leftBackDrive.setPower(0);
+                    rightBackDrive.setPower(0);
+                    //done = true;
+                    return true;
+                }
+            //}
+        }*/
+        //say("176: done moving");
     }
 
     public void resetEncoders() {
@@ -141,6 +207,11 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void initVuforia() {
@@ -167,7 +238,6 @@ public abstract class AutoMethods extends AutoHardwareMap {
     }
 
     public String detectBlock() {
-        boolean found = false;
 
         if (tfod != null) {
             tfod.activate();
@@ -175,7 +245,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         double time = getRuntime();
 
-        while (!found && getRuntime() - time < 5) {
+        while (opModeIsActive()) {
             if (tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
                 // the last time that call was made.
@@ -197,21 +267,21 @@ public abstract class AutoMethods extends AutoHardwareMap {
                         }
                         if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                             if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                                //telemetry.addData("Gold Mineral Position", "Left");
-                                found = true;
-                                tfod.shutdown();
+                                telemetry.addData("Gold Mineral Position", "Left");
+                                telemetry.update();
+                                //tfod.shutdown();
                                 return "left";
                             }
                             else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                                //telemetry.addData("Gold Mineral Position", "Right");
-                                found = true;
-                                tfod.shutdown();
+                                telemetry.addData("Gold Mineral Position", "Right");
+                                telemetry.update();
+                                //tfod.shutdown();
                                 return "right";
                             }
                             else {
-                                //telemetry.addData("Gold Mineral Position", "Center");
-                                found = true;
-                                tfod.shutdown();
+                                telemetry.addData("Gold Mineral Position", "Center");
+                                telemetry.update();
+                                //tfod.shutdown();
                                 return "center";
                             }
                         }
@@ -221,5 +291,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
             }
         }
         return "";
+    }
+
+    public void say(String text) {
+        telemetry.addLine(text);
+        telemetry.update();
     }
 }

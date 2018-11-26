@@ -15,7 +15,7 @@ public class TeleOp extends TeleOpMethods {
         }
 
         if (intakeBool) {
-            ///intake();
+            intake();
         }
 
         drive();

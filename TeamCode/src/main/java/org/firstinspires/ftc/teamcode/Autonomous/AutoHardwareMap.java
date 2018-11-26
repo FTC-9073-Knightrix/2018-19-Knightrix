@@ -29,6 +29,9 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     //Create the angle tracker
     public double angle = 0;
 
+    //amount of clicks per cm
+    public final int ENCDISTANCE = 1;
+
 
     public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     public static final String LABEL_GOLD_MINERAL = "Gold Mineral";

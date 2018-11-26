@@ -101,7 +101,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         move(myangle,mypower,myrot);
     }
 
-    /*public void intake () {
+    public void intake () {
         //reset variables
         if (intakeNum == 0) {
             mineral1 = 0;
@@ -204,5 +204,5 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             intakeNum = 0;
             intakeBool = false;
         }
-    }*/
+    }
 }

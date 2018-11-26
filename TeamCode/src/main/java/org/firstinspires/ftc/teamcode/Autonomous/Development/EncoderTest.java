@@ -33,7 +33,7 @@ public class EncoderTest extends AutoMethods {
 
             resetEncoders();
 
-            mecanumMove("y", 20000, 1);
+            //mecanumMove("y", 20000, 1);
 
             telemetry.addData("Left Front", leftFrontDrive.getCurrentPosition());
             telemetry.addData("Right Front", rightFrontDrive.getCurrentPosition());
@@ -42,7 +42,7 @@ public class EncoderTest extends AutoMethods {
 
             resetEncoders();
 
-            mecanumMove("x", 10000,1);
+            //mecanumMove("x", 10000,1);
 
             telemetry.addData("Left Front", leftFrontDrive.getCurrentPosition());
             telemetry.addData("Right Front", rightFrontDrive.getCurrentPosition());
@@ -51,7 +51,7 @@ public class EncoderTest extends AutoMethods {
 
             resetEncoders();
 
-            mecanumMove("rot", 5000, 0.5);
+            //mecanumMove("rot", 5000, 0.5);
 
             telemetry.addData("Left Front", leftFrontDrive.getCurrentPosition());
             telemetry.addData("Right Front", rightFrontDrive.getCurrentPosition());
@@ -60,7 +60,7 @@ public class EncoderTest extends AutoMethods {
 
             resetEncoders();
 
-            mecanumMove("rot", 5000, -0.5);
+            //mecanumMove("rot", 5000, -0.5);
 
             telemetry.addData("Left Front", leftFrontDrive.getCurrentPosition());
             telemetry.addData("Right Front", rightFrontDrive.getCurrentPosition());

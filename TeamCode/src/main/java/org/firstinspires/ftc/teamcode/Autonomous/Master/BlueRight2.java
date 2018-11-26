@@ -14,7 +14,7 @@ public class BlueRight2 extends AutoMethods {
     public void runOpMode() {
         initVuforia();
         initTfod();
-
+        initRobot();
         waitForStart();
 
         if(opModeIsActive()) {
@@ -22,29 +22,29 @@ public class BlueRight2 extends AutoMethods {
 
             //drop the robot from the hook
 
-            mecanumMove("y", 2000, 1);
+            //mecanumMove("y", 2000, 1);
 
             if (block.equals("left")) {
-                mecanumMove("x", 1000, -0.5);
-                mecanumMove("y", 5000, 1);
-                mecanumMove("x", 1000, 0.5);
+                //mecanumMove("x", 1000, -0.5);
+                //mecanumMove("y", 5000, 1);
+                //mecanumMove("x", 1000, 0.5);
             }
             else if (block.equals("right")) {
-                mecanumMove("x", 1000, 0.5);
-                mecanumMove("y", 5000, 1);
-                mecanumMove("x", 1000, -0.5);
+                //mecanumMove("x", 1000, 0.5);
+                //mecanumMove("y", 5000, 1);
+                //mecanumMove("x", 1000, -0.5);
             }
             else {
-                mecanumMove("y", 5000, 1);
+                //mecanumMove("y", 5000, 1);
             }
             /*else {
                 //make a way to drop, turn, and quit the program
                 stop();
             }*/
-            mecanumMove("y", 2000, 1);
+            //mecanumMove("y", 2000, 1);
             //drop the marker
             turn(-120);
-            mecanumMove("y", 10000,1);
+            //mecanumMove("y", 10000,1);
             //extend out arm
         }
     }
