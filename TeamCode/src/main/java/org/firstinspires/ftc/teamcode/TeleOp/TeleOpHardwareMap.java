@@ -22,9 +22,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public DcMotor leftBackDrive;
 
     //Create the intake
-    public DcMotor intake;
-    public Servo spinner;
-    ColorSensor color;
+    //public DcMotor intake;
+    //public Servo spinner;
+    //ColorSensor color;
     int intakeNum = 0;
     double mineral1 = 0;
     double mineral2 = 0;
@@ -78,11 +78,11 @@ public abstract class TeleOpHardwareMap extends OpMode {
         navxGyro = hardwareMap.get(NavxMicroNavigationSensor.class, "gyro");
 
         //Add the intake to the configuration on the phones
-        intake = hardwareMap.dcMotor.get("intake");
-        spinner = hardwareMap.servo.get("spinner");
-        color = hardwareMap.get(ColorSensor.class, "color");
-        intake.setDirection(DcMotor.Direction.REVERSE);
-        color.enableLed(true);
+        //intake = hardwareMap.dcMotor.get("intake");
+        //spinner = hardwareMap.servo.get("spinner");
+        //color = hardwareMap.get(ColorSensor.class, "color");
+        //intake.setDirection(DcMotor.Direction.REVERSE);
+        //color.enableLed(true);
     }
 
     //Wait for the gyroscope to stop calibrating

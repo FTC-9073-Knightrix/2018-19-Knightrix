@@ -17,37 +17,30 @@ public class RedRight2 extends AutoMethods {
         initRobot();
         waitForStart();
 
-        if(opModeIsActive()) {
-            String block = detectBlock();
+        String block = detectBlock();
 
+        //drop the robot from the hook
 
-            //drop the robot from the hook
+        mecanumMove("y", 200, 0.5, 500);
 
-            //mecanumMove("y", 2000, 1);
-
-
-            if (block.equals("left")) {
-                //mecanumMove("x", 1000, -0.5);
-                //mecanumMove("y", 5000, 1);
-                //mecanumMove("x", 1000, 0.5);
-            }
-            else if (block.equals("right")) {
-                //mecanumMove("x", 1000, 0.5);
-                //mecanumMove("y", 5000, 1);
-                //mecanumMove("x", 1000, -0.5);
-            }
-            else {
-                //mecanumMove("y", 5000, 1);
-            }
-            /*else {
-                //make a way to drop, turn, and quit the program
-                stop();
-            }*/
-            //mecanumMove("y", 2000, 1);
-            //drop the marker
-            turn(-120);
-            //mecanumMove("y", 10000,1);
-            //extend out arm
+        if (block.equals("left")) {
+            mecanumMove("x", 100, -0.5, 200);
+            mecanumMove("y", 500, 0.5, 200);
+            mecanumMove("x", 100, 0.5, 200);
         }
+        else if (block.equals("right")) {
+            mecanumMove("x", 100, 0.5, 200);
+            mecanumMove("y", 500, 0.5, 200);
+            mecanumMove("x", 100, -0.5, 200);
+        }
+        else {
+            mecanumMove("y", 500, 0.5, 200);
+        }
+
+        mecanumMove("y", 200, 0.5, 200);
+        //drop the marker
+        turn(-120);
+        mecanumMove("y", 1000,0.5, 0);
+        //extend out arm
     }
 }

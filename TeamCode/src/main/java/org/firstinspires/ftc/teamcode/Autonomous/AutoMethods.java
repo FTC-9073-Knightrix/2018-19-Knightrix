@@ -46,7 +46,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         navxGyro = hardwareMap.get(NavxMicroNavigationSensor.class, "gyro");
 
         //Wait for the gyroscope to stop calibrating
-        while(navxGyro.isCalibrating()) {
+        while(opModeIsActive() && navxGyro.isCalibrating()) {
 
             //Display on the screen the fact the gyroscope is calibrating
             telemetry.addLine("navx Calibrating");
@@ -114,26 +114,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         }
     }
 
-    public boolean leftMove(int position) {
-        if (position <= Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4)) {
-            leftFrontDrive.setPower(0);
-            rightFrontDrive.setPower(0);
-            leftBackDrive.setPower(0);
-            rightBackDrive.setPower(0);
-            return false;
-        }
-        return true;
-    }
-
-    public void leftPower(double power) {
-        resetEncoders();
-        leftFrontDrive.setPower(power);
-        rightFrontDrive.setPower(power);
-        leftBackDrive.setPower(power);
-        rightBackDrive.setPower(power);
-    }
-
-    public void mecanumMove(String direction, int value, double power) {
+    public void mecanumMove(String direction, int value, double power, int wait) {
         resetEncoders();
         //say("113: mecanumMove");
         value *= ENCDISTANCE;
@@ -180,26 +161,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 }
             }
         }
-        /*else {
-            //while (opModeIsActive() && !done) {
-                if (value > Math.abs(((leftFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition())) / 4)) {
-                    leftFrontDrive.setPower(power);
-                    rightFrontDrive.setPower(-power);
-                    leftBackDrive.setPower(power);
-                    rightBackDrive.setPower(-power);
-                    return false;
-                }
-                else {
-                    leftFrontDrive.setPower(0);
-                    rightFrontDrive.setPower(0);
-                    leftBackDrive.setPower(0);
-                    rightBackDrive.setPower(0);
-                    //done = true;
-                    return true;
-                }
-            //}
-        }*/
-        //say("176: done moving");
+        sleep(wait);
     }
 
     public void resetEncoders() {
@@ -235,23 +197,15 @@ public abstract class AutoMethods extends AutoHardwareMap {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+        tfod.activate();
     }
 
     public String detectBlock() {
-
-        if (tfod != null) {
-            tfod.activate();
-        }
-
-        double time = getRuntime();
-
         while (opModeIsActive()) {
             if (tfod != null) {
-                // getUpdatedRecognitions() will return null if no new information is available since
-                // the last time that call was made.
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                 if (updatedRecognitions != null) {
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    say("# Object Detected: " + updatedRecognitions.size());
                     if (updatedRecognitions.size() == 3) {
                         int goldMineralX = -1;
                         int silverMineral1X = -1;
@@ -267,30 +221,20 @@ public abstract class AutoMethods extends AutoHardwareMap {
                         }
                         if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                             if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                                telemetry.addData("Gold Mineral Position", "Left");
-                                telemetry.update();
-                                //tfod.shutdown();
                                 return "left";
                             }
                             else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                                telemetry.addData("Gold Mineral Position", "Right");
-                                telemetry.update();
-                                //tfod.shutdown();
                                 return "right";
                             }
                             else {
-                                telemetry.addData("Gold Mineral Position", "Center");
-                                telemetry.update();
-                                //tfod.shutdown();
                                 return "center";
                             }
                         }
                     }
-                    telemetry.update();
                 }
             }
         }
-        return "";
+        return "center";
     }
 
     public void say(String text) {

@@ -113,7 +113,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             intakeNum += 1;
         }
 
-        //begin scoop
+        /*//begin scoop
         if (intakeNum == 1) {
             intake.setPower(1);
             intakeNum += 1;
@@ -203,6 +203,6 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         if (intakeNum == 8) {
             intakeNum = 0;
             intakeBool = false;
-        }
+        }*/
     }
 }
