@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 //Import the dependencies needed to run the program
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -28,15 +29,15 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
         //Set the direction of the motors
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        //leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        //leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         //Set the mode the motors are going to be running in
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         /*leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -74,7 +75,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
     public void turn(double degrees) {
 
         //Create a variable power of the motor that gets slower the closer the robot is to the set degree
-        double power = Range.clip(360.0/(double)(degrees),0.2,1);
+        double power = Range.clip(360.0/(double)(degrees),0.3,1);
 
         //Get the current position of the robot
         orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
@@ -82,7 +83,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         angle = orientation.firstAngle;
 
         //While the difference between the target angle and current angle is greater than three degrees
-        while (Math.abs(angle - degrees) > 3) {
+        while (opModeIsActive() && Math.abs(angle - degrees) > 3) {
 
             //If the target degree is greater than the current angle of the robot, turn right
             if (degrees > angle) {
@@ -120,15 +121,36 @@ public abstract class AutoMethods extends AutoHardwareMap {
         value *= ENCDISTANCE;
         //say("115: value");
         boolean done = false;
+
+        //Get the current position of the robot
+        orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        //Get the current degree of the robot
+        angle = orientation.firstAngle;
+
         //say("120: boolean done");
         if (direction.equals("x")) {
             while (opModeIsActive() && !done) {
+                orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
                 //say("" + value + " > " + Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4));
                 if (value > Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4)) {
-                    leftFrontDrive.setPower(-power);
-                    rightFrontDrive.setPower(power);
-                    leftBackDrive.setPower(power);
-                    rightBackDrive.setPower(-power);
+                    if (orientation.firstAngle > angle) {
+                        leftFrontDrive.setPower(-power);
+                        rightFrontDrive.setPower(power);
+                        leftBackDrive.setPower(power);
+                        rightBackDrive.setPower(-power);
+                    }
+                    else if (orientation.firstAngle < angle) {
+                        leftFrontDrive.setPower(-power);
+                        rightFrontDrive.setPower(power);
+                        leftBackDrive.setPower(power);
+                        rightBackDrive.setPower(-power);
+                    }
+                    else {
+                        leftFrontDrive.setPower(-power);
+                        rightFrontDrive.setPower(power);
+                        leftBackDrive.setPower(power);
+                        rightBackDrive.setPower(-power);
+                    }
                 }
                 else {
                     leftFrontDrive.setPower(0);
@@ -142,14 +164,29 @@ public abstract class AutoMethods extends AutoHardwareMap {
         else if (direction.equals("y")) {
             //say("141: direction y");
             while (opModeIsActive() && !done) {
+                orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
                 //say("140: while opModeIsActive()");
                 //say("" + value + " > " + Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4));
                     if (value > Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4)) {
                     //say("144: if value");
-                    leftFrontDrive.setPower(power);
-                    rightFrontDrive.setPower(power);
-                    leftBackDrive.setPower(power);
-                    rightBackDrive.setPower(power);
+                        if (orientation.firstAngle > angle) {
+                            leftFrontDrive.setPower(1.5 * power);
+                            rightFrontDrive.setPower(0.75 * power);
+                            leftBackDrive.setPower(1.5 * power);
+                            rightBackDrive.setPower(0.75 * power);
+                        }
+                        else if (orientation.firstAngle < angle) {
+                            leftFrontDrive.setPower(0.75 * power);
+                            rightFrontDrive.setPower(1.5 * power);
+                            leftBackDrive.setPower(0.75 * power);
+                            rightBackDrive.setPower(1.5 * power);
+                        }
+                        else {
+                            leftFrontDrive.setPower(power);
+                            rightFrontDrive.setPower(power);
+                            leftBackDrive.setPower(power);
+                            rightBackDrive.setPower(power);
+                        }
                 }
                 else {
                     //say("152: else");
@@ -170,10 +207,12 @@ public abstract class AutoMethods extends AutoHardwareMap {
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        sleep(500);
+
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void initVuforia() {
