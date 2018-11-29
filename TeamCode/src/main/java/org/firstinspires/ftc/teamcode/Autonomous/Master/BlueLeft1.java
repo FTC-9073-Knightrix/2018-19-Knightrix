@@ -18,8 +18,8 @@ public class BlueLeft1 extends AutoMethods {
         initRobot();
         waitForStart();
 
-        //String block = detectBlock();
-        String block = "center";
+        String block = detectBlock();
+        //String block = "center";
         say(block);
 
         mecanumMove("y", 5000, 0.4, 2000);

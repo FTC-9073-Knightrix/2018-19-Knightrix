@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 //Import the dependencies needed to run the programs
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -23,7 +24,8 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DcMotor leftBackDrive;
 
     //Create the gyroscope
-    public NavxMicroNavigationSensor navxGyro;
+    //public NavxMicroNavigationSensor navxGyro;
+    public BNO055IMU gyro;
     //Create the orientation variable for the robot position
     public Orientation orientation;
     //Create the angle tracker

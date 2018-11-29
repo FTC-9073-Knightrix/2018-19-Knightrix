@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 //Import the dependencies needed to run the programs
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -21,6 +22,11 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
 
+    public DcMotor liftMotor;
+    public DcMotor extendMotor;
+    public DcMotor intakeMotor;
+    public DcMotor intakeHand;
+
     //Create the intake
     //public DcMotor intake;
     //public Servo spinner;
@@ -33,13 +39,15 @@ public abstract class TeleOpHardwareMap extends OpMode {
     String color2 = "";
     String color3 = "";
     public boolean intakeBool = false;
+    public int intakePosition = 0;
 
     //Create the gyroscope
-    public NavxMicroNavigationSensor navxGyro;
+    //public NavxMicroNavigationSensor navxGyro;
+    public BNO055IMU gyro;
     //Create the orientation variable for the robot position
     public Orientation orientation;
     //Create the counter variable
-    public int navxCounter = 3;
+    //public int navxCounter = 3;
     //Create the variable for the degrees of the robot
     public int gyroDegrees = 0;
     //Create the variable that will calculate the angle of the joystick
@@ -63,6 +71,11 @@ public abstract class TeleOpHardwareMap extends OpMode {
         rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
+        liftMotor = hardwareMap.dcMotor.get("lift");
+        extendMotor = hardwareMap.dcMotor.get("extend");
+        intakeMotor = hardwareMap.dcMotor.get("intake");
+        intakeHand = hardwareMap.dcMotor.get("hand");
+
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -73,36 +86,19 @@ public abstract class TeleOpHardwareMap extends OpMode {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeHand.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakeHand.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //Add the gyroscope to the configuration on the phones
-        navxGyro = hardwareMap.get(NavxMicroNavigationSensor.class, "gyro");
-
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        gyro = hardwareMap.get(BNO055IMU.class, "gyro");
+        gyro.initialize(parameters);
         //Add the intake to the configuration on the phones
         //intake = hardwareMap.dcMotor.get("intake");
         //spinner = hardwareMap.servo.get("spinner");
         //color = hardwareMap.get(ColorSensor.class, "color");
         //intake.setDirection(DcMotor.Direction.REVERSE);
         //color.enableLed(true);
-    }
-
-    //Wait for the gyroscope to stop calibrating
-    public void init_loop() {
-
-        //If the gyroscope is calibrating
-        if(navxGyro.isCalibrating()) {
-
-            //Display the fact the gyroscope is still calibrating on screen
-            telemetry.addLine("navx Calibrating");
-        }
-
-        //If the gyroscope has finished calibrating
-        else {
-
-            //Display the fact the gyroscope has finished calibrating on screen
-            telemetry.addLine("init complete");
-        }
-
-        //Update the telemetry
-        telemetry.update();
     }
 }

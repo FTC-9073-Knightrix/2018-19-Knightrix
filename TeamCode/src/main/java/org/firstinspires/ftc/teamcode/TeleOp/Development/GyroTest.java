@@ -19,18 +19,18 @@ public class GyroTest extends TeleOpMethods {
     public void loop() {
 
         //Refresh the gyroscope value every three loops of the program
-        if (navxCounter == 3) {
+        //if (navxCounter == 3) {
             //Get the current position of the robot
-            orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             //Get the current angle of the robot, subtracting it by the previous value recorded
-            gyroDegrees = (int) (orientation.firstAngle - gyroResetValue);
+        //gyroDegrees = (int) (orientation.firstAngle - gyroResetValue);
             //Reset the counter
-            navxCounter = 1;
+            /*navxCounter = 1;
         }
         else {
             //Add one to the counter
             navxCounter++;
-        }
+        }*/
 
         //Add the current angle of the robot to the display
         telemetry.addLine("Gyro Value: " + orientation + "\u00b0");

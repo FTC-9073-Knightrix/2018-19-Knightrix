@@ -25,23 +25,24 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
 
     public void drive() {
         //Refresh the gyroscope value every three loops of the program
-        if (navxCounter == 3) {
+        //if (navxCounter == 3) {
             //Get the current position of the robot
-            orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             //Get the current angle of the robot, subtracting it by the previous value recorded
-            gyroDegrees = (int) (orientation.firstAngle - gyroResetValue);
+        //gyroDegrees = (int) (orientation.firstAngle - gyroResetValue);
+        gyroDegrees = (int) orientation.firstAngle;
             //Reset the counter
-            navxCounter = 1;
-        }
-        else {
+            //navxCounter = 1;
+        //}
+        //else {
             //Add one to the counter
-            navxCounter++;
-        }
+        //    navxCounter++;
+        //}
 
         //Add the current angle of the robot to the display
-        telemetry.addLine("Gyro Value: " + orientation + "\u00b0");
+        //telemetry.addLine("Gyro Value: " + orientation.firstAngle + "\u00b0");
         //Update telemetry
-        telemetry.update();
+        //telemetry.update();
 
         //Get the rotation of the robot based off the position of the right joystick x
         myrot = Math.round((gamepad1.right_stick_x / (float) 1) * (float) 100) / (float) 100;
@@ -98,111 +99,11 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         }
 
         //Move the robot based off the calculated values
+
+        //telemetry.addData("Power", leftstick_y);
+
+        //telemetry.update();
+
         move(myangle,mypower,myrot);
-    }
-
-    public void intake () {
-        //reset variables
-        if (intakeNum == 0) {
-            mineral1 = 0;
-            mineral2 = 0;
-            mineral3 = 0;
-            color1 = "";
-            color2 = "";
-            color3 = "";
-            intakeNum += 1;
-        }
-
-        /*//begin scoop
-        if (intakeNum == 1) {
-            intake.setPower(1);
-            intakeNum += 1;
-        }
-
-        //detect and save color with degree
-        if (intakeNum == 2) {
-            if (color.red() > (2 * color.blue())) {
-                mineral1 = spinner.getPosition();
-                color1 = "yellow";
-                intakeNum += 1;
-            }
-            else if (color.blue() > 0) {
-                mineral1 = spinner.getPosition();
-                color1 = "white";
-                intakeNum += 1;
-            }
-        }
-
-        //turn 120 deg
-        if (intakeNum == 3) {
-            spinner.setPosition(120);
-            intakeNum += 1;
-        }
-
-        //repeat, 2nd time
-        //detect and save color with degree
-        if (intakeNum == 4) {
-            if (color.red() > (2 * color.blue())) {
-                mineral2 = spinner.getPosition();
-                color2 = "yellow";
-                intakeNum += 1;
-            }
-            else if (color.blue() > 0) {
-                mineral2 = spinner.getPosition();
-                color2 = "white";
-                intakeNum += 1;
-            }
-        }
-
-        //turn 120 deg
-        if (intakeNum == 5) {
-            spinner.setPosition(240);
-            intakeNum += 1;
-        }
-
-        //repeat, 3rd time
-        //detect and save color with degree
-        if (intakeNum == 6) {
-            if (color.red() > (2 * color.blue())) {
-                mineral3 = spinner.getPosition();
-                color3 = "yellow";
-                intakeNum += 1;
-            }
-            else if (color.blue() > 0) {
-                mineral3 = spinner.getPosition();
-                color3 = "white";
-                intakeNum += 1;
-            }
-        }
-
-        //calculate odd one out (yellow or white) and remove
-        if (intakeNum == 7) {
-            if (color1.equals(color2)) {
-                //kick out mineral3
-                spinner.setPosition(mineral3);
-                intake.setPower(-1);
-                intakeNum += 1;
-            }
-            else {
-                if (color1.equals(color3)) {
-                    //kick out mineral2
-                    spinner.setPosition(mineral2);
-                    intake.setPower(-1);
-                    intakeNum += 1;
-                }
-                else {
-                    //kick out mineral1
-                    spinner.setPosition(mineral1);
-                    intake.setPower(-1);
-                    intakeNum += 1;
-                }
-            }
-        }
-
-        //reset everything
-        if (intakeNum == 8) {
-            intakeNum = 0;
-            intakeBool = false;
-        }*/
     }
 }

@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 //Import the dependencies needed to run the program
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -29,8 +30,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
         //Set the direction of the motors
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         //leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         //leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         //Set the mode the motors are going to be running in
@@ -44,10 +47,13 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
 
         //Add the gyroscope to the configuration on the phones
-        navxGyro = hardwareMap.get(NavxMicroNavigationSensor.class, "gyro");
-
+        //navxGyro = hardwareMap.get(NavxMicroNavigationSensor.class, "gyro");
+        gyro = hardwareMap.get(BNO055IMU.class, "gyro");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        gyro.initialize(parameters);
         //Wait for the gyroscope to stop calibrating
-        while(opModeIsActive() && navxGyro.isCalibrating()) {
+        /*while(opModeIsActive() && navxGyro.isCalibrating()) {
 
             //Display on the screen the fact the gyroscope is calibrating
             telemetry.addLine("navx Calibrating");
@@ -58,7 +64,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         //Display on the screen the fact the gyroscope has finished calibrating
         telemetry.addLine("init complete");
         //Update telemetry
-        telemetry.update();
+        telemetry.update();*/
     }
 
     //Create the method to move the robot forwards based on direction and power of the motors
@@ -78,7 +84,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         double power = Range.clip(360.0/(double)(degrees),0.3,1);
 
         //Get the current position of the robot
-        orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         //Get the current degree of the robot
         angle = orientation.firstAngle;
 
@@ -102,7 +108,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
             }
 
             //Get the current position of the robot
-            orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+            orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             //Get the current degree of the robot
             angle = orientation.firstAngle;
 
@@ -123,14 +129,14 @@ public abstract class AutoMethods extends AutoHardwareMap {
         boolean done = false;
 
         //Get the current position of the robot
-        orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         //Get the current degree of the robot
         angle = orientation.firstAngle;
 
         //say("120: boolean done");
         if (direction.equals("x")) {
             while (opModeIsActive() && !done) {
-                orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+                orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
                 //say("" + value + " > " + Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4));
                 if (value > Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4)) {
                     if (orientation.firstAngle > angle) {
@@ -164,7 +170,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         else if (direction.equals("y")) {
             //say("141: direction y");
             while (opModeIsActive() && !done) {
-                orientation = navxGyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+                orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
                 //say("140: while opModeIsActive()");
                 //say("" + value + " > " + Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4));
                     if (value > Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4)) {

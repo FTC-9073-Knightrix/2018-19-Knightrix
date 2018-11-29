@@ -10,14 +10,48 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 public class TeleOp extends TeleOpMethods {
     public void loop () {
-        if (gamepad1.a) {
-            intakeBool = true;
-        }
-
-        if (intakeBool) {
-            intake();
-        }
-
         drive();
+
+        if (gamepad2.dpad_up) {
+            liftMotor.setPower(1);
+        }
+        else if (gamepad2.dpad_down) {
+            liftMotor.setPower(-1);
+        }
+        else {
+            liftMotor.setPower(0);
+        }
+
+        if (gamepad2.dpad_right) {
+            extendMotor.setPower(1);
+        }
+        else if (gamepad2.dpad_left) {
+            extendMotor.setPower(-1);
+        }
+        else {
+            extendMotor.setPower(0);
+        }
+
+        if (gamepad2.a) {
+            intakeMotor.setPower(1);
+        }
+        else if (gamepad2.b) {
+            intakeMotor.setPower(-1);
+        }
+        else {
+            intakeMotor.setPower(0);
+        }
+
+        if (gamepad2.y) {
+            intakePosition += 5;
+        }
+        else if (gamepad2.x) {
+            intakePosition += 5;
+        }
+        intakeHand.setPower(1);
+        intakeHand.setTargetPosition(intakePosition);
+
+        telemetry.addData("Position", "" + intakePosition);
+        telemetry.update();
     }
 }
