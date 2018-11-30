@@ -18,34 +18,41 @@ public class RedLeft1 extends AutoMethods {
         waitForStart();
 
         String block = detectBlock();
+        //String block = "center";
         say(block);
-        //drop the robot off the hook
 
-        mecanumMove("y", 200, 0.5, 500);
+        mecanumMove("y", 33, 0.4, 2000);
 
         if (block.equals("left")) {
-            mecanumMove("x", 1000, -0.5, 200);
-            mecanumMove("y", 5000, 0.5, 200);
-            mecanumMove("y", 5000, -0.5, 200);
-            mecanumMove("x", 1000, 0.5, 200);
+            mecanumMove("x", 41, -0.2, 2000);
+            mecanumMove("y", 28, 0.2, 2000);
+            mecanumMove("y", 28, -0.2, 2000);
+            mecanumMove("x", 50, -0.4, 2000);
         }
         else if (block.equals("right")) {
-            mecanumMove("x", 1000, 0.5, 200);
-            mecanumMove("y", 5000, 0.5, 200);
-            mecanumMove("y", 5000, -0.5, 200);
-            mecanumMove("x", 1000, -0.5, 200);
+            mecanumMove("x", 41, 0.2, 2000);
+            mecanumMove("y", 28, 0.4, 2000);
+            mecanumMove("y", 28, -0.4, 2000);
+            mecanumMove("x", 138, -0.2, 2000);
         }
         else {
-            mecanumMove("y", 5000, 0.5, 200);
-            mecanumMove("y", 5000, -0.5, 200);
+            mecanumMove("y", 28, 0.4, 2000);
+            mecanumMove("y", 28, -0.4, 2000);
+            mecanumMove("x", 94, -0.4, 2000);
         }
 
-        mecanumMove("x", 5000, -0.5, 200);
-        turn(-120);
-        mecanumMove("y", 5000, 0.5, 200);
+        turn(-45);
+        mecanumMove("y", 200, -0.4, 2000);
         //drop the marker
-        turn(60);
-        mecanumMove("y", 10000, 0.5, 0);
+        turn(90);
+        marker.setPosition(90);
+        sleep(500);
+        marker.setPosition(0);
+
+        turn(-90);
+        mecanumMove("y", 250, 0.5, 0);
+        turn(-90);
+        marker.setPosition(90);
         //extend out arm
     }
 }

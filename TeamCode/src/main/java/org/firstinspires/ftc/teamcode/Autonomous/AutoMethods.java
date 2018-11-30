@@ -29,11 +29,14 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
+
+        marker = hardwareMap.servo.get("marker");
+
         //Set the direction of the motors
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         //leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         //leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         //Set the mode the motors are going to be running in
@@ -139,24 +142,12 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
                 //say("" + value + " > " + Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4));
                 if (value > Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4)) {
-                    if (orientation.firstAngle > angle) {
+
                         leftFrontDrive.setPower(-power);
                         rightFrontDrive.setPower(power);
                         leftBackDrive.setPower(power);
                         rightBackDrive.setPower(-power);
-                    }
-                    else if (orientation.firstAngle < angle) {
-                        leftFrontDrive.setPower(-power);
-                        rightFrontDrive.setPower(power);
-                        leftBackDrive.setPower(power);
-                        rightBackDrive.setPower(-power);
-                    }
-                    else {
-                        leftFrontDrive.setPower(-power);
-                        rightFrontDrive.setPower(power);
-                        leftBackDrive.setPower(power);
-                        rightBackDrive.setPower(-power);
-                    }
+
                 }
                 else {
                     leftFrontDrive.setPower(0);
@@ -175,24 +166,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 //say("" + value + " > " + Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4));
                     if (value > Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4)) {
                     //say("144: if value");
-                        if (orientation.firstAngle > angle) {
-                            leftFrontDrive.setPower(1.5 * power);
-                            rightFrontDrive.setPower(0.75 * power);
-                            leftBackDrive.setPower(1.5 * power);
-                            rightBackDrive.setPower(0.75 * power);
-                        }
-                        else if (orientation.firstAngle < angle) {
-                            leftFrontDrive.setPower(0.75 * power);
-                            rightFrontDrive.setPower(1.5 * power);
-                            leftBackDrive.setPower(0.75 * power);
-                            rightBackDrive.setPower(1.5 * power);
-                        }
-                        else {
                             leftFrontDrive.setPower(power);
                             rightFrontDrive.setPower(power);
                             leftBackDrive.setPower(power);
                             rightBackDrive.setPower(power);
-                        }
                 }
                 else {
                     //say("152: else");
@@ -228,7 +205,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
@@ -240,6 +217,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
         tfod.activate();

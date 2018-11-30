@@ -6,6 +6,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -23,6 +24,8 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
 
+    public Servo marker;
+
     //Create the gyroscope
     //public NavxMicroNavigationSensor navxGyro;
     public BNO055IMU gyro;
@@ -32,7 +35,7 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public double angle = 0;
 
     //amount of clicks per cm
-    public final int ENCDISTANCE = 1;
+    public final double ENCDISTANCE = 34.5781466113;
 
 
     public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";

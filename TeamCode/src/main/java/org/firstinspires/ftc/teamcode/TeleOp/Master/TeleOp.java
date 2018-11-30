@@ -46,12 +46,15 @@ public class TeleOp extends TeleOpMethods {
             intakePosition += 5;
         }
         else if (gamepad2.x) {
-            intakePosition += 5;
+            intakePosition -= 5;
         }
         intakeHand.setPower(1);
         intakeHand.setTargetPosition(intakePosition);
 
+        krispy.setPosition(gamepad2.right_trigger * 270);
+
         telemetry.addData("Position", "" + intakePosition);
+        telemetry.addData("Encoder", "" + intakeHand.getCurrentPosition());
         telemetry.update();
     }
 }

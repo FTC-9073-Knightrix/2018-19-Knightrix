@@ -27,6 +27,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public DcMotor intakeMotor;
     public DcMotor intakeHand;
 
+    public Servo krispy;
+
     //Create the intake
     //public DcMotor intake;
     //public Servo spinner;
@@ -75,6 +77,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
         extendMotor = hardwareMap.dcMotor.get("extend");
         intakeMotor = hardwareMap.dcMotor.get("intake");
         intakeHand = hardwareMap.dcMotor.get("hand");
+
+        krispy = hardwareMap.servo.get("krispy");
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);

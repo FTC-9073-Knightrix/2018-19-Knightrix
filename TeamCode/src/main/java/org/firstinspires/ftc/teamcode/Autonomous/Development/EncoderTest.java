@@ -18,6 +18,10 @@ public class EncoderTest extends AutoMethods {
     public void runOpMode() {
         initRobot();
         waitForStart();
-        mecanumMove("y", 500, 0.3, 0);
+        mecanumMove("y", 50, 0.3, 0);
+        //2500 = 72.3
+        ///25 = 26.2
+        telemetry.addData("Position", (leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4);
+        telemetry.update();
     }
 }
