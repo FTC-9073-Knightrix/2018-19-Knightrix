@@ -45,15 +45,30 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         //telemetry.update();
 
         //Get the rotation of the robot based off the position of the right joystick x
-        myrot = Math.round((gamepad1.right_stick_x / (float) 1) * (float) 100) / (float) 100;
+        if (gamepad1.right_stick_x != 0) {
+            myrot = Math.round((gamepad1.right_stick_x / (float) 1) * (float) 100) / (float) 100;
+        }
+        else {
+            myrot = Math.round((gamepad2.right_stick_x / (float) 5) * (float) 100) / (float) 100;
+        }
 
-        //Declare the left joystick x
-        leftstick_x = gamepad1.left_stick_x;
-        //Declare the left joystick y
-        leftstick_y = gamepad1.left_stick_y;
+        if (gamepad1.left_stick_x != 0) {
+            //Declare the left joystick x
+            leftstick_x = -gamepad1.left_stick_x;
+        }
+        else {
+            leftstick_x = -gamepad2.left_stick_x / 5;
+        }
+        if (gamepad1.left_stick_y != 0) {
+            //Declare the left joystick y
+            leftstick_y = gamepad1.left_stick_y;
+        }
+        else {
+            leftstick_y = gamepad2.left_stick_y / 5;
+        }
 
         //If the robot's previously recorded angle is within certain boundaries, change the direction of the robot
-        if ((gyroResetValue > 45 && gyroResetValue < 135) || (gyroResetValue > 225 && gyroResetValue < 315)) {
+        /*if ((gyroResetValue > 45 && gyroResetValue < 135) || (gyroResetValue > 225 && gyroResetValue < 315)) {
 
             //Set the left joystick y as negative
             leftstick_y = -gamepad1.left_stick_y;
@@ -62,7 +77,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
 
             //Set the left joystick x as negative
             leftstick_x = -gamepad1.left_stick_x;
-        }
+        }*/
 
         //Calculate the angle of the joystick based off the x and y values
         //If the joystick is in quadrant I or IV

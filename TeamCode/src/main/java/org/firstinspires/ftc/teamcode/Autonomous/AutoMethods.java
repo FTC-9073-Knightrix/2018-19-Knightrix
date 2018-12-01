@@ -142,10 +142,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 //say("" + value + " > " + Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4));
                 if (value > Math.abs(((leftFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) - (rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition())) / 4)) {
 
-                        leftFrontDrive.setPower(-power);
-                        rightFrontDrive.setPower(power);
-                        leftBackDrive.setPower(power);
-                        rightBackDrive.setPower(-power);
+                        leftFrontDrive.setPower(power);
+                        rightFrontDrive.setPower(-power);
+                        leftBackDrive.setPower(-power);
+                        rightBackDrive.setPower(power);
 
                 }
                 else {
@@ -165,10 +165,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 //say("" + value + " > " + Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4));
                     if (value > Math.abs((leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4)) {
                     //say("144: if value");
-                            leftFrontDrive.setPower(power);
-                            rightFrontDrive.setPower(power);
-                            leftBackDrive.setPower(power);
-                            rightBackDrive.setPower(power);
+                            leftFrontDrive.setPower(-power);
+                            rightFrontDrive.setPower(-power);
+                            leftBackDrive.setPower(-power);
+                            rightBackDrive.setPower(-power);
                 }
                 else {
                     //say("152: else");
@@ -215,8 +215,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
     public void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
 
+        tfodParameters.minimumConfidence = 0.85;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
         tfod.activate();

@@ -31,6 +31,8 @@ public class TestBoard extends OpMode {
         //Set the power of the left motor to the left joystick y
         //leftFrontDrive.setPower(1);
         leftFrontDrive.setPower(gamepad1.right_stick_y);
+        telemetry.addData("Position", leftFrontDrive.getCurrentPosition());
+        telemetry.update();
         //leftFrontDrive.setTargetPosition(position);
     }
 }
