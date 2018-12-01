@@ -84,7 +84,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
     public void turn(double degrees) {
 
         //Create a variable power of the motor that gets slower the closer the robot is to the set degree
-        double power = Range.clip(360.0/(double)(degrees),0.3,1);
+        double power = 0.3;
 
         //Get the current position of the robot
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
@@ -92,10 +92,9 @@ public abstract class AutoMethods extends AutoHardwareMap {
         angle = orientation.firstAngle;
 
         //While the difference between the target angle and current angle is greater than three degrees
-        while (opModeIsActive() && Math.abs(angle - degrees) > 3) {
-
+        while (opModeIsActive() && Math.abs(angle - degrees) > 1) {
             //If the target degree is greater than the current angle of the robot, turn right
-            if (degrees > angle) {
+            if (degrees < angle) {
                 leftFrontDrive.setPower(-power);
                 rightFrontDrive.setPower(power);
                 leftBackDrive.setPower(-power);
@@ -103,11 +102,11 @@ public abstract class AutoMethods extends AutoHardwareMap {
             }
 
             //If the target degree is greater than the current angle of the robot, turn left
-            if (degrees < angle) {
+            if (degrees > angle) {
                 leftFrontDrive.setPower(power);
                 rightFrontDrive.setPower(-power);
-                leftBackDrive.setPower(-power);
-                rightBackDrive.setPower(power);
+                leftBackDrive.setPower(power);
+                rightBackDrive.setPower(-power);
             }
 
             //Get the current position of the robot

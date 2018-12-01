@@ -43,13 +43,11 @@ public class TeleOp extends TeleOpMethods {
         }
 
         if (gamepad2.y) {
-            intakePosition += 5;
+            intakeHand.setPower(0.7);
         }
         else if (gamepad2.x) {
-            intakePosition -= 5;
+            intakeHand.setPower(-0.7);
         }
-        intakeHand.setPower(1);
-        intakeHand.setTargetPosition(intakePosition);
 
         krispy.setPosition(gamepad2.right_trigger * 270);
 

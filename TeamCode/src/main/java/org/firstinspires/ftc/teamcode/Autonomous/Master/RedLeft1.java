@@ -21,7 +21,7 @@ public class RedLeft1 extends AutoMethods {
         //String block = "center";
         say(block);
 
-        mecanumMove("y", 33, 0.4, 2000);
+        mecanumMove("y", 33, 0.4, 1000);
 
         if (block.equals("left")) {
             mecanumMove("x", 41, -0.2, 2000);
@@ -36,23 +36,28 @@ public class RedLeft1 extends AutoMethods {
             mecanumMove("x", 138, -0.2, 2000);
         }
         else {
-            mecanumMove("y", 28, 0.4, 2000);
-            mecanumMove("y", 28, -0.4, 2000);
-            mecanumMove("x", 94, -0.4, 2000);
+            mecanumMove("y", 28, 0.4, 1000);
+            mecanumMove("y", 23, -0.4, 1000);
+            mecanumMove("x", 94, 0.4, 1000);
         }
 
         turn(-45);
-        mecanumMove("y", 200, -0.4, 2000);
+        mecanumMove("y", 110, -0.4, 1000);
         //drop the marker
-        turn(90);
-        marker.setPosition(90);
-        sleep(500);
-        marker.setPosition(0);
+        turn(-45);
+        mecanumMove("x", 20, -0.4, 1000);
+        turn(-45);
+        mecanumMove("y", 50, 0.4, 1000);
+        turn(-45);
+        mecanumMove("x", 20, 0.4, 1000);
+        //marker.setPosition(90);
+        //sleep(500);
+        //marker.setPosition(0);
 
-        turn(-90);
-        mecanumMove("y", 250, 0.5, 0);
-        turn(-90);
-        marker.setPosition(90);
+        turn(-45);
+        mecanumMove("y", 120, 0.4, 1000);
+        turn(-45);
+        //marker.setPosition(90);
         //extend out arm
     }
 }

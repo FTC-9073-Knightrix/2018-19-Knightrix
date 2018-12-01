@@ -91,7 +91,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeHand.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        intakeHand.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        intakeHand.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //Add the gyroscope to the configuration on the phones
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
