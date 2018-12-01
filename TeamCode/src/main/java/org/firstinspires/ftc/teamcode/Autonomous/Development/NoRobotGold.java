@@ -33,6 +33,7 @@ import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -58,7 +59,7 @@ AlignMin and ALignMax define the area where the alignment value is true.
 
 
  */
-
+@Disabled
 @Autonomous(name="Walking to the Gold", group="Auto")
 
 public class NoRobotGold extends LinearOpMode {

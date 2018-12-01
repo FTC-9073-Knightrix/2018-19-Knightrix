@@ -1,1 +1,0 @@
-*This file is in place to make sure the "Master" package is uploaded to git*

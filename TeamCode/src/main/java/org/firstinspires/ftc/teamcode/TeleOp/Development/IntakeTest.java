@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp.Development;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 /**
  * Created by nicolas on 11/17/18.
  */
-
+@Disabled
 @TeleOp(name = "Intake")
 
 public class IntakeTest extends OpMode {
