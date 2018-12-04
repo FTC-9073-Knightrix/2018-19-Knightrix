@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.TeleOp.Development;
 //Import the dependencies needed to run the program
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
-
+@Disabled
 //Add the program to the index of TeleOp programs and to the Gyro group
 @TeleOp(group = "Test", name = "Gyro Values")
 
