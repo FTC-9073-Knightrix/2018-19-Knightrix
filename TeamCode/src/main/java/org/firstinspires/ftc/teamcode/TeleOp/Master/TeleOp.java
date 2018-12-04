@@ -44,10 +44,50 @@ public class TeleOp extends TeleOpMethods {
             intakeMotor.setPower(0);
         }
 
-        intakeHand.setTargetPosition((int)(-650 + (gamepad2.left_trigger * 650)));
+        /*intakeHand.setTargetPosition((int)(-650 + (gamepad2.left_trigger * 650)));
         telemetry.addLine("" + (-650 + (gamepad2.left_trigger * 650)));
         telemetry.addData("Position", intakeHand.getCurrentPosition());
-        intakeHand.setPower(0.1);
+
+        /*if((-650 + (gamepad2.left_trigger * 650) <= -550 && intakeHand.getCurrentPosition() <= -550) || (-650 + (gamepad2.left_trigger * 650) >= -100 && intakeHand.getCurrentPosition() >= -100)) {
+            intakeHand.setPower(0);
+        }
+        else {
+            intakeHand.setPower(0.1);
+        }*/
+
+        if (gamepad2.a) {
+            intakeHand.setPower(0.7);
+        }
+        else if (gamepad2.b) {
+            intakeHand.setPower(-0.45);
+        }
+        else {
+            intakeHand.setPower(0);
+        }
+
+        /*
+        intakeMotor Program:
+
+        read encoder value
+
+        if (press A) {
+            intakeHand.setPower(0.2);
+        }
+        elseif (press B) {
+            intakeHand.setPower(-.2);
+        }
+        else {
+            intakeHand.setPower(0);
+        }
+
+        if (encoder value = prior encoder value) {
+             intakeHand.setPower(0);
+        }
+
+        prior value = read encoder value
+        */
+
+
 
         /*if (gamepad2.a) {
             intakeHand.setPower(.1);
@@ -62,8 +102,8 @@ public class TeleOp extends TeleOpMethods {
             intakeHand.setTargetPosition(1200);
         }*/
 
-        krispy.setPosition(gamepad2.right_trigger);
-        telemetry.addData("Servo", gamepad2.right_trigger);
+        krispy.setPosition(1 - gamepad2.right_trigger);
+        telemetry.addData("Servo", 1 - gamepad2.right_trigger);
 
         //double curFlipPos =
         double intakeHandPosition= intakeHand.getCurrentPosition();

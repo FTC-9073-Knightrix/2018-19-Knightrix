@@ -225,10 +225,57 @@ public abstract class AutoMethods extends AutoHardwareMap {
     }
 
     public String detectBlock() {
-        while (opModeIsActive()) {
+        double getTime = getRuntime();
+        while (opModeIsActive() && getRuntime() - getTime <= 3) {
             if (tfod != null) {
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                 if (updatedRecognitions != null) {
+                    float goldPos = -1;
+                    float silvPos = -1;
+                    float silv2Pos = -1;
+                    float width = 0;
+                    for (Recognition recognition : updatedRecognitions) {
+                        width = recognition.getImageWidth();
+                        if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                            goldPos = recognition.getLeft();
+                        }
+                        else if (silvPos == -1) {
+                            silvPos = recognition.getLeft();
+                        }
+                        else {
+                            silv2Pos = recognition.getLeft();
+                        }
+                    }
+                    if (goldPos == -1) {
+                        return "right";
+                    }
+                    else if (silvPos == -1) {
+                        if (goldPos < width / 3) {
+                            return "left";
+                        }
+                        else if (goldPos < width / 3 * 2) {
+                            return "center";
+                        }
+                        else {
+                            return "right";
+                        }
+                    }
+                    else if (goldPos > silvPos && silv2Pos == -1) {
+                        return "center";
+                    }
+                    else if (goldPos > silvPos && goldPos > silv2Pos) {
+                        return "right";
+                    }
+                    else if (goldPos < silvPos && goldPos > silv2Pos) {
+                        return "center";
+                    }
+                    else if (goldPos < silvPos && goldPos < silv2Pos) {
+                        return "left";
+                    }
+                    else {
+                        return "left";
+                    }
+                    /*
                     say("# Object Detected: " + updatedRecognitions.size());
                     if (updatedRecognitions.size() == 3) {
                         int goldMineralX = -1;
@@ -255,6 +302,9 @@ public abstract class AutoMethods extends AutoHardwareMap {
                             }
                         }
                     }
+                    else {
+                        if
+                    }*/
                 }
             }
         }
