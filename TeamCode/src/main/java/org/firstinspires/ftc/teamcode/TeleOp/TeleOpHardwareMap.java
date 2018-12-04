@@ -70,6 +70,17 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public float g1_rightstick_x = 0;
     public float g2_rightstick_x = 0;
 
+    //Create the variable that tracks the GamePad buttons
+    public boolean g2_dpad_down  = false;
+    public boolean g2_dpad_up    = false;
+    public boolean g2_dpad_right = false;
+    public boolean g2_dpad_left  = false;
+
+    // Game pad Bumpers
+    public boolean g2_right_bumper = false;
+    public boolean g2_left_bumper  = false;
+
+
     //Create the variable that will calculate the rotation of the robot
     public float myrot = 0;
 

@@ -33,6 +33,17 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
 
         g1_rightstick_x = gamepad1.right_stick_x;
         g2_rightstick_x = gamepad2.right_stick_x / 5;
+
+
+        //Gamepad buttons
+        g2_dpad_down = gamepad2.dpad_down;
+        g2_dpad_up   = gamepad2.dpad_up;
+        g2_dpad_right= gamepad2.dpad_right;
+        g2_dpad_left = gamepad2.dpad_left;
+
+        //Gamepad bumpers
+        g2_right_bumper = gamepad2.right_bumper;
+        g2_left_bumper  = gamepad2.left_bumper;
     }
 
     public void drive() {
