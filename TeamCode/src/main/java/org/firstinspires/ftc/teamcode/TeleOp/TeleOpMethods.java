@@ -23,7 +23,20 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         }
     }
 
+    public void getController() {
+        //Gamepad
+        g1_leftstick_x = gamepad1.left_stick_x;
+        g2_leftstick_x = gamepad2.left_stick_x / 5;
+
+        g1_leftstick_y = gamepad1.left_stick_y;
+        g2_leftstick_y = gamepad2.left_stick_y / 5;
+
+        g1_rightstick_x = gamepad1.right_stick_x;
+        g2_rightstick_x = gamepad2.right_stick_x / 5;
+    }
+
     public void drive() {
+        getController();
         //Refresh the gyroscope value every three loops of the program
         //if (navxCounter == 3) {
             //Get the current position of the robot
@@ -45,26 +58,26 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         //telemetry.update();
 
         //Get the rotation of the robot based off the position of the right joystick x
-        if (gamepad1.right_stick_x != 0) {
-            myrot = Math.round((gamepad1.right_stick_x / (float) 1) * (float) 100) / (float) 100;
+        if (g1_rightstick_x != 0) {
+            myrot = Math.round(g1_rightstick_x * (float) 100) / (float) 100;
         }
         else {
-            myrot = Math.round((gamepad2.right_stick_x / (float) 5) * (float) 100) / (float) 100;
+            myrot = Math.round(g2_rightstick_x * (float) 100) / (float) 100;
         }
 
-        if (gamepad1.left_stick_x != 0) {
+        if (g1_leftstick_x != 0) {
             //Declare the left joystick x
-            leftstick_x = -gamepad1.left_stick_x;
+            leftstick_x = -g1_leftstick_x;
         }
         else {
-            leftstick_x = -gamepad2.left_stick_x / 5;
+            leftstick_x = -g2_leftstick_x;
         }
-        if (gamepad1.left_stick_y != 0) {
+        if (g1_leftstick_y != 0) {
             //Declare the left joystick y
-            leftstick_y = gamepad1.left_stick_y;
+            leftstick_y = g1_leftstick_y;
         }
         else {
-            leftstick_y = gamepad2.left_stick_y / 5;
+            leftstick_y = g2_leftstick_y;
         }
 
         //If the robot's previously recorded angle is within certain boundaries, change the direction of the robot

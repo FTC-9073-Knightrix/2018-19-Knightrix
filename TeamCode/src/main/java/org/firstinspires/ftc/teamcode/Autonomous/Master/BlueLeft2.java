@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Master;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 /**
  * Created by nicolas on 11/21/18.
  */
-
+@Disabled
 @Autonomous(name = "Blue Left 2", group = "Master")
 
 public class BlueLeft2 extends AutoMethods {

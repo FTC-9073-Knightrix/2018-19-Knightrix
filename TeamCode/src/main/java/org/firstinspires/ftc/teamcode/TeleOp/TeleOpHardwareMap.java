@@ -60,8 +60,16 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public int gyroResetValue = 0;
     //Create the variable that will keep track of the left joystick's x value
     public float leftstick_x = 0;
+    public float g1_leftstick_x = 0;
+    public float g2_leftstick_x = 0;
     //Create the variable that will keep track of the left joystick's y value
     public float leftstick_y = 0;
+    public float g1_leftstick_y = 0;
+    public float g2_leftstick_y = 0;
+
+    public float g1_rightstick_x = 0;
+    public float g2_rightstick_x = 0;
+
     //Create the variable that will calculate the rotation of the robot
     public float myrot = 0;
 
