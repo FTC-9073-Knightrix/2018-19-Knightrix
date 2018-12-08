@@ -40,10 +40,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
         //leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         //leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         //Set the mode the motors are going to be running in
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         /*leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -136,9 +136,30 @@ public abstract class AutoMethods extends AutoHardwareMap {
     }
 
     // Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
-    public void MecMoveGyro(){
-        // GET Values
-            // Get Gyro Position
+    public void gyroMove(int direction, double power, int distance, int wait){
+        //direction = angle, 180 forwards, 0 backwards, 270 left, 90 right
+        //power = power/speed running
+        //distance = centimeters to move
+        //wait = time to wait after moving
+
+        resetEncoders();
+        distance *= ENCDISTANCE; //converts cm to encoder rotations
+        while(distance > (Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4) {
+            orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+            int gyroDegrees = (int) orientation.firstAngle;
+            direction -= gyroDegrees;
+            if (direction < -359) {
+                direction += 360;
+            }
+            move(direction, (float) power, 0);
+        }
+        leftFrontDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightBackDrive.setPower(0);
+
+        sleep(wait);
+
         // SET Values
             // Set desired power level
             // Set desired direction
@@ -220,10 +241,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         sleep(500);
 
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void initVuforia() {
