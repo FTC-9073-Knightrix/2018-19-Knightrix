@@ -34,7 +34,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         //leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -228,6 +228,11 @@ public abstract class AutoMethods extends AutoHardwareMap {
                     rightBackDrive.setPower(0);
                     done = true;
                 }
+                telemetry.addData("Left Front", leftFrontDrive.getCurrentPosition());
+                    telemetry.addData("Right Front", rightFrontDrive.getCurrentPosition());
+                    telemetry.addData("Left Back", leftBackDrive.getCurrentPosition());
+                    telemetry.addData("Right Back", rightBackDrive.getCurrentPosition());
+                    telemetry.update();
             }
         }
         sleep(wait);
