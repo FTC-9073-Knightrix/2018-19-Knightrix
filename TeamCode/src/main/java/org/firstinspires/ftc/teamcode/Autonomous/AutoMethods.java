@@ -178,6 +178,11 @@ public abstract class AutoMethods extends AutoHardwareMap {
                     rightBackDrive.setPower(0);
                     done = true;
                 }
+                telemetry.addData("Left Front", leftFrontDrive.getCurrentPosition());
+                    telemetry.addData("Right Front", rightFrontDrive.getCurrentPosition());
+                    telemetry.addData("Left Back", leftBackDrive.getCurrentPosition());
+                    telemetry.addData("Right Back", rightBackDrive.getCurrentPosition());
+                    telemetry.update();
             }
         }
         sleep(wait);
