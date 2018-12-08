@@ -71,12 +71,24 @@ public abstract class AutoMethods extends AutoHardwareMap {
     }
 
     //Create the method to move the robot forwards based on direction and power of the motors
-    public void move(double angle1, double power) {
+    /*public void move(double angle1, double power) {
         if (leftFrontDrive != null && leftBackDrive != null && rightFrontDrive != null && rightBackDrive != null) {
             leftFrontDrive.setPower(Range.clip(power * ((Math.sin((angle1 + 45) / 180 * Math.PI))), -1, 1));
             leftBackDrive.setPower(Range.clip(power * ((Math.sin((angle1 - 45) / 180 * Math.PI))), -1, 1));
             rightFrontDrive.setPower(Range.clip(power * ((Math.sin((angle1 - 45) / 180 * Math.PI))), -1, 1));
             rightBackDrive.setPower(Range.clip(power * ((Math.sin((angle1 + 45) / 180 * Math.PI))), -1, 1));
+        }
+    }*/
+
+    //Create the move method to move the robot based off the angle, power, and rotation of the robot applied
+    public void move (double myangle, float mypower, float myrot) {
+
+        //If none of the motors are null, run each motor to an individual value based off the values inputted from the joystick
+        if (leftFrontDrive != null && leftBackDrive != null && rightFrontDrive != null && rightBackDrive != null) {
+            leftFrontDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592))))), -1, 1));
+            leftBackDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592))))), -1, 1));
+            rightFrontDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592))))), -1, 1));
+            rightBackDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592))))), -1, 1));
         }
     }
 
@@ -122,6 +134,23 @@ public abstract class AutoMethods extends AutoHardwareMap {
             telemetry.update();
         }
     }
+
+    // Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
+    public void MecMoveGyro(){
+        // GET Values
+            // Get Gyro Position
+        // SET Values
+            // Set desired power level
+            // Set desired direction
+            // Set number of clicks to move
+            // Set current encoder position as baseline
+
+        // Do while (active && number of clicks lower than destination clicks
+            // Read Gyro Position
+            // move(myangle,mypower,myrot);
+        // End Loop
+    }
+
 
     public void mecanumMove(String direction, int value, double power, int wait) {
         resetEncoders();
