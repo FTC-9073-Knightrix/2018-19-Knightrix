@@ -142,6 +142,26 @@ public abstract class AutoMethods extends AutoHardwareMap {
         }
     }
 
+    // Move using RangeSensor
+    public void LeftRangeMove(int direction, double power, int distance, int wait){
+        // Need to convert to Linear OpMode
+        // Set Variables:
+        int WallDistance = 15;       // Constant Distance from Wall
+        int WallDistanceOffset = 10; // Constant Range from wall to adjust direction
+        int AngleCorrection = 90;    // Maximum angle to adjust when outside WallDistanceOffset margins
+
+        // Get Variables:
+        int RangeValue = 5;   // CHANGE with real sensor reading
+
+        // Calculate new direction to move
+        int Newdirection = direction + (Range.clip((RangeValue-WallDistance)/WallDistanceOffset,-1,1) * AngleCorrection);
+
+        // Move!
+        gyroMove(Newdirection,power, distance, wait);
+    }
+
+
+
     // Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
     public void gyroMove(int direction, double power, int distance, int wait){
 
