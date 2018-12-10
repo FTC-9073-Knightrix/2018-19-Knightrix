@@ -37,12 +37,13 @@ public class RunUsingEncoders extends LinearOpMode {
             encodervalue = motor1.getCurrentPosition();
             mytime = getRuntime();
 
-            telemetry.addData("Encoder:       ", encodervalue - encoderbaseline);
-            telemetry.addData("Avg Speed:     ", (encodervalue - encoderbaseline)/(getRuntime() - timer));
-            telemetry.addData("Instant Speed: ", (encodervalue - priorencodervalue)/(mytime - priortime));
+            telemetry.addData("Encoder Raw Value: ", encodervalue);
+            telemetry.addData("Encoder Distance:  ", encodervalue - encoderbaseline);
+            telemetry.addData("Avg Speed:         ", (encodervalue - encoderbaseline)/(getRuntime() - timer));
+            telemetry.addData("Instant Speed:     ", (encodervalue - priorencodervalue)/(mytime - priortime));
             telemetry.update();
 
-            sleep(2000);
+            sleep(200);
 
             priortime = mytime;
             priorencodervalue = encodervalue;

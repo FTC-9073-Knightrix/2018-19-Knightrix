@@ -92,11 +92,18 @@ public abstract class AutoMethods extends AutoHardwareMap {
         }
     }
 
+
+
     //Create the method to turn the robot based on the degree value set and the current position of the robot
     public void turn(double degrees) {
+        // ################################################
+        // Positive value turns left  (0 to +179)
+        // Negative value turns right (0 to -179)
+        // ################################################
+
 
         //Create a variable power of the motor that gets slower the closer the robot is to the set degree
-        double power = 0.3;
+        double power = 0.2;
 
         //Get the current position of the robot
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
@@ -106,7 +113,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         //While the difference between the target angle and current angle is greater than three degrees
         while (opModeIsActive() && Math.abs(angle - degrees) > 1) {
             //If the target degree is greater than the current angle of the robot, turn right
-            if (degrees < angle) {
+            if (degrees > angle) {
                 leftFrontDrive.setPower(-power);
                 rightFrontDrive.setPower(power);
                 leftBackDrive.setPower(-power);
@@ -114,7 +121,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
             }
 
             //If the target degree is greater than the current angle of the robot, turn left
-            if (degrees > angle) {
+            if (degrees < angle) {
                 leftFrontDrive.setPower(power);
                 rightFrontDrive.setPower(-power);
                 leftBackDrive.setPower(power);
@@ -137,22 +144,63 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
     // Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
     public void gyroMove(int direction, double power, int distance, int wait){
-        //direction = angle, 180 forwards, 0 backwards, 270 left, 90 right
+
+        // SET Values
+        // Set desired power level
+        // Set desired direction
+        // Set number of clicks to move
+        // Set current encoder position as baseline
+
+        // Do while (active && number of clicks lower than destination clicks
+        // Read Gyro Position
+        // move(myangle,mypower,myrot);
+        // End Loop
+
+
+
+        //direction = angle, 0 forwards, -179/179 backwards, 270 left, 90 right
         //power = power/speed running
         //distance = centimeters to move
         //wait = time to wait after moving
 
+
+
         resetEncoders();
         distance *= ENCDISTANCE; //converts cm to encoder rotations
-        while(distance > (Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4) {
+        while(opModeIsActive() &&  (distance > (Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4)) {
+            // orientation / gyroDegrees = roobot true orientation direction
+            // direction = direction we want the robot to move
+            // myrot = course correction between actual heading and desired heading
+
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
-            direction -= gyroDegrees;
-            if (direction < -359) {
-                direction += 360;
+
+            int CorrectionDegrees = (direction - gyroDegrees);
+            float myrot = (float)(CorrectionDegrees / 180.0 * power) * -1;
+            if (gyroDegrees < -359) {
+                gyroDegrees += 360;
             }
-            move(direction, (float) power, 0);
+            move(direction, (float) power, myrot);
+
+
+            // DEBUG with Telemetry
+            telemetry.addData("Gyro Position: ", gyroDegrees);
+            telemetry.addData("Correction :   ",  CorrectionDegrees );
+            telemetry.addData("MyRot -1/+1 :  ",  myrot);
+            telemetry.addData("LF: ", Math.abs( leftFrontDrive.getCurrentPosition()));
+            telemetry.addData("RF: ", Math.abs(rightFrontDrive.getCurrentPosition()));
+            telemetry.addData("LB: ", Math.abs(  leftBackDrive.getCurrentPosition()));
+            telemetry.addData("RB: ", Math.abs( rightBackDrive.getCurrentPosition()));
+            telemetry.addData("Position", (
+                    Math.abs(leftFrontDrive.getCurrentPosition()) +
+                            Math.abs(rightFrontDrive.getCurrentPosition()) +
+                            Math.abs(leftBackDrive.getCurrentPosition()) +
+                            Math.abs(rightBackDrive.getCurrentPosition()) )/ 4);
+            telemetry.update();
+
+
         }
+
         leftFrontDrive.setPower(0);
         rightFrontDrive.setPower(0);
         leftBackDrive.setPower(0);
@@ -160,16 +208,6 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         sleep(wait);
 
-        // SET Values
-            // Set desired power level
-            // Set desired direction
-            // Set number of clicks to move
-            // Set current encoder position as baseline
-
-        // Do while (active && number of clicks lower than destination clicks
-            // Read Gyro Position
-            // move(myangle,mypower,myrot);
-        // End Loop
     }
 
 
@@ -244,7 +282,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        sleep(500);
+        sleep(1000);
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

@@ -21,7 +21,12 @@ public class EncoderTest extends AutoMethods {
         waitForStart();
         //mecanumMove("y", 50, 0.3, 0);
 
-        gyroMove(180, 0.3, 200, 0);
+        gyroMove(00, 0.3, 133, 1000); //129 cm
+        turn(90);
+        sleep(1000);
+
+        gyroMove(00, 0.3, 62, 10000); //129 cm
+        sleep(1000);
 
         //2500 = 72.3
         ///25 = 26.2
