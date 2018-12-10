@@ -163,7 +163,11 @@ public abstract class AutoMethods extends AutoHardwareMap {
         //distance = centimeters to move
         //wait = time to wait after moving
 
-
+        // Determine robot orientation (0, 45, 90 degrees, etc)
+        // Need to test with -179/+179 degrees in the extreme
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        int StartingOrientation = (int) orientation.firstAngle;
+        StartingOrientation = Math.round(StartingOrientation / 45) * 45;
 
         resetEncoders();
         distance *= ENCDISTANCE; //converts cm to encoder rotations
@@ -175,7 +179,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
 
-            int CorrectionDegrees = (direction - gyroDegrees);
+            int CorrectionDegrees = (StartingOrientation - gyroDegrees);
             float myrot = (float)(CorrectionDegrees / 180.0 * power) * -1;
             if (gyroDegrees < -359) {
                 gyroDegrees += 360;
