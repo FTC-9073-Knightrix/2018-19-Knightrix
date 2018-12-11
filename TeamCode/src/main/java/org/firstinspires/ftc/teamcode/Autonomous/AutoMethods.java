@@ -34,7 +34,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         //leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -200,21 +200,29 @@ public abstract class AutoMethods extends AutoHardwareMap {
             int gyroDegrees = (int) orientation.firstAngle;
 
             int CorrectionDegrees = (StartingOrientation - gyroDegrees);
-            float myrot = (float)(CorrectionDegrees / 180.0 * power) * -1;
+            float myrot = (float)(CorrectionDegrees / 180.0 * power) * -1 *0 ;
             if (gyroDegrees < -359) {
                 gyroDegrees += 360;
             }
-            move(direction, (float) power, myrot);
+//            move(direction, (float) power, myrot);
+            move(direction, (float) power, 0);
 
 
             // DEBUG with Telemetry
+            telemetry.addData("Directin Goal: ", direction);
             telemetry.addData("Gyro Position: ", gyroDegrees);
             telemetry.addData("Correction :   ",  CorrectionDegrees );
             telemetry.addData("MyRot -1/+1 :  ",  myrot);
-            telemetry.addData("LF: ", Math.abs( leftFrontDrive.getCurrentPosition()));
-            telemetry.addData("RF: ", Math.abs(rightFrontDrive.getCurrentPosition()));
-            telemetry.addData("LB: ", Math.abs(  leftBackDrive.getCurrentPosition()));
-            telemetry.addData("RB: ", Math.abs( rightBackDrive.getCurrentPosition()));
+
+            telemetry.addData("LF Rot:   ", Math.abs( leftFrontDrive.getCurrentPosition()));
+            telemetry.addData("LF Power: ", Range.clip(power * Math.sin((direction + 135) / 180 * 3.141592), -1, 1));
+            telemetry.addData("RF Rot:   ", Math.abs(rightFrontDrive.getCurrentPosition()));
+            telemetry.addData("RF Power: ", Range.clip(power * Math.sin((direction + 45) / 180 * 3.141592),-1, 1));
+            telemetry.addData("LB Rot:   ", Math.abs(  leftBackDrive.getCurrentPosition()));
+            telemetry.addData("LB Power: ", Range.clip(power * Math.sin((direction + 45) / 180 * 3.141592), -1, 1));
+            telemetry.addData("RB Rot:   ", Math.abs( rightBackDrive.getCurrentPosition()));
+            telemetry.addData("RB Power: ", Range.clip(power * Math.sin((direction + 135) / 180 * 3.141592), -1, 1));
+
             telemetry.addData("Position", (
                     Math.abs(leftFrontDrive.getCurrentPosition()) +
                             Math.abs(rightFrontDrive.getCurrentPosition()) +
