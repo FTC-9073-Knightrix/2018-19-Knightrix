@@ -85,10 +85,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         //If none of the motors are null, run each motor to an individual value based off the values inputted from the joystick
         if (leftFrontDrive != null && leftBackDrive != null && rightFrontDrive != null && rightBackDrive != null) {
-            leftFrontDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592))))), -1, 1));
-            leftBackDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592))))), -1, 1));
-            rightFrontDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592))))), -1, 1));
-            rightBackDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592))))), -1, 1));
+            leftFrontDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
+            leftBackDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))), -1, 1));
+            rightFrontDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))), -1, 1));
+            rightBackDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
         }
     }
 
@@ -215,13 +215,13 @@ public abstract class AutoMethods extends AutoHardwareMap {
             telemetry.addData("MyRot -1/+1 :  ",  myrot);
 
             telemetry.addData("LF Rot:   ", Math.abs( leftFrontDrive.getCurrentPosition()));
-            telemetry.addData("LF Power: ", (float) ((Math.sin((direction + 135) / 180.0 * 3.141592))*100));
+            telemetry.addData("LF Power: ", Math.sin((direction + 135) / 180.0 * Math.PI);
             telemetry.addData("RF Rot:   ", Math.abs(rightFrontDrive.getCurrentPosition()));
-            telemetry.addData("RF Power: ", (float) ((Math.sin((direction +  45) / 180.0 * 3.141592))*100));
+            telemetry.addData("RF Power: ", Math.sin((direction + 45) / 180.0 * Math.PI);
             telemetry.addData("LB Rot:   ", Math.abs(  leftBackDrive.getCurrentPosition()));
-            telemetry.addData("LB Power: ", (float) ((Math.sin((direction +  45) / 180.0 * 3.141592))*100));
+            telemetry.addData("LB Power: ", Math.sin((direction + 45) / 180.0 * Math.PI);
             telemetry.addData("RB Rot:   ", Math.abs( rightBackDrive.getCurrentPosition()));
-            telemetry.addData("RB Power: ", (float) ((Math.sin((direction + 135) / 180.0 * 3.141592))*100));
+            telemetry.addData("RB Power: ", Math.sin((direction + 135) / 180.0 * Math.PI);
 
             telemetry.addData("Position", (
                     Math.abs(leftFrontDrive.getCurrentPosition()) +
