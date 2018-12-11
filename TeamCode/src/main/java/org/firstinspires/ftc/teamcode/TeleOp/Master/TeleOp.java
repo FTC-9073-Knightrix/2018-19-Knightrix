@@ -103,11 +103,11 @@ public class TeleOp extends TeleOpMethods {
         }*/
 
         krispy.setPosition(1 - gamepad2.right_trigger);
-        telemetry.addData("Servo", 1 - gamepad2.right_trigger);
+        //telemetry.addData("Servo", 1 - gamepad2.right_trigger);
 
         //double curFlipPos =
         double intakeHandPosition= intakeHand.getCurrentPosition();
-        telemetry.addData("Position", "" + intakeHandPosition);
-        telemetry.update();
+        //telemetry.addData("Position", "" + intakeHandPosition);
+        //telemetry.update();
     }
 }
