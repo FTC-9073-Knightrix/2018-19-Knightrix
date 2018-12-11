@@ -215,13 +215,13 @@ public abstract class AutoMethods extends AutoHardwareMap {
             telemetry.addData("MyRot -1/+1 :  ",  myrot);
 
             telemetry.addData("LF Rot:   ", Math.abs( leftFrontDrive.getCurrentPosition()));
-            telemetry.addData("LF Power: ", Math.sin((direction + 135) / 180.0 * Math.PI);
+            telemetry.addData("LF Power: ", Math.sin((direction + 135) / 180.0 * Math.PI));
             telemetry.addData("RF Rot:   ", Math.abs(rightFrontDrive.getCurrentPosition()));
-            telemetry.addData("RF Power: ", Math.sin((direction + 45) / 180.0 * Math.PI);
+            telemetry.addData("RF Power: ", Math.sin((direction + 45) / 180.0 * Math.PI));
             telemetry.addData("LB Rot:   ", Math.abs(  leftBackDrive.getCurrentPosition()));
-            telemetry.addData("LB Power: ", Math.sin((direction + 45) / 180.0 * Math.PI);
+            telemetry.addData("LB Power: ", Math.sin((direction + 45) / 180.0 * Math.PI));
             telemetry.addData("RB Rot:   ", Math.abs( rightBackDrive.getCurrentPosition()));
-            telemetry.addData("RB Power: ", Math.sin((direction + 135) / 180.0 * Math.PI);
+            telemetry.addData("RB Power: ", Math.sin((direction + 135) / 180.0 * Math.PI));
 
             telemetry.addData("Position", (
                     Math.abs(leftFrontDrive.getCurrentPosition()) +
