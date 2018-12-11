@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 //Import the dependencies needed to run the programs
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -37,6 +38,8 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public Orientation orientation;
     //Create the angle tracker
     public double angle = 0;
+
+    public ModernRoboticsI2cRangeSensor range;
 
     //amount of clicks per cm
     public final double ENCDISTANCE = 34.5781466113;

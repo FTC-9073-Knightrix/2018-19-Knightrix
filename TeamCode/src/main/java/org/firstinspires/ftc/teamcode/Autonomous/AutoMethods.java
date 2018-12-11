@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 //Import the dependencies needed to run the program
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
@@ -34,7 +35,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         //leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -55,6 +56,8 @@ public abstract class AutoMethods extends AutoHardwareMap {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         gyro.initialize(parameters);
+
+        range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
         //Wait for the gyroscope to stop calibrating
         /*while(opModeIsActive() && navxGyro.isCalibrating()) {
 
@@ -143,7 +146,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
     }
 
     // Move using RangeSensor
-    public void LeftRangeMove(int direction, double power, int distance, int wait){
+    /*public void LeftRangeMove(int direction, double power, int distance, int wait){
         // Need to convert to Linear OpMode
         // Set Variables:
         int WallDistance = 15;       // Constant Distance from Wall
@@ -157,13 +160,13 @@ public abstract class AutoMethods extends AutoHardwareMap {
         int Newdirection = direction + (Range.clip((RangeValue-WallDistance)/WallDistanceOffset,-1,1) * AngleCorrection);
 
         // Move!
-        gyroMove(Newdirection,power, distance, wait);
-    }
+        gyroMove(Newdirection,power, distance, wait, true);
+    }*/
 
 
 
     // Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
-    public void gyroMove(int direction, double power, int distance, int wait){
+    public void gyroMove(int direction, double power, int distance, int wait, boolean wallFollow){
 
         // SET Values
         // Set desired power level
@@ -200,11 +203,30 @@ public abstract class AutoMethods extends AutoHardwareMap {
             int gyroDegrees = (int) orientation.firstAngle;
 
             int CorrectionDegrees = (StartingOrientation - gyroDegrees);
-            float myrot = (float)(CorrectionDegrees / 180.0 * power) * -1;
+            float myrot = (float)(CorrectionDegrees / 180.0 * power);
             if (gyroDegrees < -359) {
                 gyroDegrees += 360;
             }
-            move(direction, (float) power, myrot);
+
+            if (wallFollow) {
+                // Set Variables:
+                float WallDistance = 15;       // Constant Distance from Wall
+                float WallDistanceOffset = 10; // Constant Range from wall to adjust direction
+                float AngleCorrection = 90;    // Maximum angle to adjust when outside WallDistanceOffset margins
+
+                // Get Variables:
+                double RangeValue = range.cmUltrasonic();   // CHANGE with real sensor reading
+
+                // Calculate new direction to move
+                int newDirection = direction - (int)(Range.clip((RangeValue-WallDistance)/WallDistanceOffset,-1,1) * AngleCorrection);
+                telemetry.addData("New Direction", newDirection);
+                telemetry.addData("Range", range.cmOptical());
+
+                move(newDirection, (float) power, myrot);
+            }
+            else {
+                move(direction, (float) power, myrot);
+            }
 
 
             // DEBUG with Telemetry

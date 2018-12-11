@@ -100,10 +100,10 @@ public abstract class TeleOpHardwareMap extends OpMode {
         krispy = hardwareMap.servo.get("krispy");
 
         //Set the direction of the motors
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);// F
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// F
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE); // F
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE); // R
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);  // R
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // R
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);  // R
         //Set the mode the motors are going to be running in
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
