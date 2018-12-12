@@ -6,6 +6,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -55,6 +56,14 @@ public abstract class AutoMethods extends AutoHardwareMap {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         gyro.initialize(parameters);
+
+
+        // Magnetic Switch
+        REVMagSwitch = hardwareMap.get(DigitalChannel.class, "Magnet");
+        // set the digital channel to input.
+        REVMagSwitch.setMode(DigitalChannel.Mode.INPUT);
+
+
         //Wait for the gyroscope to stop calibrating
         /*while(opModeIsActive() && navxGyro.isCalibrating()) {
 
@@ -203,10 +212,16 @@ public abstract class AutoMethods extends AutoHardwareMap {
             }
 
             int CorrectionDegrees = (StartingOrientation - gyroDegrees);
-            float myrot = (float)(CorrectionDegrees / 180.0 * power) * -1 * 0 ;
-//            move(direction, (float) power, myrot);
-            move(direction, (float) power, 0);
+            float myrot = (float)(CorrectionDegrees / 180.0 * power) * -1;
 
+            //Move!
+            move(direction, (float) power, myrot);
+
+            if (REVMagSwitch.getState() == true) {
+                telemetry.addData("Switch ON",direction);
+            } else {
+                telemetry.addData("Switch OFF", direction);
+            }
 
             // DEBUG with Telemetry
             telemetry.addData("Directin Goal: ", direction);
@@ -214,14 +229,14 @@ public abstract class AutoMethods extends AutoHardwareMap {
             telemetry.addData("Correction :   ",  CorrectionDegrees );
             telemetry.addData("MyRot -1/+1 :  ",  myrot);
 
-            telemetry.addData("LF Rot:   ", Math.abs( leftFrontDrive.getCurrentPosition()));
+            /*telemetry.addData("LF Rot:   ", Math.abs( leftFrontDrive.getCurrentPosition()));
             telemetry.addData("LF Power: ", Math.sin((direction + 135) / 180.0 * Math.PI));
             telemetry.addData("RF Rot:   ", Math.abs(rightFrontDrive.getCurrentPosition()));
             telemetry.addData("RF Power: ", Math.sin((direction + 45) / 180.0 * Math.PI));
             telemetry.addData("LB Rot:   ", Math.abs(  leftBackDrive.getCurrentPosition()));
             telemetry.addData("LB Power: ", Math.sin((direction + 45) / 180.0 * Math.PI));
             telemetry.addData("RB Rot:   ", Math.abs( rightBackDrive.getCurrentPosition()));
-            telemetry.addData("RB Power: ", Math.sin((direction + 135) / 180.0 * Math.PI));
+            telemetry.addData("RB Power: ", Math.sin((direction + 135) / 180.0 * Math.PI));*/
 
             telemetry.addData("Position", (
                     Math.abs(leftFrontDrive.getCurrentPosition()) +

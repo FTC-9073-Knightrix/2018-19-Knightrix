@@ -48,6 +48,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public BNO055IMU gyro;
     //Create the orientation variable for the robot position
     public Orientation orientation;
+
     //Create the counter variable
     //public int navxCounter = 3;
     //Create the variable for the degrees of the robot
@@ -123,5 +124,6 @@ public abstract class TeleOpHardwareMap extends OpMode {
         //color = hardwareMap.get(ColorSensor.class, "color");
         //intake.setDirection(DcMotor.Direction.REVERSE);
         //color.enableLed(true);
+
     }
 }
