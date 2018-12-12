@@ -147,5 +147,6 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         telemetry.update();
 
         move(myangle,mypower,myrot);
+
     }
 }

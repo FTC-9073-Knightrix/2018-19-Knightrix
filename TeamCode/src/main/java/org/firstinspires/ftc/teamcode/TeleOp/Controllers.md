@@ -35,10 +35,10 @@
 |dpad down|lift down|
 |dpad left|extend in|
 |dpad right|extend out|
-|y||
-|b||
-|a||
-|x||
+|y| hang up|
+|b| intake|
+|a| intake|
+|x| hang down|
 |select||
 |start||
 |left stick up|drive forwards|

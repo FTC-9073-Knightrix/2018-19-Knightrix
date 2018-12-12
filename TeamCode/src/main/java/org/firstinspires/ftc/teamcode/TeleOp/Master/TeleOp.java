@@ -14,15 +14,26 @@ public class TeleOp extends TeleOpMethods {
     public void loop () {
         drive();
 
+        // Lift Krispy Box
+        float LiftPower = 0;
         if (gamepad2.dpad_down) {
-            liftMotor.setPower(1);
+            LiftPower =  1;
         }
         else if (gamepad2.dpad_up) {
-            liftMotor.setPower(-1);
+            LiftPower = -1;
         }
-        else {
-            liftMotor.setPower(0);
+        liftMotor.setPower(LiftPower);
+
+        // Hanging Robot
+        float HangPower = 0;
+        if (gamepad2.y) {
+            if (MagUp.getState())   { HangPower =  1;}
         }
+        else if (gamepad2.x) {
+            if (MagDown.getState()) { HangPower = -1;}
+        }
+        hangMotor.setPower(HangPower);
+
 
         if (gamepad2.dpad_right) {
             extendMotor.setPower(0.5);
@@ -35,13 +46,13 @@ public class TeleOp extends TeleOpMethods {
         }
 
         if (gamepad2.right_bumper) {
-            intakeMotor.setPower(1);
+            //intakeMotor.setPower(1);
         }
         else if (gamepad2.left_bumper) {
-            intakeMotor.setPower(-1);
+            //intakeMotor.setPower(-1);
         }
         else {
-            intakeMotor.setPower(0);
+            //intakeMotor.setPower(0);
         }
 
         /*intakeHand.setTargetPosition((int)(-650 + (gamepad2.left_trigger * 650)));
