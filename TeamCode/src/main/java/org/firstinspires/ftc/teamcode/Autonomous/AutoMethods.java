@@ -218,10 +218,15 @@ public abstract class AutoMethods extends AutoHardwareMap {
             //Move!
             move(direction, (float) power, myrot);
 
-            if (REVMagSwitch.getState() == true) {
-                telemetry.addData("Switch ON",direction);
+            if (MagUp.getState() == true) {
+                telemetry.addData("Switch UP ON","");
             } else {
-                telemetry.addData("Switch OFF", direction);
+                telemetry.addData("Switch UP OFF","");
+            }
+            if (MagDown.getState() == true) {
+                telemetry.addData("Switch Down ON","");
+            } else {
+                telemetry.addData("Switch Down OFF","");
             }
 
             // DEBUG with Telemetry
