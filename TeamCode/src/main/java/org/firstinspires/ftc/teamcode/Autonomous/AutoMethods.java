@@ -59,9 +59,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
 
         // Magnetic Switch
-        REVMagSwitch = hardwareMap.get(DigitalChannel.class, "Magnet");
-        // set the digital channel to input.
-        REVMagSwitch.setMode(DigitalChannel.Mode.INPUT);
+        MagUp = hardwareMap.get(DigitalChannel.class, "MagUp");
+        MagUp.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
+        MagDown = hardwareMap.get(DigitalChannel.class, "MagDown");
+        MagDown.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
 
 
         //Wait for the gyroscope to stop calibrating

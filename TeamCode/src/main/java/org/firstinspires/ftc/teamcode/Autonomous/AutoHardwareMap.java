@@ -42,7 +42,8 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     //amount of clicks per cm
     public final double ENCDISTANCE = 34.5781466113;
 
-    public DigitalChannel REVMagSwitch;  // Rev Magnetic Switch
+    public DigitalChannel MagUp;  // Rev Magnetic Switch
+    public DigitalChannel MagDown;  // Rev Magnetic Switch
 
     public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
