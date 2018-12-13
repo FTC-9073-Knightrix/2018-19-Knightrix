@@ -31,6 +31,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
+        hangMotor = hardwareMap.dcMotor.get("hang");
 
         marker = hardwareMap.servo.get("marker");
 
@@ -128,7 +129,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         //While the difference between the target angle and current angle is greater than three degrees
         while (opModeIsActive() && Math.abs(angle - degrees) > 1) {
             //If the target degree is greater than the current angle of the robot, turn right
-            if (degrees > angle) {
+            if (degrees - angle > 0) {
                 leftFrontDrive.setPower(-power);
                 rightFrontDrive.setPower(power);
                 leftBackDrive.setPower(-power);
@@ -136,7 +137,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
             }
 
             //If the target degree is greater than the current angle of the robot, turn left
-            if (degrees < angle) {
+            if (degrees - angle < 0) {
                 leftFrontDrive.setPower(power);
                 rightFrontDrive.setPower(-power);
                 leftBackDrive.setPower(power);
@@ -178,7 +179,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
 
     // Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
-    public void gyroMove(int direction, double power, int distance, int wait, boolean wallFollow){
+    public void gyroMove(int direction, double power, int distance, int wait, String wallFollow){
 
         // SET Values
         // Set desired power level
@@ -219,10 +220,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
             }
 
             int CorrectionDegrees = (StartingOrientation - gyroDegrees);
-            float myrot = (float)(CorrectionDegrees / 180.0 * power) * -1;
+            float myrot = (float)(CorrectionDegrees / 180.0) * -1;
 
 
-            if (wallFollow) {
+            if (wallFollow.equals("right")) {
                 // Set Variables:
                 float WallDistance = 15;       // Constant Distance from Wall
                 float WallDistanceOffset = 10; // Constant Range from wall to adjust direction
@@ -233,6 +234,22 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
                 // Calculate new direction to move
                 int newDirection = direction - (int)(Range.clip((RangeValue-WallDistance)/WallDistanceOffset,-1,1) * AngleCorrection);
+                telemetry.addData("New Direction", newDirection);
+                telemetry.addData("Range", range.cmOptical());
+
+                move(newDirection, (float) power, myrot);
+            }
+            else if (wallFollow.equals("left")) {
+                // Set Variables:
+                float WallDistance = 15;       // Constant Distance from Wall
+                float WallDistanceOffset = 10; // Constant Range from wall to adjust direction
+                float AngleCorrection = 90;    // Maximum angle to adjust when outside WallDistanceOffset margins
+
+                // Get Variables:
+                double RangeValue = range.cmUltrasonic();   // CHANGE with real sensor reading
+
+                // Calculate new direction to move
+                int newDirection = direction + (int)(Range.clip((RangeValue-WallDistance)/WallDistanceOffset,-1,1) * AngleCorrection);
                 telemetry.addData("New Direction", newDirection);
                 telemetry.addData("Range", range.cmOptical());
 

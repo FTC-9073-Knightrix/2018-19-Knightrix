@@ -27,6 +27,7 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DcMotor rightFrontDrive;
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
+    public DcMotor hangMotor;
 
     public Servo marker;
 

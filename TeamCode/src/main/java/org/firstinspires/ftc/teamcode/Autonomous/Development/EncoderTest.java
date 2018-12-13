@@ -21,9 +21,11 @@ public class EncoderTest extends AutoMethods {
         waitForStart();
 
 
-        gyroMove(0, 0.3, 200, 0, true);
+        //gyroMove(0, 0.3, 200, 0, "none");
         //mecanumMove("y", 50, 0.3, 0);
         turn(90);
+        turn(-180);
+
 
 
         telemetry.addData("Position", (leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4);
