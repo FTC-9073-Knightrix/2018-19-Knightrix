@@ -7,6 +7,7 @@ import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -57,7 +58,18 @@ public abstract class AutoMethods extends AutoHardwareMap {
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         gyro.initialize(parameters);
 
+
         range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+
+
+        // Magnetic Switch
+        MagUp = hardwareMap.get(DigitalChannel.class, "MagUp");
+        MagUp.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
+        MagDown = hardwareMap.get(DigitalChannel.class, "MagDown");
+        MagDown.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
+
+
+
         //Wait for the gyroscope to stop calibrating
         /*while(opModeIsActive() && navxGyro.isCalibrating()) {
 
@@ -88,10 +100,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         //If none of the motors are null, run each motor to an individual value based off the values inputted from the joystick
         if (leftFrontDrive != null && leftBackDrive != null && rightFrontDrive != null && rightBackDrive != null) {
-            leftFrontDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592))))), -1, 1));
-            leftBackDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592))))), -1, 1));
-            rightFrontDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592))))), -1, 1));
-            rightBackDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592))))), -1, 1));
+            leftFrontDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
+            leftBackDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))), -1, 1));
+            rightFrontDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))), -1, 1));
+            rightBackDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
         }
     }
 
@@ -202,11 +214,13 @@ public abstract class AutoMethods extends AutoHardwareMap {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
 
-            int CorrectionDegrees = (StartingOrientation - gyroDegrees);
-            float myrot = (float)(CorrectionDegrees / 180.0 * power);
             if (gyroDegrees < -359) {
                 gyroDegrees += 360;
             }
+
+            int CorrectionDegrees = (StartingOrientation - gyroDegrees);
+            float myrot = (float)(CorrectionDegrees / 180.0 * power) * -1;
+
 
             if (wallFollow) {
                 // Set Variables:
@@ -229,14 +243,32 @@ public abstract class AutoMethods extends AutoHardwareMap {
             }
 
 
+            if (MagUp.getState() == true) {
+                telemetry.addData("Switch UP ON","");
+            } else {
+                telemetry.addData("Switch UP OFF","");
+            }
+            if (MagDown.getState() == true) {
+                telemetry.addData("Switch Down ON","");
+            } else {
+                telemetry.addData("Switch Down OFF","");
+            }
+
             // DEBUG with Telemetry
+            telemetry.addData("Directin Goal: ", direction);
             telemetry.addData("Gyro Position: ", gyroDegrees);
             telemetry.addData("Correction :   ",  CorrectionDegrees );
             telemetry.addData("MyRot -1/+1 :  ",  myrot);
-            telemetry.addData("LF: ", Math.abs( leftFrontDrive.getCurrentPosition()));
-            telemetry.addData("RF: ", Math.abs(rightFrontDrive.getCurrentPosition()));
-            telemetry.addData("LB: ", Math.abs(  leftBackDrive.getCurrentPosition()));
-            telemetry.addData("RB: ", Math.abs( rightBackDrive.getCurrentPosition()));
+
+            /*telemetry.addData("LF Rot:   ", Math.abs( leftFrontDrive.getCurrentPosition()));
+            telemetry.addData("LF Power: ", Math.sin((direction + 135) / 180.0 * Math.PI));
+            telemetry.addData("RF Rot:   ", Math.abs(rightFrontDrive.getCurrentPosition()));
+            telemetry.addData("RF Power: ", Math.sin((direction + 45) / 180.0 * Math.PI));
+            telemetry.addData("LB Rot:   ", Math.abs(  leftBackDrive.getCurrentPosition()));
+            telemetry.addData("LB Power: ", Math.sin((direction + 45) / 180.0 * Math.PI));
+            telemetry.addData("RB Rot:   ", Math.abs( rightBackDrive.getCurrentPosition()));
+            telemetry.addData("RB Power: ", Math.sin((direction + 135) / 180.0 * Math.PI));*/
+
             telemetry.addData("Position", (
                     Math.abs(leftFrontDrive.getCurrentPosition()) +
                             Math.abs(rightFrontDrive.getCurrentPosition()) +

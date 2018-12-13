@@ -130,7 +130,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             myangle = 270;
         }
         //Determine the power of the motors based off the pythagorean theorem
-        mypower = (float) Range.clip(Math.sqrt(leftstick_x*leftstick_x+leftstick_y*leftstick_y),0.0,1.0);
+        mypower = (float) Range.clip(Math.sqrt((leftstick_x*leftstick_x)+(leftstick_y*leftstick_y)),0.0,1.0);
 
         //Limit the angle to within 0-365
         myangle -= gyroDegrees;
@@ -140,10 +140,13 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
 
         //Move the robot based off the calculated values
 
-        //telemetry.addData("Power", leftstick_y);
-
-        //telemetry.update();
+        telemetry.addData("Power :", mypower);
+        telemetry.addData("Angle :", myangle);
+        telemetry.addData("Gyro: :", gyroDegrees);
+        telemetry.addData("MyRot :", myrot);
+        telemetry.update();
 
         move(myangle,mypower,myrot);
+
     }
 }

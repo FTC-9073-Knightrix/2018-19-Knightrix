@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -24,8 +25,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
 
     public DcMotor liftMotor;
     public DcMotor extendMotor;
-    public DcMotor intakeMotor;
+    //public DcMotor intakeMotor;
     public DcMotor intakeHand;
+    public DcMotor hangMotor;
 
     public Servo krispy;
 
@@ -48,6 +50,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public BNO055IMU gyro;
     //Create the orientation variable for the robot position
     public Orientation orientation;
+
     //Create the counter variable
     //public int navxCounter = 3;
     //Create the variable for the degrees of the robot
@@ -58,6 +61,12 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public float mypower = 0;
     //Create the variable that will keep the previous angle of the robot
     public int gyroResetValue = 0;
+
+    // Create the Magnetic Limit Switches (Digital Inputs)
+    public DigitalChannel MagUp;  // Rev Magnetic Switch
+    public DigitalChannel MagDown;  // Rev Magnetic Switch
+
+
     //Create the variable that will keep track of the left joystick's x value
     public float leftstick_x = 0;
     public float g1_leftstick_x = 0;
@@ -94,8 +103,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
         leftBackDrive = hardwareMap.dcMotor.get("LB");
         liftMotor = hardwareMap.dcMotor.get("lift");
         extendMotor = hardwareMap.dcMotor.get("extend");
-        intakeMotor = hardwareMap.dcMotor.get("intake");
+        //intakeMotor = hardwareMap.dcMotor.get("intake");
         intakeHand = hardwareMap.dcMotor.get("hand");
+        hangMotor = hardwareMap.dcMotor.get("hang");
 
         krispy = hardwareMap.servo.get("krispy");
 
@@ -117,11 +127,20 @@ public abstract class TeleOpHardwareMap extends OpMode {
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         gyro = hardwareMap.get(BNO055IMU.class, "gyro");
         gyro.initialize(parameters);
+
+        // Magnetic Switch
+        MagUp = hardwareMap.get(DigitalChannel.class, "MagUp");
+        MagUp.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
+        MagDown = hardwareMap.get(DigitalChannel.class, "MagDown");
+        MagDown.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
+
+
         //Add the intake to the configuration on the phones
         //intake = hardwareMap.dcMotor.get("intake");
         //spinner = hardwareMap.servo.get("spinner");
         //color = hardwareMap.get(ColorSensor.class, "color");
         //intake.setDirection(DcMotor.Direction.REVERSE);
         //color.enableLed(true);
+
     }
 }
