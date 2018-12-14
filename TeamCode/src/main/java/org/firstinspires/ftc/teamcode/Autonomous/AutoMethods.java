@@ -111,15 +111,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
 
     //Create the method to turn the robot based on the degree value set and the current position of the robot
-    public void turn(double degrees) {
-        // ################################################
-        // Positive value turns left  (0 to +179)
-        // Negative value turns right (0 to -179)
-        // ################################################
-
+    public void turn(double degrees, double power) {
 
         //Create a variable power of the motor that gets slower the closer the robot is to the set degree
-        double power = 0.2;
+        //double power = 0.3;
 
         //Get the current position of the robot
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
@@ -127,9 +122,15 @@ public abstract class AutoMethods extends AutoHardwareMap {
         angle = orientation.firstAngle;
 
         //While the difference between the target angle and current angle is greater than three degrees
-        while (opModeIsActive() && Math.abs(angle - degrees) > 1) {
+        while (opModeIsActive() && Math.abs(degrees - angle) > 1) {
             //If the target degree is greater than the current angle of the robot, turn right
-            if (degrees - angle > 0) {
+            if (Math.abs(degrees - angle) < 5) {
+                leftFrontDrive.setPower(-power/1.5);
+                rightFrontDrive.setPower(power/1.5);
+                leftBackDrive.setPower(-power/1.5);
+                rightBackDrive.setPower(power/1.5);
+            }
+            else {
                 leftFrontDrive.setPower(-power);
                 rightFrontDrive.setPower(power);
                 leftBackDrive.setPower(-power);
@@ -137,12 +138,12 @@ public abstract class AutoMethods extends AutoHardwareMap {
             }
 
             //If the target degree is greater than the current angle of the robot, turn left
-            if (degrees - angle < 0) {
+            /*if (degrees > angle) {
                 leftFrontDrive.setPower(power);
                 rightFrontDrive.setPower(-power);
                 leftBackDrive.setPower(power);
                 rightBackDrive.setPower(-power);
-            }
+            }*/
 
             //Get the current position of the robot
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);

@@ -23,7 +23,7 @@ public class BlueRight1 extends AutoMethods {
         say(block);
         //drop the robot off the hook
 
-        mecanumMove("y", 200, 0.5, 500);
+        /*mecanumMove("y", 200, 0.5, 500);
 
         if (block.equals("left")) {
             mecanumMove("x", 100, -0.5, 200);
@@ -48,6 +48,6 @@ public class BlueRight1 extends AutoMethods {
         //drop the marker
         turn(60);
         mecanumMove("y", 1000, 0.5, 0);
-        //extend out arm
+        //extend out arm*/
     }
 }
