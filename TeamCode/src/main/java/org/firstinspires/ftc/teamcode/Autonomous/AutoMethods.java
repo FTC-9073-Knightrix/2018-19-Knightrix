@@ -125,10 +125,10 @@ public abstract class AutoMethods extends AutoHardwareMap {
         while (opModeIsActive() && Math.abs(degrees - angle) > 1) {
             //If the target degree is greater than the current angle of the robot, turn right
             if (Math.abs(degrees - angle) < 5) {
-                leftFrontDrive.setPower(-power/1.5);
-                rightFrontDrive.setPower(power/1.5);
-                leftBackDrive.setPower(-power/1.5);
-                rightBackDrive.setPower(power/1.5);
+                leftFrontDrive.setPower(-power/2);
+                rightFrontDrive.setPower(power/2);
+                leftBackDrive.setPower(-power/2);
+                rightBackDrive.setPower(power/2);
             }
             else {
                 leftFrontDrive.setPower(-power);
@@ -378,7 +378,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        sleep(1000);
+        //sleep(1000);
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -410,15 +410,15 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
 
-        tfodParameters.minimumConfidence = 0.85;
+        tfodParameters.minimumConfidence = 0.40;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
         tfod.activate();
     }
 
     public String detectBlock() {
-        double getTime = getRuntime();
-        while (opModeIsActive() && getRuntime() - getTime <= 3) {
+        //double getTime = getRuntime();
+        //while (opModeIsActive() && getRuntime() - getTime <= 3) {
             if (tfod != null) {
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                 if (updatedRecognitions != null) {
@@ -498,9 +498,11 @@ public abstract class AutoMethods extends AutoHardwareMap {
                         if
                     }*/
                 }
+                return "center";
             }
-        }
-        return "center";
+            return "center";
+        //}
+        //return "center";
     }
 
     public void say(String text) {

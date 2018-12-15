@@ -72,12 +72,12 @@ public class AutoTest extends AutoMethods {
         sleep(1000);
 
         //Turn the robot 90 degrees to the right
-        turn(90);
+        //turn(90);
 
         //Pause the robot for 1 second
         sleep(1000);
 
         //Turn the robot 180 degrees to the left
-        turn(-180);
+        //turn(-180);
     }
 }

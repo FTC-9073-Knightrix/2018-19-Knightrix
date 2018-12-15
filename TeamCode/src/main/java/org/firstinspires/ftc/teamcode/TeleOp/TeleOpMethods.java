@@ -144,6 +144,8 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         telemetry.addData("Angle :", myangle);
         telemetry.addData("Gyro: :", gyroDegrees);
         telemetry.addData("MyRot :", myrot);
+
+        telemetry.addData("Down", MagDown.getState());
         telemetry.update();
 
         move(myangle,mypower,myrot);

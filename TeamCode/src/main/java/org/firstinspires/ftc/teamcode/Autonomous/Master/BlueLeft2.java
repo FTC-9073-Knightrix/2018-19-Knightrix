@@ -42,11 +42,11 @@ public class BlueLeft2 extends AutoMethods {
             mecanumMove("y", 500, -0.5, 200);
         }
 
-        turn(45);
+        //turn(45);
         mecanumMove("y",500,-0.5, 200);
-        turn(0);
+        //turn(0);
         mecanumMove("y", 500, -0.5, 200);
-        turn(-45);
+        //turn(-45);
         mecanumMove("x", 500, -0.5, 200);
         mecanumMove("y", 500, 0.5, 200);
         //drop the marker

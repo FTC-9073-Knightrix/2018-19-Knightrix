@@ -21,10 +21,10 @@ public class EncoderTest extends AutoMethods {
         waitForStart();
 
 
-        //gyroMove(0, 0.3, 200, 0, "none");
+        //gyroMove(90, 0.3, 200, 0, "none");
         //mecanumMove("y", 50, 0.3, 0);
-        turn(90);
-        turn(-180);
+        //turn(90);
+        //turn(-180);
 
 
 
