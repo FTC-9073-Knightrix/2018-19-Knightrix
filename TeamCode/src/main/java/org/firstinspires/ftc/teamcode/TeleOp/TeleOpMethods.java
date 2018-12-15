@@ -74,7 +74,15 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             myrot = Math.round(g1_rightstick_x * (float) 100) / (float) 100;
         }
         else {
-            myrot = Math.round(g2_rightstick_x * (float) 100) / (float) 100;
+            if (gamepad1.b) {
+                myrot = Math.round(0.2 * (float) 100) / (float) 100;
+            }
+            else if (gamepad1.x) {
+                myrot = Math.round(-0.2 * (float) 100) / (float) 100;
+            }
+            else {
+                myrot = 0;
+            }
         }
 
         if (g1_leftstick_x != 0) {
@@ -82,27 +90,37 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             leftstick_x = -g1_leftstick_x;
         }
         else {
-            leftstick_x = -g2_leftstick_x;
+            if (gamepad1.dpad_left) {
+                leftstick_x = (float) 0.2;
+            }
+            else if (gamepad1.dpad_right) {
+                leftstick_x = (float) -0.2;
+            }
+            else if (gamepad2.dpad_left) {
+                leftstick_x = (float) 0.2;
+            }
+            else if (gamepad2.dpad_right) {
+                leftstick_x = (float) -0.2;
+            }
+            else {
+                leftstick_x = 0;
+            }
         }
         if (g1_leftstick_y != 0) {
             //Declare the left joystick y
             leftstick_y = g1_leftstick_y;
         }
         else {
-            leftstick_y = g2_leftstick_y;
+            if (gamepad1.dpad_up) {
+                leftstick_y = (float) 0.2;
+            }
+            else if (gamepad1.dpad_down) {
+                leftstick_y = (float) -0.2;
+            }
+            else {
+                leftstick_y = 0;
+            }
         }
-
-        //If the robot's previously recorded angle is within certain boundaries, change the direction of the robot
-        /*if ((gyroResetValue > 45 && gyroResetValue < 135) || (gyroResetValue > 225 && gyroResetValue < 315)) {
-
-            //Set the left joystick y as negative
-            leftstick_y = -gamepad1.left_stick_y;
-        }
-        else {
-
-            //Set the left joystick x as negative
-            leftstick_x = -gamepad1.left_stick_x;
-        }*/
 
         //Calculate the angle of the joystick based off the x and y values
         //If the joystick is in quadrant I or IV

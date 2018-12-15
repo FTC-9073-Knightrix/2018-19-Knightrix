@@ -23,19 +23,19 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
 
-    public DcMotor liftMotor;
     public DcMotor extendMotor;
-    //public DcMotor intakeMotor;
-    public DcMotor intakeHand;
+    public DcMotor dunker;
+    //public DcMotor intakeHand;
     public DcMotor hangMotor;
 
     public Servo krispy;
+    public CRServo intakeHand;
 
     //Create the intake
-    //public DcMotor intake;
+    public DcMotor intake;
     //public Servo spinner;
     //ColorSensor color;
-    int intakeNum = 0;
+    /*int intakeNum = 0;
     double mineral1 = 0;
     double mineral2 = 0;
     double mineral3 = 0;
@@ -43,7 +43,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
     String color2 = "";
     String color3 = "";
     public boolean intakeBool = false;
-    public int intakePosition = 0;
+    public int intakePosition = 0;*/
 
     //Create the gyroscope
     //public NavxMicroNavigationSensor navxGyro;
@@ -101,11 +101,13 @@ public abstract class TeleOpHardwareMap extends OpMode {
         rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
-        liftMotor = hardwareMap.dcMotor.get("lift");
+        //liftMotor = hardwareMap.dcMotor.get("lift");
         extendMotor = hardwareMap.dcMotor.get("extend");
         //intakeMotor = hardwareMap.dcMotor.get("intake");
-        intakeHand = hardwareMap.dcMotor.get("hand");
+        intakeHand = hardwareMap.crservo.get("hand");
         hangMotor = hardwareMap.dcMotor.get("hang");
+        dunker = hardwareMap.dcMotor.get("dunker");
+        intake = hardwareMap.dcMotor.get("intake");
 
         krispy = hardwareMap.servo.get("krispy");
 
@@ -119,8 +121,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        intakeHand.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        intakeHand.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //intakeHand.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //intakeHand.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //Add the gyroscope to the configuration on the phones
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
