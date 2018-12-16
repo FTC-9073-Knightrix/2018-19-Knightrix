@@ -77,23 +77,24 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             myrot = Math.round(g1_rightstick_x / 2.5 * (float) 100) / (float) 100;
         }
 
-        if (!slowmode && g1_leftstick_x != 0) {
+        if (!slowmode) {
             //Declare the left joystick x
             leftstick_x = -g1_leftstick_x;
         }
         else {
-            if (g1_leftstick_x != 0) {
-                leftstick_x = (float) (-g1_leftstick_x / 2.5);
+            leftstick_x = (float) (-g1_leftstick_x / 2.5);
+            /*if (g1_leftstick_x != 0) {
+
             }
-            else if (gamepad2.dpad_left) {
+            /*else if (gamepad2.dpad_left) {
                 leftstick_x = (float) 0.4;
             }
             else if (gamepad2.dpad_right) {
                 leftstick_x = (float) -0.4;
-            }
-            else {
+            }*/
+            /*else {
                 leftstick_x = 0;
-            }
+            }*/
         }
         if (!slowmode) {
             //Declare the left joystick y

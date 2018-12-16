@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
  * Created by nicolas on 11/21/18.
  */
 
-@Autonomous(name = "Red Right 1", group = "Master")
+@Autonomous(name = "Depot 1", group = "Master")
 
 public class RedRight1 extends AutoMethods {
     public void runOpMode() {
@@ -39,15 +39,15 @@ public class RedRight1 extends AutoMethods {
             //move along wall
             gyroMove(0, 1, 55, 200, "left");
             //set marker down
-            marker.setPosition(0);
+            marker.setPosition(0.1);
             //turn to face other wall
             turn(-135, -0.4);
             //set marker back up
-            marker.setPosition(1);
+            marker.setPosition(0.55);
             //move along long stretch of wall to crater
             gyroMove(0, 1, 175, 200, "left");
             //set down marker
-            marker.setPosition(0);
+            marker.setPosition(0.1);
             //turn to set up for TeleOp
             turn(145, -0.3);
         }
@@ -61,17 +61,17 @@ public class RedRight1 extends AutoMethods {
             //strafe to marker drop off
             gyroMove(90, 0.5, 20, 200, "no");
             //set marker down
-            marker.setPosition(0);
+            marker.setPosition(0.1);
             //wait for marker to fall
             sleep(2000);
             //set marker back up
-            marker.setPosition(1);
+            marker.setPosition(0.55);
             //turn to face other wall
             turn(-135, -0.4);
             //move along long stretch of wall to crater
             gyroMove(0, 1, 160, 200, "left");
             //set down marker
-            marker.setPosition(0);
+            marker.setPosition(0.1);
             //turn to set up for TeleOp
             turn(145, -0.3);
         }
@@ -79,19 +79,20 @@ public class RedRight1 extends AutoMethods {
             //go forwards
             gyroMove(0, 0.8, 90, 200, "no");
             //set marker down
-            marker.setPosition(0);
+            marker.setPosition(0.1);
             //turn to set up drop of marker
             turn(-45, -0.4);
             //set marker back up
-            marker.setPosition(1);
+            marker.setPosition(0.55);
             //turn to face other wall
             turn(-135, -0.4);
             //move along long stretch of wall to crater
             gyroMove(0, 1, 165, 200, "left");
             //set down marker
-            marker.setPosition(0);
+            marker.setPosition(0.1);
             //turn to set up for TeleOp
             turn(145, -0.3);
         }
+        gyroMove(90, 0.5, 5, 0, "no");
     }
 }

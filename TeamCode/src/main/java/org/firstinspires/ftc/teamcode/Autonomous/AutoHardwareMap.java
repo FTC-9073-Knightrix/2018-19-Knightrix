@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.Camera;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -42,6 +43,8 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public double angle = 0;
 
     public ModernRoboticsI2cRangeSensor range;
+    public ModernRoboticsI2cRangeSensor range2;
+    public DistanceSensor range3; //
 
     //amount of clicks per cm
     public final double ENCDISTANCE = 34.5781466113;

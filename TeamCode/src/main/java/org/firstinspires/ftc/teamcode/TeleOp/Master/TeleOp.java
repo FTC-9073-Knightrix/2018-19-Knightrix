@@ -14,6 +14,8 @@ public class TeleOp extends TeleOpMethods {
     public void loop () {
         drive();
 
+        marker.setPosition(0.1);
+
         if (gamepad1.y) {
             slowmode = false;
         }
@@ -31,21 +33,21 @@ public class TeleOp extends TeleOpMethods {
         }
         hangMotor.setPower(HangPower);
 
-        if (gamepad2.a) {
-            intakeHand.setPower(0.7);
+        if (gamepad2.right_bumper) {
+            intakeHand.setPower(1);
         }
-        else if (gamepad2.b) {
-            intakeHand.setPower(-0.45);
+        else if (gamepad2.left_bumper) {
+            intakeHand.setPower(-1);
         }
         else {
             intakeHand.setPower(0);
         }
 
-        if (gamepad2.y) {
+        if (gamepad2.x) {
             intake.setPower(-0.4);
         }
-        else if (gamepad2.x) {
-            intake.setPower(0.4);
+        else if (gamepad2.y) {
+            intake.setPower(0.7);
         }
         else {
             intake.setPower(0);
@@ -53,7 +55,7 @@ public class TeleOp extends TeleOpMethods {
 
         extendMotor.setPower(gamepad2.left_stick_y);
 
-        dunker.setPower(gamepad2.right_stick_y);
+        dunker.setPower(-gamepad2.right_stick_y);
 
         krispy.setPosition(1 - gamepad2.right_trigger);
     }

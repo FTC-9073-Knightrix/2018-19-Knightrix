@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
@@ -61,6 +62,8 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
 
         range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+        range2 = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range2");
+
 
 
         // Magnetic Switch
@@ -226,23 +229,23 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
             if (wallFollow.equals("right")) {
                 // Set Variables:
-                float WallDistance = 14;       // Constant Distance from Wall
+                float WallDistance = 13;       // Constant Distance from Wall
                 float WallDistanceOffset = 10; // Constant Range from wall to adjust direction
                 float AngleCorrection = 90;    // Maximum angle to adjust when outside WallDistanceOffset margins
 
                 // Get Variables:
-                double RangeValue = range.cmUltrasonic();   // CHANGE with real sensor reading
+                double RangeValue = range2.cmUltrasonic();   // CHANGE with real sensor reading
 
                 // Calculate new direction to move
                 int newDirection = direction - (int)(Range.clip((RangeValue-WallDistance)/WallDistanceOffset,-1,1) * AngleCorrection);
                 telemetry.addData("New Direction", newDirection);
-                telemetry.addData("Range", range.cmOptical());
+                telemetry.addData("Range", range2.cmOptical());
 
                 move(newDirection, (float) power, myrot);
             }
             else if (wallFollow.equals("left")) {
                 // Set Variables:
-                float WallDistance = 15;       // Constant Distance from Wall
+                float WallDistance = 13;       // Constant Distance from Wall
                 float WallDistanceOffset = 10; // Constant Range from wall to adjust direction
                 float AngleCorrection = 90;    // Maximum angle to adjust when outside WallDistanceOffset margins
 
@@ -253,6 +256,22 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 int newDirection = direction + (int)(Range.clip((RangeValue-WallDistance)/WallDistanceOffset,-1,1) * AngleCorrection);
                 telemetry.addData("New Direction", newDirection);
                 telemetry.addData("Range", range.cmOptical());
+
+                move(newDirection, (float) power, myrot);
+            }
+            else if (wallFollow.equals("back")) {
+                // Set Variables:
+                float WallDistance = 38;       // Constant Distance from Wall
+                float WallDistanceOffset = 10; // Constant Range from wall to adjust direction
+                float AngleCorrection = 90;    // Maximum angle to adjust when outside WallDistanceOffset margins
+
+                // Get Variables:
+                double RangeValue = range3.getDistance(DistanceUnit.CM);
+
+                // Calculate new direction to move
+                int newDirection = direction + (int)(Range.clip((RangeValue-WallDistance)/WallDistanceOffset,-1,1) * AngleCorrection);
+                telemetry.addData("New Direction", newDirection);
+                telemetry.addData("Range", range3.getDistance(DistanceUnit.CM));
 
                 move(newDirection, (float) power, myrot);
             }

@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
  * Created by nicolas on 11/21/18.
  */
 
-@Autonomous(name = "Blue Left", group = "Master")
+@Autonomous(name = "Crater", group = "Master")
 
 public class BlueLeft1 extends AutoMethods {
     public void runOpMode() {

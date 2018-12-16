@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 /**
  * Created by nicolas on 11/21/18.
  */
-
+@Disabled
 @Autonomous(name = "Red Right 2", group = "Master")
 
 public class RedRight2 extends AutoMethods {
@@ -39,7 +39,7 @@ public class RedRight2 extends AutoMethods {
             //move along wall
             gyroMove(0, 1, 55, 200, "left");
             //set marker down
-            marker.setPosition(0);
+            marker.setPosition(0.1);
             //wait 2 seconds
             sleep(2000);
         }
@@ -53,7 +53,7 @@ public class RedRight2 extends AutoMethods {
             //strafe to marker drop off
             gyroMove(90, 0.5, 20, 200, "no");
             //set marker down
-            marker.setPosition(0);
+            marker.setPosition(0.1);
             //wait for marker to fall
             sleep(2000);
         }
@@ -61,12 +61,12 @@ public class RedRight2 extends AutoMethods {
             //go forwards
             gyroMove(0, 0.8, 90, 200, "no");
             //set marker down
-            marker.setPosition(0);
+            marker.setPosition(0.1);
             //turn to set up drop of marker
             turn(-45, -0.4);
         }
         //set marker back up
-        marker.setPosition(1);
+        marker.setPosition(0.55);
         //move along long stretch of wall to crater
         gyroMove(180, 1, 175, 200, "left");
         //turn to set up for TeleOp

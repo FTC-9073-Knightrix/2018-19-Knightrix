@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Master;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 /**
  * Created by nicolas on 11/21/18.
  */
-
+@Disabled
 @Autonomous(name = "Red Left", group = "Master")
 
 public class RedLeft1 extends AutoMethods {
@@ -30,11 +31,11 @@ public class RedLeft1 extends AutoMethods {
 
         if (block.equals("left")) {
             //move left
-            gyroMove(90, 0.5, 40, 200, "no");
+            gyroMove(120, 0.5, 40, 200, "no");
         }
         else if (block.equals("right")) {
             //move left
-            gyroMove(-90, 0.5, 40, 200, "no");
+            gyroMove(-120, 0.5, 40, 200, "no");
         }
 
         //go forwards
