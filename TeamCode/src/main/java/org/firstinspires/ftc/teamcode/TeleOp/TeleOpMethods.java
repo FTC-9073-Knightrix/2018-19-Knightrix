@@ -70,31 +70,20 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
 
         //Get the rotation of the robot based off the position of the right joystick x
 
-        if (g1_rightstick_x != 0) {
+        if (!slowmode) {
             myrot = Math.round(g1_rightstick_x * (float) 100) / (float) 100;
         }
         else {
-            if (gamepad1.b) {
-                myrot = Math.round(0.2 * (float) 100) / (float) 100;
-            }
-            else if (gamepad1.x) {
-                myrot = Math.round(-0.2 * (float) 100) / (float) 100;
-            }
-            else {
-                myrot = 0;
-            }
+            myrot = Math.round(g1_rightstick_x / 5 * (float) 100) / (float) 100;
         }
 
-        if (g1_leftstick_x != 0) {
+        if (!slowmode && g1_leftstick_x != 0) {
             //Declare the left joystick x
             leftstick_x = -g1_leftstick_x;
         }
         else {
-            if (gamepad1.dpad_left) {
-                leftstick_x = (float) 0.2;
-            }
-            else if (gamepad1.dpad_right) {
-                leftstick_x = (float) -0.2;
+            if (g1_leftstick_x != 0) {
+                leftstick_x = -g1_leftstick_x / 5;
             }
             else if (gamepad2.dpad_left) {
                 leftstick_x = (float) 0.2;
@@ -106,20 +95,12 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
                 leftstick_x = 0;
             }
         }
-        if (g1_leftstick_y != 0) {
+        if (!slowmode) {
             //Declare the left joystick y
             leftstick_y = g1_leftstick_y;
         }
         else {
-            if (gamepad1.dpad_up) {
-                leftstick_y = (float) 0.2;
-            }
-            else if (gamepad1.dpad_down) {
-                leftstick_y = (float) -0.2;
-            }
-            else {
-                leftstick_y = 0;
-            }
+            leftstick_y = g1_leftstick_y / 5;
         }
 
         //Calculate the angle of the joystick based off the x and y values

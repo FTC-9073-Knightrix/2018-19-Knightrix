@@ -14,6 +14,13 @@ public class TeleOp extends TeleOpMethods {
     public void loop () {
         drive();
 
+        if (gamepad1.y) {
+            slowmode = false;
+        }
+        else if (gamepad1.x) {
+            slowmode = true;
+        }
+
         // Hanging Robot
         float HangPower = 0;
         if (gamepad2.dpad_up) {

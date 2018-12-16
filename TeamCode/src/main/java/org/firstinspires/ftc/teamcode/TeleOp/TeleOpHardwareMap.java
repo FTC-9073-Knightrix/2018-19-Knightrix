@@ -90,6 +90,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public boolean g2_left_bumper  = false;
 
 
+    public boolean slowmode = false;
+
+
     //Create the variable that will calculate the rotation of the robot
     public float myrot = 0;
 

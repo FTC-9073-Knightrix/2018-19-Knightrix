@@ -226,7 +226,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
             if (wallFollow.equals("right")) {
                 // Set Variables:
-                float WallDistance = 15;       // Constant Distance from Wall
+                float WallDistance = 14;       // Constant Distance from Wall
                 float WallDistanceOffset = 10; // Constant Range from wall to adjust direction
                 float AngleCorrection = 90;    // Maximum angle to adjust when outside WallDistanceOffset margins
 

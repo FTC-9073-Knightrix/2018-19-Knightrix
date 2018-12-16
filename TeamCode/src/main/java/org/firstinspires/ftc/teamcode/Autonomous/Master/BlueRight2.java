@@ -21,8 +21,8 @@ public class BlueRight2 extends AutoMethods {
         String block = detectBlock();
         say(block);
 
-        while (opModeIsActive() && MagUp.getState()) {
-            hangMotor.setPower(-1);
+        while (opModeIsActive() && MagDown.getState()) {
+            hangMotor.setPower(1);
         }
         hangMotor.setPower(0);
 
@@ -59,7 +59,7 @@ public class BlueRight2 extends AutoMethods {
             //turn to set up drop of marker
             turn(-45, -0.4);
             //strafe to marker drop off
-            gyroMove(90, 0.5, 20, 200, "no");
+            gyroMove(90, 0.5, 40, 200, "no");
             //set marker down
             marker.setPosition(0);
             //wait for marker to fall
@@ -67,13 +67,13 @@ public class BlueRight2 extends AutoMethods {
             //set marker back up
             marker.setPosition(1);
             //turn to face other wall
-            turn(-135, -0.4);
+            //turn(-135, -0.4);
             //move along long stretch of wall to crater
-            gyroMove(0, 1, 160, 200, "left");
+            gyroMove(180, 1, 160, 200, "right");
             //set down marker
             marker.setPosition(0);
             //turn to set up for TeleOp
-            turn(145, -0.3);
+            turn(175, -0.3);
         }
         else {
             //go forwards

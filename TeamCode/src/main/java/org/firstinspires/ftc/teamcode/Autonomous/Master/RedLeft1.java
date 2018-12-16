@@ -20,8 +20,8 @@ public class RedLeft1 extends AutoMethods {
         String block = detectBlock();
         say(block);
 
-        while (opModeIsActive() && MagUp.getState()) {
-            hangMotor.setPower(-1);
+        while (opModeIsActive() && MagDown.getState()) {
+            hangMotor.setPower(1);
         }
         hangMotor.setPower(0);
 
