@@ -74,7 +74,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             myrot = Math.round(g1_rightstick_x * (float) 100) / (float) 100;
         }
         else {
-            myrot = Math.round(g1_rightstick_x / 5 * (float) 100) / (float) 100;
+            myrot = Math.round(g1_rightstick_x / 2.5 * (float) 100) / (float) 100;
         }
 
         if (!slowmode && g1_leftstick_x != 0) {
@@ -83,13 +83,13 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         }
         else {
             if (g1_leftstick_x != 0) {
-                leftstick_x = -g1_leftstick_x / 5;
+                leftstick_x = (float) (-g1_leftstick_x / 2.5);
             }
             else if (gamepad2.dpad_left) {
-                leftstick_x = (float) 0.2;
+                leftstick_x = (float) 0.4;
             }
             else if (gamepad2.dpad_right) {
-                leftstick_x = (float) -0.2;
+                leftstick_x = (float) -0.4;
             }
             else {
                 leftstick_x = 0;
@@ -100,7 +100,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             leftstick_y = g1_leftstick_y;
         }
         else {
-            leftstick_y = g1_leftstick_y / 5;
+            leftstick_y = (float) (g1_leftstick_y / 2.5);
         }
 
         //Calculate the angle of the joystick based off the x and y values
