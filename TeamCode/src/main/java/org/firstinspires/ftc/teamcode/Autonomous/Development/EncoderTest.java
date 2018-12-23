@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
  * Created by nicolas on 10/29/18.
  */
 
-@Autonomous(name="encoders")
+@Autonomous(name="Test Move with Encoders")
 
 public class EncoderTest extends AutoMethods {
 
@@ -20,9 +20,24 @@ public class EncoderTest extends AutoMethods {
         initRobot();
         waitForStart();
 
+        say("Encoders ON - Gyro OFF");
 
         //gyroMove(90, 0.3, 200, 0, "none");
-        //mecanumMove("y", 50, 0.3, 0);
+        resetEncoders();
+        sleep(500);
+        mecanumMove("x", 50, 0.5, 2000);
+
+        resetEncoders();
+        sleep(500);
+        mecanumMove("y", 50, 0.5, 2000);
+
+        resetEncoders();
+        sleep(500);
+        mecanumMove("x", -50, 0.5, 2000);
+
+        resetEncoders();
+        sleep(500);
+        mecanumMove("y", -50, 0.5, 2000);
         //turn(90);
         //turn(-180);
 

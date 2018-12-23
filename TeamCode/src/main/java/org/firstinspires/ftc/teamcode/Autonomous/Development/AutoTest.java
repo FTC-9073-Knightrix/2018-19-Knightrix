@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 //Add the program to the index of Autonomous programs
-@Disabled
-@Autonomous(name = "Box")
+//@Disabled
+@Autonomous(name = "Test_Move w/o Sensors")
 
 //Create the class declaration, extending AutoMethods
 public class AutoTest extends AutoMethods {
@@ -27,13 +27,15 @@ public class AutoTest extends AutoMethods {
         runtime.reset();
 
         //While the program is running and the timer is less than 2 seconds
+        say("Encoders OFF - Gyro OFF");
         while (opModeIsActive() && runtime.seconds() < 2) {
             //Move forwards at half speed
             //move("front", 0.5);
+            move(90, (float) 0.5,0);
         }
 
-        //Pause the robot for 0.2 seconds
-        sleep(200);
+        //Pause the robot for 2 seconds
+        sleep(2000);
 
         //Reset the timer
         runtime.reset();
@@ -42,10 +44,11 @@ public class AutoTest extends AutoMethods {
         while (opModeIsActive() && runtime.seconds() < 2) {
             //Move left at half speed
             //move("left", 0.5);
+            move(180, (float) 0.5,0);
         }
 
-        //Pause the robot for 0.2 seconds
-        sleep(200);
+        //Pause the robot for 2 seconds
+        sleep(2000);
 
         //Reset the timer
         runtime.reset();
@@ -54,10 +57,11 @@ public class AutoTest extends AutoMethods {
         while (opModeIsActive() && runtime.seconds() < 2) {
             //Move backwards at half speed
             //move("back", 0.5);
+            move(270,(float) 0.5,0);
         }
 
-        //Pause the robot for 0.2 seconds
-        sleep(200);
+        //Pause the robot for 2 seconds
+        sleep(2000);
 
         //Reset the timer
         runtime.reset();
@@ -66,10 +70,12 @@ public class AutoTest extends AutoMethods {
         while (opModeIsActive() && runtime.seconds() < 2) {
             //Move right at half speed
             //move("right", 0.5);
+            move(0,(float) 0.5,0);
         }
 
         //Pause the robot for 1 second
         sleep(1000);
+
 
         //Turn the robot 90 degrees to the right
         //turn(90);
