@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
+
+@Autonomous(name = "Test_Move with Gyro")
 
 public class GyroTest extends AutoMethods {
     public void runOpMode() {
