@@ -25,10 +25,10 @@ public class TeleOp extends TeleOpMethods {
 
         // Hanging Robot
         float HangPower = 0;
-        if (gamepad2.dpad_up) {
+        if (gamepad2.dpad_down) {
             if (MagDown.getState())   { HangPower =  1;}
         }
-        else if (gamepad2.dpad_down) {
+        else if (gamepad2.dpad_up) {
             if (MagUp.getState()) { HangPower = -1;}
         }
         hangMotor.setPower(HangPower);
