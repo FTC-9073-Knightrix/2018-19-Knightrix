@@ -47,7 +47,7 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DistanceSensor range3; //
 
     //amount of clicks per cm
-    public final double ENCDISTANCE = 34.5781466113;
+    public final double ENCDISTANCE = 35.4736842105;
 
     public DigitalChannel MagUp;  // Rev Magnetic Switch
     public DigitalChannel MagDown;  // Rev Magnetic Switch

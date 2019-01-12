@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 //Add the program to the index of Autonomous programs
-@Disabled
+
 @Autonomous(name = "Box")
 
 //Create the class declaration, extending AutoMethods
@@ -24,60 +24,15 @@ public class AutoTest extends AutoMethods {
         waitForStart();
 
         //Reset the timer
-        runtime.reset();
+        //runtime.reset();
 
         //While the program is running and the timer is less than 2 seconds
-        while (opModeIsActive() && runtime.seconds() < 2) {
+        //while (opModeIsActive() && runtime.seconds() < 5) {
             //Move forwards at half speed
-            //move("front", 0.5);
-        }
+            gyroMove(0, 0.5, 300, 0, "no");
+        //}
+        say("" + (leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4);
 
-        //Pause the robot for 0.2 seconds
-        sleep(200);
-
-        //Reset the timer
-        runtime.reset();
-
-        //While the program is running and the timer is less than 2 seconds
-        while (opModeIsActive() && runtime.seconds() < 2) {
-            //Move left at half speed
-            //move("left", 0.5);
-        }
-
-        //Pause the robot for 0.2 seconds
-        sleep(200);
-
-        //Reset the timer
-        runtime.reset();
-
-        //While the program is running and the timer is less than 2 seconds
-        while (opModeIsActive() && runtime.seconds() < 2) {
-            //Move backwards at half speed
-            //move("back", 0.5);
-        }
-
-        //Pause the robot for 0.2 seconds
-        sleep(200);
-
-        //Reset the timer
-        runtime.reset();
-
-        //While the program is running and the timer is less than 2 seconds
-        while (opModeIsActive() && runtime.seconds() < 2) {
-            //Move right at half speed
-            //move("right", 0.5);
-        }
-
-        //Pause the robot for 1 second
-        sleep(1000);
-
-        //Turn the robot 90 degrees to the right
-        //turn(90);
-
-        //Pause the robot for 1 second
-        sleep(1000);
-
-        //Turn the robot 180 degrees to the left
-        //turn(-180);
+        sleep(5000);
     }
 }
