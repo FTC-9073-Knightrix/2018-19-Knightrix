@@ -33,7 +33,43 @@ public class TeleOp extends TeleOpMethods {
         }
         hangMotor.setPower(HangPower);
 
-        if (gamepad2.right_bumper) {
+        // ####### Define Twist Motor #########
+        //if run to pos != pos & pos != old pos
+        twistMotor.setPower(0.8);
+        telemetry.addData("Pos", twistMotor.getCurrentPosition());
+        telemetry.addData("Set", setTwistPos);
+        telemetry.addData("Var", lastTwistPos);
+
+
+        /*setTwistPos = setTwistPos + (int)(gamepad2.left_stick_y*10);
+        twistMotor.setTargetPosition(setTwistPos);*/
+
+
+        if (gamepad2.left_stick_y < 0) { // go down
+            setTwistPos = twistMotor.getCurrentPosition() + 20;
+            twistMotor.setTargetPosition(setTwistPos);
+            if (twistMotor.getCurrentPosition() <= lastTwistPos) {
+                twistMotor.setPower(0);
+            }
+        }
+        else if (gamepad2.left_stick_y > 0) {
+            setTwistPos = twistMotor.getCurrentPosition() - 20;
+            twistMotor.setTargetPosition(setTwistPos);
+            if (twistMotor.getCurrentPosition() >= lastTwistPos) {
+                twistMotor.setPower(0);
+            }
+        }
+        else {
+            twistMotor.setTargetPosition(twistMotor.getCurrentPosition());
+        }
+
+        lastTwistPos = twistMotor.getCurrentPosition();
+
+        // ####### Define Twist Motor END #########
+
+
+
+        /*if (gamepad2.right_bumper) {
             intakeHand.setPower(1);
         }
         else if (gamepad2.left_bumper) {
@@ -57,6 +93,8 @@ public class TeleOp extends TeleOpMethods {
 
         dunker.setPower(-gamepad2.right_stick_y);
 
-        krispy.setPosition(1 - gamepad2.right_trigger);
+        krispy.setPosition(1 - gamepad2.right_trigger);*/
+
+        telemetry.update();
     }
 }

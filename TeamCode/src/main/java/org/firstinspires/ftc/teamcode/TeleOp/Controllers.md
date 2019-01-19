@@ -9,10 +9,10 @@
 |dpad down||
 |dpad left||
 |dpad right||
-|y||
+|y|go faster|
 |b||
 |a||
-|x||
+|x|go slower|
 |select||
 |start||
 |left stick up|drive forwards|
@@ -33,21 +33,21 @@
 |:-------------:|:-------------:|
 |dpad up|lift up|
 |dpad down|lift down|
-|dpad left|extend in|
-|dpad right|extend out|
-|y| hang up|
-|b| intake|
-|a| intake|
-|x| hang down|
+|dpad left||
+|dpad right||
+|y||
+|b||
+|a||
+|x||
 |select||
 |start||
-|left stick up|drive forwards|
-|left stick down|drive back|
-|left stick right|drive right|
-|left stick left|drive left|
-|right stick right|turn right|
-|right stick left|turn left|
-|right trigger|krispy|
-|left trigger|intake up|
-|right bumper|intake out|
-|left bumper|intake in|
+|left stick up||
+|left stick down||
+|left stick right||
+|left stick left||
+|right stick right||
+|right stick left||
+|right trigger||
+|left trigger||
+|right bumper||
+|left bumper||

@@ -23,17 +23,20 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
 
-    public DcMotor extendMotor;
-    public DcMotor dunker;
+    //public DcMotor extendMotor;
+    //public DcMotor dunker;
     //public DcMotor intakeHand;
     public DcMotor hangMotor;
 
-    public Servo krispy;
-    public CRServo intakeHand;
+    public DcMotor twistMotor;
+    public DcMotor spoolMotor;
+
+    //public Servo krispy;
+    //public CRServo intakeHand;
     public Servo marker;
 
     //Create the intake
-    public DcMotor intake;
+    //public DcMotor intake;
     //public Servo spinner;
     //ColorSensor color;
     /*int intakeNum = 0;
@@ -62,6 +65,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public float mypower = 0;
     //Create the variable that will keep the previous angle of the robot
     public int gyroResetValue = 0;
+
+    public int setTwistPos = 0;
+    public int lastTwistPos = 0;
 
     // Create the Magnetic Limit Switches (Digital Inputs)
     public DigitalChannel MagUp;  // Rev Magnetic Switch
@@ -106,15 +112,18 @@ public abstract class TeleOpHardwareMap extends OpMode {
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
         //liftMotor = hardwareMap.dcMotor.get("lift");
-        extendMotor = hardwareMap.dcMotor.get("extend");
+        //extendMotor = hardwareMap.dcMotor.get("extend");
         //intakeMotor = hardwareMap.dcMotor.get("intake");
-        intakeHand = hardwareMap.crservo.get("hand");
+        //intakeHand = hardwareMap.crservo.get("hand");
         hangMotor = hardwareMap.dcMotor.get("hang");
-        dunker = hardwareMap.dcMotor.get("dunker");
-        intake = hardwareMap.dcMotor.get("intake");
+        //dunker = hardwareMap.dcMotor.get("dunker");
+        //intake = hardwareMap.dcMotor.get("intake");
 
-        krispy = hardwareMap.servo.get("krispy");
+        //krispy = hardwareMap.servo.get("krispy");
         marker = hardwareMap.servo.get("marker");
+
+        twistMotor = hardwareMap.dcMotor.get("twist");
+        spoolMotor = hardwareMap.dcMotor.get("spool");
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// F
@@ -128,6 +137,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //intakeHand.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //intakeHand.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        twistMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        twistMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //Add the gyroscope to the configuration on the phones
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
