@@ -28,6 +28,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
     //public DcMotor intakeHand;
     public DcMotor hangMotor;
 
+    public DcMotor intake;
+
     public DcMotor twistMotor;
     public DcMotor spoolMotor;
 
@@ -68,6 +70,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
 
     public int setTwistPos = 0;
     public int lastTwistPos = 0;
+    public String readTwistPos = "none";
+
+    public int setSpoolPos = 0;
 
     // Create the Magnetic Limit Switches (Digital Inputs)
     public DigitalChannel MagUp;  // Rev Magnetic Switch
@@ -117,7 +122,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
         //intakeHand = hardwareMap.crservo.get("hand");
         hangMotor = hardwareMap.dcMotor.get("hang");
         //dunker = hardwareMap.dcMotor.get("dunker");
-        //intake = hardwareMap.dcMotor.get("intake");
+        intake = hardwareMap.dcMotor.get("intake");
 
         //krispy = hardwareMap.servo.get("krispy");
         marker = hardwareMap.servo.get("marker");
@@ -140,6 +145,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
 
         twistMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         twistMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        spoolMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        spoolMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //Add the gyroscope to the configuration on the phones
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

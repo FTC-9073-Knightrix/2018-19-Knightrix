@@ -35,49 +35,62 @@ public class TeleOp extends TeleOpMethods {
 
         // ####### Define Twist Motor #########
         //if run to pos != pos & pos != old pos
-        twistMotor.setPower(0.8);
+        twistMotor.setPower(1);
         telemetry.addData("Pos", twistMotor.getCurrentPosition());
         telemetry.addData("Set", setTwistPos);
         telemetry.addData("Var", lastTwistPos);
 
 
-        /*setTwistPos = setTwistPos + (int)(gamepad2.left_stick_y*10);
-        twistMotor.setTargetPosition(setTwistPos);*/
+        setTwistPos = setTwistPos + (int)(gamepad2.left_stick_y*10);
+        twistMotor.setTargetPosition(setTwistPos);
+
+        spoolMotor.setPower(1);
+        setSpoolPos = setSpoolPos + (int)(gamepad2.right_stick_y*25);
+        spoolMotor.setTargetPosition(setSpoolPos);
+
+        telemetry.addData("SPos", spoolMotor.getCurrentPosition());
+        telemetry.addData("SSet", setSpoolPos);
 
 
-        if (gamepad2.left_stick_y < 0) { // go down
+
+
+        /*if (!readTwistPos.equals("down") && gamepad2.left_stick_y < 0) {
+            readTwistPos = "none";
             setTwistPos = twistMotor.getCurrentPosition() + 20;
             twistMotor.setTargetPosition(setTwistPos);
             if (twistMotor.getCurrentPosition() <= lastTwistPos) {
-                twistMotor.setPower(0);
+                twistMotor.setTargetPosition(twistMotor.getCurrentPosition());
+                readTwistPos = "down";
             }
         }
-        else if (gamepad2.left_stick_y > 0) {
+        else if (!readTwistPos.equals("up") && gamepad2.left_stick_y > 0) {
+            readTwistPos = "none";
             setTwistPos = twistMotor.getCurrentPosition() - 20;
             twistMotor.setTargetPosition(setTwistPos);
             if (twistMotor.getCurrentPosition() >= lastTwistPos) {
-                twistMotor.setPower(0);
+                twistMotor.setTargetPosition(twistMotor.getCurrentPosition());
+                readTwistPos = "up";
             }
         }
         else {
             twistMotor.setTargetPosition(twistMotor.getCurrentPosition());
         }
 
-        lastTwistPos = twistMotor.getCurrentPosition();
+        lastTwistPos = twistMotor.getCurrentPosition();*/
 
         // ####### Define Twist Motor END #########
 
 
 
-        /*if (gamepad2.right_bumper) {
-            intakeHand.setPower(1);
+        if (gamepad2.right_bumper) {
+            intake.setPower(1);
         }
         else if (gamepad2.left_bumper) {
-            intakeHand.setPower(-1);
+            intake.setPower(-1);
         }
         else {
-            intakeHand.setPower(0);
-        }
+            intake.setPower(0);
+        }/*
 
         if (gamepad2.x) {
             intake.setPower(-0.4);
