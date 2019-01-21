@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.TeleOp.Master;
 
 import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
-
+//import org.opencv.core.Range;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 /**
  * Created by nicolas on 11/23/18.
  *
@@ -35,18 +37,33 @@ public class TeleOp extends TeleOpMethods {
 
         // ####### Define Twist Motor #########
         //if run to pos != pos & pos != old pos
-        twistMotor.setPower(1);
+        /*twistMotor.setPower(1);
         telemetry.addData("Pos", twistMotor.getCurrentPosition());
         telemetry.addData("Set", setTwistPos);
         telemetry.addData("Var", lastTwistPos);
 
 
-        setTwistPos = setTwistPos + (int)(gamepad2.left_stick_y*10);
+        setTwistPos = setTwistPos + (int)(gamepad2.left_stick_y*100);
         twistMotor.setTargetPosition(setTwistPos);
+        */
+
+        double twistPower;
+        double twist = gamepad2.left_stick_y;
+        twistPower = Range.clip(twist,-1.0,1.0);
+        twistMotor.setPower(twistPower);
+        twistMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
 
         spoolMotor.setPower(1);
-        setSpoolPos = setSpoolPos + (int)(gamepad2.right_stick_y*25);
+        setSpoolPos = setSpoolPos + (int)(gamepad2.right_stick_y*100);
+        if(setSpoolPos <= 0){
+            setSpoolPos = 0;
+        }
         spoolMotor.setTargetPosition(setSpoolPos);
+
+
 
         telemetry.addData("SPos", spoolMotor.getCurrentPosition());
         telemetry.addData("SSet", setSpoolPos);

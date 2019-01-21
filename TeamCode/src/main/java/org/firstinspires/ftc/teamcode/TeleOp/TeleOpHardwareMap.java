@@ -68,10 +68,10 @@ public abstract class TeleOpHardwareMap extends OpMode {
     //Create the variable that will keep the previous angle of the robot
     public int gyroResetValue = 0;
 
-    public int setTwistPos = 0;
+    /*public int setTwistPos = 0;
     public int lastTwistPos = 0;
     public String readTwistPos = "none";
-
+    */
     public int setSpoolPos = 0;
 
     // Create the Magnetic Limit Switches (Digital Inputs)
@@ -143,8 +143,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
         //intakeHand.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //intakeHand.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        twistMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        twistMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //twistMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //twistMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         spoolMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         spoolMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
