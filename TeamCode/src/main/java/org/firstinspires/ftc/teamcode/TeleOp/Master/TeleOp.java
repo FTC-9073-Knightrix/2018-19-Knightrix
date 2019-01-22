@@ -16,7 +16,7 @@ public class TeleOp extends TeleOpMethods {
     public void loop () {
         drive();
 
-        marker.setPosition(0.1);
+        marker.setPosition(0);
 
         if (gamepad1.y) {
             slowmode = false;
@@ -48,7 +48,7 @@ public class TeleOp extends TeleOpMethods {
         */
 
         double twistPower;
-        double twist = gamepad2.left_stick_y;
+        double twist = -gamepad2.left_stick_y;
         twistPower = Range.clip(twist,-1.0,1.0);
         twistMotor.setPower(twistPower);
         twistMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -107,19 +107,13 @@ public class TeleOp extends TeleOpMethods {
         }
         else {
             intake.setPower(0);
-        }/*
-
-        if (gamepad2.x) {
-            intake.setPower(-0.4);
-        }
-        else if (gamepad2.y) {
-            intake.setPower(0.7);
-        }
-        else {
-            intake.setPower(0);
         }
 
-        extendMotor.setPower(gamepad2.left_stick_y);
+        intakeRelease.setPosition(1-(gamepad2.left_trigger*.57));
+
+        telemetry.addData("Release", gamepad2.left_trigger);
+
+        /*extendMotor.setPower(gamepad2.left_stick_y);
 
         dunker.setPower(-gamepad2.right_stick_y);
 
