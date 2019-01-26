@@ -17,35 +17,38 @@ public class CenterCrater extends LandingTest {
         //Get the current degree of the robot
         angle = orientation.firstAngle;
 
+        // Determine if cube is on LEFT, CENTER or RIGHT
+        // ==== CENTER ====
         // Forward to Cube
         gyroMove((int) -angle,0.5, 35,100, "no");
 
         // Back half way to opening
         gyroMove((int) 180,0.5, 10,0, "no");
+        // ==== END CENTER ===
+
 
         // LEFT to get out of sampling area
         gyroMove((int) 90,0.8, 80,100, "no");
 
-        // TURN w/back to align to wall
-        turn(0, 0.6);
-        sleep(200);
-        turn(45, 0.6);
-        sleep(200);
-        turn(90, 0.6);
-        sleep(200);
-        turn(0, 0.6);
-        sleep(200);
-        turn(-45, 0.6);
-        sleep(200);
-        turn(-90, 0.6);
-        sleep(200);
+        // TURN RIGHT w/back to align to wall
+        turn(-45, -0.4);
 
-        // Align to wall (?) might not be required
         // Move following wall to drop area
-        //gyroMove((int) 135,0.8, 100,100, "left");
+        gyroMove((int) 180,0.8, 120,100, "no");
 
         // Servo drop
+            // Out of wall
+            gyroMove((int) -90,1, 15,100, "no");
+            //Drop
+            marker.setPosition(0.55); //0.55 Down ; 0.20 IN
+            // forward
+            // left
+            gyroMove((int) 45,1, 30,0, "no");
+            //ServoUP
+            marker.setPosition(0.25); //0.55 Down ; 0.20 IN
+
         // move to park
+        gyroMove((int) 00,1, 150,100, "left");
 
     }
 }
