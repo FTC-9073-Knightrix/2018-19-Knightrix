@@ -34,7 +34,7 @@ public class CenterCrater extends LandingTest {
         turn(-45, -0.4);
 
         // Move following wall to drop area
-        gyroMove((int) 180,0.8, 120,100, "no");
+        gyroMove((int) 0,-0.8, 120,100, "left");
 
         // Servo drop
             // Out of wall
@@ -42,10 +42,11 @@ public class CenterCrater extends LandingTest {
             //Drop
             marker.setPosition(0.55); //0.55 Down ; 0.20 IN
             // forward
-            // left
-            gyroMove((int) 45,1, 30,0, "no");
+            gyroMove((int) 0,1, 30,0, "no");
             //ServoUP
             marker.setPosition(0.25); //0.55 Down ; 0.20 IN
+            // left
+            gyroMove((int) 45,1, 30,0, "no");
 
         // move to park
         gyroMove((int) 00,1, 150,100, "left");
