@@ -16,7 +16,7 @@ public class TeleOp extends TeleOpMethods {
     public void loop () {
         drive();
 
-        marker.setPosition(1);
+        marker.setPosition(0.55);
 
         if (gamepad1.y) {
             slowmode = false;

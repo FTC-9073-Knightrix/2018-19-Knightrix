@@ -40,11 +40,11 @@ public class CenterMarker extends LandingTest {
 
         turn(-45, -0.3);
 
-        marker.setPosition(1);
+        marker.setPosition(0.55);
 
         sleep(1500);
 
-        marker.setPosition(0);
+        marker.setPosition(0.25);
 
         sleep(200);
 
