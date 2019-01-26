@@ -16,7 +16,7 @@ public class TeleOp extends TeleOpMethods {
     public void loop () {
         drive();
 
-        marker.setPosition(0);
+        marker.setPosition(1);
 
         if (gamepad1.y) {
             slowmode = false;
@@ -27,10 +27,10 @@ public class TeleOp extends TeleOpMethods {
 
         // Hanging Robot
         float HangPower = 0;
-        if (gamepad2.dpad_down) {
+        if (gamepad2.dpad_down || gamepad1.dpad_down) {
             if (MagDown.getState())   { HangPower =  1;}
         }
-        else if (gamepad2.dpad_up) {
+        else if (gamepad2.dpad_up || gamepad1.dpad_up) {
             if (MagUp.getState()) { HangPower = -1;}
         }
         hangMotor.setPower(HangPower);

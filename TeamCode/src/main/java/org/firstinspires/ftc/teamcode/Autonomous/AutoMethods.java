@@ -109,6 +109,11 @@ public abstract class AutoMethods extends AutoHardwareMap {
             leftBackDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))), -1, 1));
             rightFrontDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))), -1, 1));
             rightBackDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
+
+            telemetry.addData("LeftFront", leftFrontDrive.getCurrentPosition());
+            telemetry.addData("LeftBack", leftBackDrive.getCurrentPosition());
+            telemetry.addData("RightFront", rightFrontDrive.getCurrentPosition());
+            telemetry.addData("RightBack", rightBackDrive.getCurrentPosition());
         }
     }
 
@@ -161,6 +166,11 @@ public abstract class AutoMethods extends AutoHardwareMap {
             //Update telemetry
             telemetry.update();
         }
+
+        leftFrontDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightBackDrive.setPower(0);
     }
 
     // Move using RangeSensor
@@ -230,7 +240,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
             if (wallFollow.equals("right")) {
                 // Set Variables:
-                float WallDistance = 13;       // Constant Distance from Wall
+                float WallDistance = 8;       // Constant Distance from Wall
                 float WallDistanceOffset = 10; // Constant Range from wall to adjust direction
                 float AngleCorrection = 90;    // Maximum angle to adjust when outside WallDistanceOffset margins
 
@@ -246,7 +256,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
             }
             else if (wallFollow.equals("left")) {
                 // Set Variables:
-                float WallDistance = 13;       // Constant Distance from Wall
+                float WallDistance = 8;       // Constant Distance from Wall
                 float WallDistanceOffset = 10; // Constant Range from wall to adjust direction
                 float AngleCorrection = 90;    // Maximum angle to adjust when outside WallDistanceOffset margins
 

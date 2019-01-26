@@ -29,7 +29,7 @@ public class AutoTest extends AutoMethods {
         //While the program is running and the timer is less than 2 seconds
         //while (opModeIsActive() && runtime.seconds() < 5) {
             //Move forwards at half speed
-            gyroMove(0, 0.5, 300, 0, "no");
+        gyroMove(0, 1, 30000, 0, "no");
         //}
         say("" + (leftFrontDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 4);
 
