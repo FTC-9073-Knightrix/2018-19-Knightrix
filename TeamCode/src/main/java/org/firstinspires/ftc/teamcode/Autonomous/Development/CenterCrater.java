@@ -26,7 +26,6 @@ public class CenterCrater extends LandingTest {
         gyroMove((int) 180,0.5, 10,0, "no");
         // ==== END CENTER ===
 
-
         // LEFT to get out of sampling area
         gyroMove((int) 90,0.8, 80,100, "no");
 
@@ -50,6 +49,7 @@ public class CenterCrater extends LandingTest {
 
         // move to park
         gyroMove((int) 00,1, 150,100, "left");
+
 
     }
 }
