@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+@Autonomous(name = "RightMarker", group = "Marker")
+
 public class RightMarker extends LandingTest {
     public void runOpMode() {
         landing();
