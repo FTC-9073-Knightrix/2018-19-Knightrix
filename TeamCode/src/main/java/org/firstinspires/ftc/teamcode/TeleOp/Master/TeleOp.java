@@ -57,7 +57,7 @@ public class TeleOp extends TeleOpMethods {
 
 
         spoolMotor.setPower(1);
-        setSpoolPos = setSpoolPos + (int)(gamepad2.right_stick_y*100);
+        setSpoolPos = setSpoolPos - (int)(gamepad2.right_stick_y*100);
         if(setSpoolPos <= 0){
             setSpoolPos = 0;
         }

@@ -1,16 +1,14 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-@Autonomous(name = "CenterMarker", group = "Marker")
-
-public class CenterMarker extends LandingTest {
+public class LeftMarker extends LandingTest {
     public void runOpMode() {
         landing();
 
-        gyroMove(0, 0.8, 110, 200, "no");
+        gyroMove(45, 0.5, 70, 200, "no");
 
         turn(-45, -0.3);
+
+        gyroMove(0, 0.5, 30, 200, "no");
 
         marker.setPosition(0.55);
 

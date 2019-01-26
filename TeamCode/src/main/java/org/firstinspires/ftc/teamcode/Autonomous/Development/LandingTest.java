@@ -22,8 +22,8 @@ public class LandingTest extends AutoMethods {
         }
         hangMotor.setPower(0);
 
-        gyroMove(-90, 0.4, 3, 500, "no");
-        gyroMove(0, 0.4, 20, 500, "no");
+        gyroMove(-90, 0.8, 3, 500, "no");
+        gyroMove(0, 0.8, 20, 0, "no");
     }
 
     public void runOpMode() {
@@ -35,7 +35,7 @@ public class LandingTest extends AutoMethods {
         }
         hangMotor.setPower(0);
 
-        gyroMove(-90, 0.4, 3, 500, "no");
-        gyroMove(0, 0.4, 18, 500, "no");
+        gyroMove(-90, 0.8, 3, 500, "no");
+        gyroMove(0, 0.8, 20, 0, "no");
     }
 }
