@@ -248,8 +248,14 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 double RangeValue = range2.cmUltrasonic();   // CHANGE with real sensor reading
 
                 // Calculate new direction to move
-                int newDirection = direction - (int)(Range.clip((RangeValue-WallDistance)/WallDistanceOffset,-1,1) * AngleCorrection);
-                telemetry.addData("New Direction", newDirection);
+                int newDirection;
+                // Calculate new direction to move
+                if (power >= 0) {
+                    newDirection = direction + (int) (Range.clip((RangeValue - WallDistance) / WallDistanceOffset, -1, 1) * AngleCorrection);
+                }
+                else {
+                    newDirection = direction - (int) (Range.clip((RangeValue - WallDistance) / WallDistanceOffset, -1, 1) * AngleCorrection);
+                }                telemetry.addData("New Direction", newDirection);
                 telemetry.addData("Range", range2.cmUltrasonic());
 
                 move(newDirection, (float) power, myrot);
@@ -263,8 +269,14 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 // Get Variables:
                 double RangeValue = range.cmUltrasonic();   // CHANGE with real sensor reading
 
+                int newDirection;
                 // Calculate new direction to move
-                int newDirection = direction + (int)(Range.clip((RangeValue-WallDistance)/WallDistanceOffset,-1,1) * AngleCorrection);
+                if (power >= 0) {
+                    newDirection = direction + (int) (Range.clip((RangeValue - WallDistance) / WallDistanceOffset, -1, 1) * AngleCorrection);
+                }
+                else {
+                    newDirection = direction - (int) (Range.clip((RangeValue - WallDistance) / WallDistanceOffset, -1, 1) * AngleCorrection);
+                }
                 telemetry.addData("New Direction", newDirection);
                 telemetry.addData("Range", range.cmUltrasonic());
 
@@ -280,8 +292,14 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 double RangeValue = range3.getDistance(DistanceUnit.CM);
 
                 // Calculate new direction to move
-                int newDirection = direction + (int)(Range.clip((RangeValue-WallDistance)/WallDistanceOffset,-1,1) * AngleCorrection);
-                telemetry.addData("New Direction", newDirection);
+                int newDirection;
+                // Calculate new direction to move
+                if (power >= 0) {
+                    newDirection = direction + (int) (Range.clip((RangeValue - WallDistance) / WallDistanceOffset, -1, 1) * AngleCorrection);
+                }
+                else {
+                    newDirection = direction - (int) (Range.clip((RangeValue - WallDistance) / WallDistanceOffset, -1, 1) * AngleCorrection);
+                }                telemetry.addData("New Direction", newDirection);
                 telemetry.addData("Range", range3.getDistance(DistanceUnit.CM));
 
                 move(newDirection, (float) power, myrot);

@@ -15,7 +15,7 @@ public class LandingTest extends AutoMethods {
         initRobot();
         waitForStart();
 
-        marker.setPosition(0.25);
+        marker.setPosition(0.2);
 
         while (opModeIsActive() && MagUp.getState()) {
             hangMotor.setPower(-1);

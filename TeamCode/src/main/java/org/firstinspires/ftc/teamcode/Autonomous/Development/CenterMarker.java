@@ -44,14 +44,16 @@ public class CenterMarker extends LandingTest {
 
         sleep(1500);
 
-        marker.setPosition(0.25);
+        marker.setPosition(0.2);
 
-        sleep(200);
+        //turn(135, -0.3);
 
-        gyroMove(180, 1, 173, 0, "left");
+        sleep(1000);
 
-        turn(-135, -0.3);
+        gyroMove(0, -0.5, 173, 0, "left");
 
-        gyroMove(-90, 1, 5, 0, "no");
+        turn(45, -0.3);
+
+        //gyroMove(-90, 1, 5, 0, "no");
     }
 }
