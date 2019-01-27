@@ -109,7 +109,7 @@ public class TeleOp extends TeleOpMethods {
             intake.setPower(0);
         }
 
-        intakeRelease.setPosition(1-(gamepad2.left_trigger*.57));
+        intakeRelease.setPosition(gamepad2.left_trigger);
 
         telemetry.addData("Release", gamepad2.left_trigger);
 
