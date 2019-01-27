@@ -6,7 +6,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
-@Autonomous(name = "CenterCrater", group = "Crater")
+@Autonomous(name = "Crater_Select", group = "Crater")
 
 public class CenterCrater extends LandingTest {
     public void runOpMode() {
@@ -17,39 +17,71 @@ public class CenterCrater extends LandingTest {
         //Get the current degree of the robot
         angle = orientation.firstAngle;
 
+        sleep(2000);
         // Determine if cube is on LEFT, CENTER or RIGHT
-        // ==== CENTER ====
-        // Forward to Cube
-        gyroMove((int) -angle,0.5, 35,100, "no");
+        if ( gamepad1.dpad_left ) {
+            // === LEFT ==
+            // Forward to Cube
+            // Back half way to opening
+            // === END LEFT ===
+        } else if (gamepad1.dpad_right) {
+            // === RIGHT ==
+            // Forward to Cube
+            // Back half way to opening
+            // === END RIGHT ===
+        } else { // "CENTER"
+            // ==== CENTER ====
+            // Forward to Cube
+            gyroMove((int) 0, 0.5, 35, 100, "no");
+            // Back half way to opening
+            gyroMove((int) 180, 0.5, 15, 0, "no");
+            // ==== END CENTER ===
+        }
 
-        // Back half way to opening
-        gyroMove((int) 180,0.5, 10,0, "no");
-        // ==== END CENTER ===
 
         // LEFT to get out of sampling area
+        if( angle < 0 ) {     // tilted towards crater => turn left
+            turn(0,.6);
+        } else {
+            turn(0, -.6);
+        }
         gyroMove((int) 90,0.8, 80,100, "no");
 
         // TURN RIGHT w/back to align to wall
         turn(-45, -0.4);
 
         // Move following wall to drop area
-        gyroMove((int) 0,-0.8, 120,100, "left");
+        gyroMove((int) 0,-0.8, 145,100, "left");
 
         // Servo drop
             // Out of wall
-            gyroMove((int) -90,1, 15,100, "no");
+            gyroMove((int) -90,.8, 15,100, "no");
             //Drop
             marker.setPosition(0.55); //0.55 Down ; 0.20 IN
             // forward
-            gyroMove((int) 0,1, 30,0, "no");
+            gyroMove((int) 0,.8, 30,0, "no");
             //ServoUP
             marker.setPosition(0.25); //0.55 Down ; 0.20 IN
             // left
-            gyroMove((int) 45,1, 30,0, "no");
+            //gyroMove((int) 45,1, 30,0, "no");
+
+        // Align robot
+        //Get the current position of the robot
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        //Get the current degree of the robot
+        angle = orientation.firstAngle;
+
+        if( angle < -45 ) {     // tilted towards crater => turn left
+            turn(-45,.4);
+        } else {
+            turn(-45, -.4);
+        }
 
         // move to park
         gyroMove((int) 00,1, 150,100, "left");
 
+        // MISSING:
+        // Turn 90 degrees to the right to align with field for TeleOp
 
     }
 }
