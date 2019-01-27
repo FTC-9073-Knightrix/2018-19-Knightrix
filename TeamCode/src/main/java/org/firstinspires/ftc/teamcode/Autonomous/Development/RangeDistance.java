@@ -25,8 +25,8 @@ public class RangeDistance extends AutoMethods {
         //gyroMove(90, 0.5, 500, 0, "back");
 
         while(opModeIsActive()) {
-            telemetry.addData("Optical", range.cmOptical());
-            telemetry.addData("Ultrasonic", range.cmUltrasonic());
+            telemetry.addData("Optical", range2.cmOptical());
+            telemetry.addData("Ultrasonic", range2.cmUltrasonic());
             telemetry.update();
         }
     }

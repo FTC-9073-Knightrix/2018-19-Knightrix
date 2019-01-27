@@ -8,7 +8,7 @@ public class RightMarker extends LandingTest {
     public void runOpMode() {
         landing();
 
-        gyroMove(-45, 0.5, 70, 200, "no");
+        gyroMove(-60, 0.5, 70, 200, "no");
 
         turn(-135, -0.3);
 
@@ -24,6 +24,6 @@ public class RightMarker extends LandingTest {
 
         turn(135, -0.3);
 
-        gyroMove(0, 0.5, 140, 200, "right");
+        gyroMove(0, 0.5, 100, 200, "right");
     }
 }

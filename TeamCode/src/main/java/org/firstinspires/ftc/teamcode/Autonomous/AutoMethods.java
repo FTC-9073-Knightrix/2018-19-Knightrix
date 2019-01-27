@@ -240,7 +240,8 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
             if (wallFollow.equals("right")) {
                 // Set Variables:
-                float WallDistance = 8;       // Constant Distance from Wall
+                float distanceFromSide = 3;
+                float WallDistance = 8 + distanceFromSide;       // Constant Distance from Wall
                 float WallDistanceOffset = 10; // Constant Range from wall to adjust direction
                 float AngleCorrection = 90;    // Maximum angle to adjust when outside WallDistanceOffset margins
 
@@ -251,18 +252,20 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 int newDirection;
                 // Calculate new direction to move
                 if (power >= 0) {
-                    newDirection = direction + (int) (Range.clip((RangeValue - WallDistance) / WallDistanceOffset, -1, 1) * AngleCorrection);
+                    newDirection = direction - (int) (Range.clip((RangeValue - WallDistance) / WallDistanceOffset, -1, 1) * AngleCorrection);
                 }
                 else {
-                    newDirection = direction - (int) (Range.clip((RangeValue - WallDistance) / WallDistanceOffset, -1, 1) * AngleCorrection);
-                }                telemetry.addData("New Direction", newDirection);
+                    newDirection = direction + (int) (Range.clip((RangeValue - WallDistance) / WallDistanceOffset, -1, 1) * AngleCorrection);
+                }
+                telemetry.addData("New Direction", newDirection);
                 telemetry.addData("Range", range2.cmUltrasonic());
 
                 move(newDirection, (float) power, myrot);
             }
             else if (wallFollow.equals("left")) {
                 // Set Variables:
-                float WallDistance = 8;       // Constant Distance from Wall
+                float distanceFromSide = 0;
+                float WallDistance = 8 + distanceFromSide;       // Constant Distance from Wall
                 float WallDistanceOffset = 10; // Constant Range from wall to adjust direction
                 float AngleCorrection = 90;    // Maximum angle to adjust when outside WallDistanceOffset margins
 
@@ -299,7 +302,8 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 }
                 else {
                     newDirection = direction - (int) (Range.clip((RangeValue - WallDistance) / WallDistanceOffset, -1, 1) * AngleCorrection);
-                }                telemetry.addData("New Direction", newDirection);
+                }
+                telemetry.addData("New Direction", newDirection);
                 telemetry.addData("Range", range3.getDistance(DistanceUnit.CM));
 
                 move(newDirection, (float) power, myrot);
