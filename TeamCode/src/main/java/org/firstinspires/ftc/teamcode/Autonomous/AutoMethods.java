@@ -491,7 +491,35 @@ public abstract class AutoMethods extends AutoHardwareMap {
                             silv2Pos = recognition.getLeft();
                         }
                     }
-                    if (goldPos == -1) {
+
+                    //DETECT TWO, ASSUME RIGHT TWO
+                    if (silv2Pos == -1) {
+                        if (goldPos < silvPos) {
+                            return "center";
+                        } else {
+                            return "right";
+                        }
+                    }
+
+                    //DETECT THREE
+                    else {
+                        if (goldPos < silvPos) {
+                            if (goldPos < silv2Pos) {
+                                return "left";
+                            } else {
+                                return "center";
+                            }
+                        } else {
+                            if (goldPos > silv2Pos) {
+                                return "right";
+                            } else {
+                                return "center";
+                            }
+                        }
+                    }
+
+
+                    /*if (goldPos == -1) {
                         return "right";
                     }
                     else if (silvPos == -1) {
