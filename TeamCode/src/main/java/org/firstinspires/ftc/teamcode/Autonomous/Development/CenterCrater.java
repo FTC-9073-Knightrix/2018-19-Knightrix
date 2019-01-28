@@ -12,40 +12,50 @@ public class CenterCrater extends LandingTest {
     public void runOpMode() {
         landing();
 
+        // Forward to Starting Position
+        gyroMove((int) 0, 0.5, 15, 0, "no");
+
         //Get the current position of the robot
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         //Get the current degree of the robot
         angle = orientation.firstAngle;
 
         sleep(2000);
+        int DistanceToWall;
+
         // Determine if cube is on LEFT, CENTER or RIGHT
         if ( gamepad1.dpad_left ) {
             // === LEFT ==
-            // Forward to Cube
-            // Back half way to opening
+            gyroMove((int) 45,0.8, 80,0, "no");
+            gyroMove((int) 135,0.8, 80,0, "no");
+            DistanceToWall = 10;
             // === END LEFT ===
         } else if (gamepad1.dpad_right) {
             // === RIGHT ==
-            // Forward to Cube
-            // Back half way to opening
+            gyroMove((int) -45,0.8, 80,0, "no");
+            gyroMove((int) 135,0.8, 80,0, "no");
+            DistanceToWall = 80;
             // === END RIGHT ===
         } else { // "CENTER"
             // ==== CENTER ====
             // Forward to Cube
-            gyroMove((int) 0, 0.5, 35, 100, "no");
+            gyroMove((int) 0, 0.5, 20, 100, "no");
             // Back half way to opening
             gyroMove((int) 180, 0.5, 15, 0, "no");
+            DistanceToWall = 80;
             // ==== END CENTER ===
         }
 
 
-        // LEFT to get out of sampling area
+        // Aligns before leaving sampling area
         if( angle < 0 ) {     // tilted towards crater => turn left
             turn(0,.6);
         } else {
             turn(0, -.6);
         }
-        gyroMove((int) 90,0.8, 80,100, "no");
+
+        // LEFT to get out of sampling area
+        gyroMove((int) 90,0.8, (int) DistanceToWall,100, "no");
 
         // TURN RIGHT w/back to align to wall
         turn(-45, -0.4);
