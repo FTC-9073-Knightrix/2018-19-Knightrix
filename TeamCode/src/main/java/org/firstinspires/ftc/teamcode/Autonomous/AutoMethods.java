@@ -133,11 +133,11 @@ public abstract class AutoMethods extends AutoHardwareMap {
         //While the difference between the target angle and current angle is greater than three degrees
         while (opModeIsActive() && Math.abs(degrees - angle) > 1) {
             //If the target degree is greater than the current angle of the robot, turn right
-            if (Math.abs(degrees - angle) < 4) {
-                leftFrontDrive.setPower(-power/2);
-                rightFrontDrive.setPower(power/2);
-                leftBackDrive.setPower(-power/2);
-                rightBackDrive.setPower(power/2);
+            if (Math.abs(degrees - angle) < 25) {
+                leftFrontDrive.setPower(-power/4);
+                rightFrontDrive.setPower(power/4);
+                leftBackDrive.setPower(-power/4);
+                rightBackDrive.setPower(power/4);
             }
             else {
                 leftFrontDrive.setPower(-power);
@@ -218,7 +218,8 @@ public abstract class AutoMethods extends AutoHardwareMap {
         // Need to test with -179/+179 degrees in the extreme
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         int StartingOrientation = (int) orientation.firstAngle;
-        StartingOrientation = Math.round(StartingOrientation / 45) * 45;
+
+        /////////StartingOrientation = Math.round(StartingOrientation / 45) * 45;
 
         resetEncoders();
         distance *= ENCDISTANCE; //converts cm to encoder rotations
