@@ -12,6 +12,7 @@ public class RightMarker extends LandingTest {
 
         turn(-135, -0.8);
 
+        // If distance to the wall is bigger than 20 cm, then move sideways to get closer to the wall
         while (opModeIsActive() && range.cmUltrasonic() > 20) {
             leftFrontDrive.setPower(-0.4);
             leftBackDrive.setPower(0.4);
@@ -28,6 +29,7 @@ public class RightMarker extends LandingTest {
 
         gyroMove(0, -0.8, 50, 0, "left");
 
+        // Moves from prior 8 cm from wall to at least 15 cm from wall
         while (opModeIsActive() && range.cmUltrasonic() < 15) {
             leftFrontDrive.setPower(0.4);
             leftBackDrive.setPower(-0.4);
@@ -35,6 +37,7 @@ public class RightMarker extends LandingTest {
             rightBackDrive.setPower(0.4);
         }
 
+        // Drops the marker
         marker.setPosition(0.55);
 
         while (opModeIsActive() && range.cmUltrasonic() < 25) {
@@ -53,6 +56,7 @@ public class RightMarker extends LandingTest {
 
         sleep(500);
 
+        // Lifts the marker
         marker.setPosition(0.2);
 
         //gyroMove(-90, 0.5, 20, 200, "no");
