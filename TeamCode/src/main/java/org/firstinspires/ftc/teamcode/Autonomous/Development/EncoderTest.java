@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
  */
 
 @Autonomous(name="encoders")
+@Disabled
 
 public class EncoderTest extends AutoMethods {
 

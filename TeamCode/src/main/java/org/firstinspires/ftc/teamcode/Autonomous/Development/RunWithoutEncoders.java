@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
  */
 
 @Autonomous(name="Without Encoders")
+@Disabled
 
 public class RunWithoutEncoders extends LinearOpMode {
 

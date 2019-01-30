@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 //Add the program to the index of Autonomous programs
 
 @Autonomous(name = "Box")
+@Disabled
 
 //Create the class declaration, extending AutoMethods
 public class AutoTest extends AutoMethods {

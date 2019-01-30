@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name = "CenterMarker", group = "Marker")
+@Disabled
 
 public class CenterMarker extends LandingTest {
     public void runOpMode() {

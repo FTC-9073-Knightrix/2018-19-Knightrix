@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
  */
 
 @Autonomous(name="Range")
+@Disabled
 
 public class RangeDistance extends AutoMethods {
 

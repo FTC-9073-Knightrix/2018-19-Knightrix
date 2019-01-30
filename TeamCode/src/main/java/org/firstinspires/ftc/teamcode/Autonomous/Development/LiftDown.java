@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
  * Created by nicolas on 1/12/19.
  */
 
-@Autonomous(name = "Lift Down")
+@Autonomous(name = "Lift Reset")
 public class LiftDown extends AutoMethods {
     public void runOpMode() {
         initRobot();
