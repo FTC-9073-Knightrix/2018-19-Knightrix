@@ -496,8 +496,12 @@ public abstract class AutoMethods extends AutoHardwareMap {
                     //DETECT TWO, ASSUME RIGHT TWO
                     if (silv2Pos == -1) {
                         if (goldPos < silvPos) {
+                            //say("1 center");
+                            //sleep(5000);
                             return "center";
                         } else {
+                            //say("2 right");
+                            //sleep(5000);
                             return "right";
                         }
                     }
@@ -506,14 +510,22 @@ public abstract class AutoMethods extends AutoHardwareMap {
                     else {
                         if (goldPos < silvPos) {
                             if (goldPos < silv2Pos) {
+                                //say("3 left");
+                                //sleep(5000);
                                 return "left";
                             } else {
+                                //say("4 center");
+                                //sleep(5000);
                                 return "center";
                             }
                         } else {
                             if (goldPos > silv2Pos) {
+                                //say("5 right");
+                                //sleep(5000);
                                 return "right";
                             } else {
+                                //say("6 center");
+                                //sleep(5000);
                                 return "center";
                             }
                         }

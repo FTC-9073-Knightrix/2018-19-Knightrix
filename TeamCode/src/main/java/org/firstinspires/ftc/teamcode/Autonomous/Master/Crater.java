@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Autonomous.Master;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 @Autonomous(name = "Crater", group = "Master")
@@ -88,6 +91,16 @@ public class Crater extends AutoMethods {
         turn(-135, -0.8);
 
         gyroMove(90, 1, 10, 0, "no");
+
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        angle = orientation.firstAngle;
+
+        if (angle < -135) {
+            turn(-135, 0.8);
+        }
+        else {
+            turn(-135, -0.8);
+        }
     }
 
     private void right() {
@@ -139,32 +152,42 @@ public class Crater extends AutoMethods {
 
         turn(-135,-1);
 
-        gyroMove(90,1, 60,0, "no");
+        gyroMove(90,1, 10,0, "no");
+
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        angle = orientation.firstAngle;
+
+        if (angle < -135) {
+            turn(-135, 0.8);
+        }
+        else {
+            turn(-135, -0.8);
+        }
     }
 
     private void center() {
-        gyroMove(0, 0.5, 35, 0, "no");
+        gyroMove(0, 1, 35, 0, "no");
         // Back half way to opening
-        gyroMove((int) 180, 0.5, 25, 0, "no");
+        gyroMove(180, 0.8, 20, 0, "no");
         // LEFT to get out of sampling area
         gyroMove(90,0.8, 80,0, "no");
 
         // TURN RIGHT w/back to align to wall
-        turn(-45, -0.8);
+        turn(-45, -1);
 
         // Move following wall to drop area
-        gyroMove(0,-0.8, 145,100, "left");
+        gyroMove(0,-1, 145,100, "left");
 
         // Servo drop
         // Out of wall
-        gyroMove(-90,.8, 15,100, "no");
+        gyroMove(-90,0.8, 15,100, "no");
         //Drop
         marker.setPosition(0.55); //0.55 Down ; 0.20 IN
 
         sleep(800);
 
         // forward
-        gyroMove(0,.8, 30,0, "no");
+        gyroMove(0,0.8, 30,0, "no");
         //ServoUP
         marker.setPosition(0.25); //0.55 Down ; 0.20 IN
         // left
@@ -174,6 +197,16 @@ public class Crater extends AutoMethods {
 
         turn(-135, -0.8);
 
-        gyroMove(90, 1, 10, 0, "no");
+        gyroMove(90, 1, 30, 0, "no");
+
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        angle = orientation.firstAngle;
+
+        if (angle < -135) {
+            turn(-135, 0.8);
+        }
+        else {
+            turn(-135, -0.8);
+        }
     }
 }

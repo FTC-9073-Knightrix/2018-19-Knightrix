@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Autonomous.Master;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 @Autonomous(name = "Marker", group = "Master")
@@ -69,12 +72,34 @@ public class Marker extends AutoMethods {
         //gyroMove(0, 0.3, 20, 0, "right");
 
         gyroMove(0, 0.8, 130, 0, "right");
+
+        while (opModeIsActive() && range2.cmUltrasonic() > 11) {
+            leftFrontDrive.setPower(0.8);
+            leftBackDrive.setPower(-0.8);
+            rightFrontDrive.setPower(-0.8);
+            rightBackDrive.setPower(0.8);
+        }
+
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        angle = orientation.firstAngle;
+
+        if (angle > 135) {
+            turn(135, -0.8);
+        }
+        else {
+            turn(135, 0.8);
+        }
     }
 
     private void right() {
         gyroMove(-60, 0.8, 50, 0, "no");
 
-        turn(-135, -0.8);
+        turn(-135, -1);
 
         // If distance to the wall is bigger than 20 cm, then move sideways to get closer to the wall
         while (opModeIsActive() && range.cmUltrasonic() > 20) {
@@ -137,7 +162,7 @@ public class Marker extends AutoMethods {
         rightFrontDrive.setPower(0);
         rightBackDrive.setPower(0);*/
 
-        turn(135, -0.8);
+        turn(135, -1);
 
         while (opModeIsActive() && range2.cmUltrasonic() > 15) {
             leftFrontDrive.setPower(0.4);
@@ -154,12 +179,34 @@ public class Marker extends AutoMethods {
         //sleep(1000);
 
         gyroMove(0, 0.8, 180, 0, "right");
+
+        while (opModeIsActive() && range2.cmUltrasonic() > 11) {
+            leftFrontDrive.setPower(0.8);
+            leftBackDrive.setPower(-0.8);
+            rightFrontDrive.setPower(-0.8);
+            rightBackDrive.setPower(0.8);
+        }
+
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        angle = orientation.firstAngle;
+
+        if (angle > 135) {
+            turn(135, -0.8);
+        }
+        else {
+            turn(135, 0.8);
+        }
     }
 
     private void center() {
         gyroMove(0, 0.8, 110, 200, "no");
 
-        turn(-45, -0.3);
+        turn(-45, -1);
 
         marker.setPosition(0.55);
 
@@ -169,8 +216,32 @@ public class Marker extends AutoMethods {
 
         gyroMove(0, -0.8, 23, 0, "no");
 
-        gyroMove(0, -0.8, 140, 200, "left");
+        gyroMove(0, -0.8, 100, 200, "left");
 
-        turn(135, -0.3);
+        turn(135, -1);
+
+        gyroMove(0, 0.8, 50, 200, "right");
+
+        while (opModeIsActive() && range2.cmUltrasonic() > 11) {
+            leftFrontDrive.setPower(0.8);
+            leftBackDrive.setPower(-0.8);
+            rightFrontDrive.setPower(-0.8);
+            rightBackDrive.setPower(0.8);
+        }
+
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        angle = orientation.firstAngle;
+
+        if (angle > 135) {
+            turn(135, -0.8);
+        }
+        else {
+            turn(135, 0.8);
+        }
     }
 }
