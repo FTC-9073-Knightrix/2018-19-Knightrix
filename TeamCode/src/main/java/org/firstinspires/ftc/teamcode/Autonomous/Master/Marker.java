@@ -71,7 +71,7 @@ public class Marker extends AutoMethods {
 
         //gyroMove(0, 0.3, 20, 0, "right");
 
-        gyroMove(0, 0.8, 130, 0, "right");
+        gyroMove(0, 0.8, 100, 0, "right");
 
         while (opModeIsActive() && range2.cmUltrasonic() > 11) {
             leftFrontDrive.setPower(0.8);
@@ -94,6 +94,9 @@ public class Marker extends AutoMethods {
         else {
             turn(135, 0.8);
         }
+
+        marker.setPosition(0.55);
+
     }
 
     private void right() {
@@ -116,7 +119,9 @@ public class Marker extends AutoMethods {
 
         gyroMove(0, -0.8, 40, 0, "none");
 
-        gyroMove(0, -0.8, 50, 0, "left");
+        gyroMove(0, -0.8, 58, 0, "left");
+
+        sleep(400);
 
         // Moves from prior 8 cm from wall to at least 15 cm from wall
         while (opModeIsActive() && range.cmUltrasonic() < 15) {
@@ -178,7 +183,7 @@ public class Marker extends AutoMethods {
 
         //sleep(1000);
 
-        gyroMove(0, 0.8, 180, 0, "right");
+        gyroMove(0, 0.8, 170, 0, "right");
 
         while (opModeIsActive() && range2.cmUltrasonic() > 11) {
             leftFrontDrive.setPower(0.8);
@@ -201,6 +206,11 @@ public class Marker extends AutoMethods {
         else {
             turn(135, 0.8);
         }
+
+        gyroMove(0, 0.3, 5, 0, "no");
+
+        marker.setPosition(0.55);
+
     }
 
     private void center() {
@@ -214,9 +224,9 @@ public class Marker extends AutoMethods {
 
         marker.setPosition(0.2);
 
-        gyroMove(0, -0.8, 23, 0, "no");
+        gyroMove(0, -0.8, 40, 0, "no");
 
-        gyroMove(0, -0.8, 100, 200, "left");
+        gyroMove(0, -0.8, 80, 200, "left");
 
         turn(135, -1);
 
@@ -243,5 +253,10 @@ public class Marker extends AutoMethods {
         else {
             turn(135, 0.8);
         }
+
+        gyroMove(0, 0.3, 5, 0, "no");
+
+        marker.setPosition(0.55);
+
     }
 }

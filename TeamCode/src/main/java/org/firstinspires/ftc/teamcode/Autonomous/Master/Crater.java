@@ -90,7 +90,7 @@ public class Crater extends AutoMethods {
 
         turn(-135, -0.8);
 
-        gyroMove(90, 1, 10, 0, "no");
+        gyroMove(90, 1, 20, 0, "no");
 
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         angle = orientation.firstAngle;
@@ -101,6 +101,9 @@ public class Crater extends AutoMethods {
         else {
             turn(-135, -0.8);
         }
+
+        marker.setPosition(0.55);
+
     }
 
     private void right() {
@@ -126,7 +129,7 @@ public class Crater extends AutoMethods {
         rightBackDrive.setPower(0);
 
         // Move following wall to drop area
-        gyroMove(0,-1, 150,0, "left");
+        gyroMove(0,-1, 160,0, "left");
 
         // Servo drop
         marker.setPosition(0.55); //0.55 Down ; 0.20 IN
@@ -152,7 +155,10 @@ public class Crater extends AutoMethods {
 
         turn(-135,-1);
 
-        gyroMove(90,1, 10,0, "no");
+        gyroMove(0,-0.8, 10,0, "no");
+
+
+        gyroMove(90,0.8, 10,0, "no");
 
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         angle = orientation.firstAngle;
@@ -163,6 +169,9 @@ public class Crater extends AutoMethods {
         else {
             turn(-135, -0.8);
         }
+
+        marker.setPosition(0.55);
+
     }
 
     private void center() {
@@ -193,11 +202,13 @@ public class Crater extends AutoMethods {
         // left
         //gyroMove((int) 45,1, 30,0, "no");
         // move to park
-        gyroMove(0,1, 140,0, "left");
+        gyroMove(0,1, 130,0, "left");
 
         turn(-135, -0.8);
 
-        gyroMove(90, 1, 30, 0, "no");
+        gyroMove(0,-0.8, 10,0, "no");
+
+        gyroMove(90, 0.8, 15, 0, "no");
 
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         angle = orientation.firstAngle;
@@ -208,5 +219,8 @@ public class Crater extends AutoMethods {
         else {
             turn(-135, -0.8);
         }
+
+        marker.setPosition(0.55);
+
     }
 }
